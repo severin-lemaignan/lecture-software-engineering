@@ -19,6 +19,8 @@
 
 \usepackage{setspace}
 
+\usepackage{gitdags}
+
 %--------------------------------------------------------------------------
 % Load theme
 %--------------------------------------------------------------------------
@@ -80,8 +82,457 @@ Systems\\{\Medium Plymouth University}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\imageframe{../figs/zipfiles.pdf}
-\imageframe{../figs/dropbox_zipfiles.pdf}
+\imageframe{zipfiles.pdf}
+\imageframe{dropbox_zipfiles.pdf}
+
+{
+    \fullbackground{../figs/facebook-wall.png}
+    \begin{frame}[plain]{}
+        \only<2>{
+            \begin{center}
+                \includegraphics[width=\linewidth]{devil}
+            \end{center}
+        }
+    \end{frame}
+}
+
+\section{Code versioning}
+
+\begin{frame}{Why code versioning?}
+
+    \begin{itemize}
+        \item The history of your development
+        \item Compare the current code with an older version
+        \item Roll-back to previous version
+        \item Experiment without loosing anything
+        \item Trace who did what (at the level of the line of code)
+        \item Keep things organized
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Atomic commits}
+
+    The single most important concept:
+
+    \highlight{Atomic commit}
+
+    \only<1>{
+        A (typically small) commit that represent a {\Medium single, coherent \&
+    complete} functional change.
+    }
+    \only<2>{
+    \begin{itemize}
+        \item Easy to understand changes
+        \item Debugging made easy (\texttt{git bisect})
+        \item Collaboration made easy (less, smaller conflict)
+    \end{itemize}
+    }
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\centering
+
+\tikzset{temporal/.code args={<#1>#2#3#4}{%
+          \temporal<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}}{\pgfkeysalso{#4}} % \pgfkeysalso doesn't change the path
+}}
+
+\begin{tikzpicture}[
+    >=latex,
+    every edge/.style={draw,thick,hriSec3},
+    file/.style={align=left, inner sep=1pt,font=\scriptsize\tt}
+]
+
+\node at (-2, 1)[file,temporal=<3>{red}{red}{black}] (file1) {src/main.cpp};
+\node [file,temporal=<1>{red}{red}{black},below=0.0 of file1.south east, anchor=north east] (file2) {src/position.cpp};
+\node [file,temporal=<1>{red}{red}{black},below=0.02 of file2.south east,anchor=north east] (file3) {src/position.hpp};
+\node [file,temporal=<2>{red}{red}{black},below=0.02 of file3.south east,anchor=north east] (file4) {share/model.csv};
+
+
+    \onslide<2>{
+        \gitDAG[grow right sep = 2em]{
+            A;
+        };
+
+        \gitbranch
+        {master}     % node name and text 
+        {above=of A} % node placement
+        {A}          % target
+
+        \gitHEAD
+        {above=of master} % node placement
+        {master}          % target
+
+
+    \path[draw] (file2.east) edge [->, bend left] (A);
+    \path[draw] (file3.east) edge [->, bend left] (A);
+
+    }
+    \onslide<3>{
+        \gitDAG[grow right sep = 2em]{
+            A -- B;
+        };
+
+        \gitbranch
+        {master}     % node name and text 
+        {above=of B} % node placement
+        {B}          % target
+
+        \gitHEAD
+        {above=of master} % node placement
+        {master}          % target
+
+        \path[draw] (file4.east) edge [->, bend left,hriSec2] (B);
+    }
+
+    \onslide<4->{
+        \gitDAG[grow right sep = 2em]{
+            A -- B -- C;
+        };
+
+        \gitbranch
+        {master}     % node name and text 
+        {above=of C} % node placement
+        {C}          % target
+
+        \gitHEAD
+        {above=of master} % node placement
+        {master}          % target
+
+        \path[draw] (file1.east) edge [->, bend left,hriSec1Comp] (C);
+    }
+
+\end{tikzpicture}
+
+\vspace{3em}
+\small
+\only<2>{
+\texttt{git add src/position.*}\\
+\texttt{git commit -m"Fix computation of position (float->double)"}
+}
+\only<3>{
+\texttt{git add share/model.csv}\\
+\texttt{git commit -m"Re-trained model with 52 more participants"}
+}
+\uncover<4>{
+\texttt{git add src/main.*}\\
+\texttt{git commit -m"Add cmdline opt to change simu. speed"}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Log}
+\begin{shcode}
+$ git log
+commit fa009cd7fca05b0b61170b20cf76a5f72b8843c2
+Author: Severin Lemaignan <severin.lemaignan@plymouth.ac.uk>
+Date:   Wed Feb 10 16:48:22 2016 +0000
+
+    Add cmdline opt to change simu. speed
+
+commit aff81119459d9193c09effef1c150c4f7eac08dc
+Author: Severin Lemaignan <severin.lemaignan@plymouth.ac.uk>
+Date:   Wed Feb 10 16:48:02 2016 +0000
+
+    Re-trained model with 52 more participants
+
+commit 4113b9b6e6bbc8de532ad90153e0059cb5819de7
+Author: Severin Lemaignan <severin.lemaignan@plymouth.ac.uk>
+Date:   Wed Feb 10 16:47:46 2016 +0000
+
+    Fix computation of position (float->double)
+\end{shcode}
+
+
+\end{frame}
+
+\begin{frame}{}
+
+\centering
+
+\begin{tikzpicture}
+        \gitDAG[grow right sep = 2em]{
+            4113b9 -- aff811 -- fa009c;
+        };
+
+        \gitbranch
+        {master}     % node name and text 
+        {above=of fa009c} % node placement
+        {fa009c}          % target
+
+        \gitHEAD
+        {above=of master} % node placement
+        {master}          % target
+
+
+\end{tikzpicture}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{To summarize...}
+
+The first time...
+\begin{shcode}
+$ mkdir my_repo && cd my_repo
+$ git init
+\end{shcode}
+Then...
+\begin{shcode}
+# make some changes...
+$ git add <files>
+$ git commit -m"<commit message>"
+# make some changes...
+$ git add <files>
+$ git commit -m"<other commit message>"
+# That's it!
+\end{shcode}
+
+
+\end{frame}
+
+\begin{frame}{Branches}
+
+    \centering
+
+    \begin{tikzpicture}
+        \onslide<1>{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C;
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of C} % node placement
+            {C}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+        }
+
+        \onslide<2>{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C;
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of C} % node placement
+            {C}          % target
+
+            \gitbranch
+            {new-gui}     % node name and text 
+            {above=of master} % node placement
+            {master}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of new-gui} % node placement
+            {new-gui}          % target
+        }
+
+        \onslide<3>{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- D -- E;
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of C} % node placement
+            {C}          % target
+
+            \gitbranch
+            {new-gui}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of new-gui} % node placement
+            {new-gui}          % target
+        }
+
+        \onslide<4>{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- D -- E;
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of C} % node placement
+            {C}          % target
+
+            \gitbranch
+            {new-gui}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+        }
+
+        \onslide<5->{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- {
+                    D -- E,
+                    F -- G -- H,
+                }
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of H} % node placement
+            {H}          % target
+
+            \gitbranch
+            {new-gui}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+        }
+
+
+    \end{tikzpicture}
+
+    \vspace{3em}
+    \centering
+    \only<1>{
+        What if...?\\
+    }
+    \only<2>{
+        \Large
+        \texttt{git checkout -b new-gui}\\
+    }
+    \only<5>{
+        The branch name is an alias for the tip of the current branch\\
+    }
+    \only<6>{
+        $\Rightarrow$ branches are very cheap\\ 
+        +10 of them at a given time it not uncommon\\
+    }
+    \uncover<4>{
+        Let go back to serious stuff!\\
+        \Large
+        \texttt{git checkout master}
+    }
+
+
+\end{frame}
+
+
+\begin{frame}{Merging branches}
+
+    \centering
+
+\begin{tikzpicture}[
+    >=latex,
+    every edge/.style={draw,thick,hriSec3}
+]
+
+        \onslide<1>{
+            \gitDAG[grow right sep = 2em]{
+                B -- C -- {
+                    D -- E,
+                    F -- G -- H,
+                };
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of H} % node placement
+            {H}          % target
+
+            \gitbranch
+            {new-gui}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+            \node[DAGcommit,right=3 of E.south,dashed] (merge) {?};
+            \path[draw] (E) edge [->, bend left] (merge);
+            \path[draw] (H) edge [->, bend right] (merge);
+    }
+        \onslide<2>{
+            \gitDAG[grow right sep = 2em]{
+                B -- C -- {
+                    D -- E,
+                    F -- G -- H -- merge,
+                };
+
+                E -- merge;
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of merge} % node placement
+            {merge}          % target
+
+            \gitbranch
+            {new-gui}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+    }
+
+
+    \end{tikzpicture}
+
+    \vspace{3em}
+    \centering
+    \only<1>{
+        Two options: {\Medium merging} and {\Medium rebasing}
+    }
+    \uncover<2>{
+        Merging\\
+        \Large
+        \texttt{git merge new-gui}
+    }
+
+
+\end{frame}
+
+
+\section{Sharing}
+
+\imageframe{dvcs-1}
+\imageframe{dvcs-2}
+\imageframe{dvcs-3}
+\imageframe{dvcs-4}
+\imageframe{dvcs-5}
+\imageframe{dvcs-6}
+\imageframe{dvcs-7}
+\imageframe{dvcs-8}
+
+
+\section{GIT}
+
 \begin{frame}[fragile]{General workflow}
 
 The first time...
@@ -97,17 +548,294 @@ $ git commit -m"<commit message>"
 # make some changes...
 $ git add <files>
 $ git commit -m"<other commit message>"
-# when you are happy...
+# ...
+# when you are happy:
 $ git pull # any changes on the remote?
 $ git push
 \end{shcode}
 
+
 \end{frame}
+
+\begin{frame}[fragile]{}
+
+\centering
+
+    \begin{tikzpicture}
+    % Commit DAG
+    \onslide<1-3>{
+      \gitDAG[grow right sep = 2em]{
+        A -- B -- C;
+      };
+
+      % Branch
+      \gitbranch
+        {master}     % node name and text 
+        {above=of C} % node placement
+        {C}          % target
+    }
+
+
+
+      % HEAD reference
+    \onslide<1-2>{
+      \gitHEAD
+        {above=of master} % node placement
+        {master}          % target
+    }
+
+    \onslide<3>{
+      \gitremotebranch
+        [origmaster]    % node name
+        {origin/master} % node text
+        {above=of master}    % node placement
+        {master}             % target
+      \gitHEAD
+        {above=of origmaster} % node placement
+        {origmaster}          % target
+    }
+
+    \end{tikzpicture}
+
+\vspace{3em}
+\centering
+\only<2>{
+\small
+\texttt{git remote add origin git@github.com:user/repo.git}
+}
+
+\uncover<3>{
+\Large
+\texttt{git push origin master} \par
+\normalsize
+(or simply \texttt{git push})
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+    \centering
+
+    \begin{tikzpicture}
+        \onslide<1-2>{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- D -- E;
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+            \gitremotebranch
+            [origmaster]    % node name
+            {origin/master} % node text
+            {above=of C}    % node placement
+            {C}             % target
+        }
+
+        \onslide<3>{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- {
+                    F,
+                    D -- E,
+                }
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+            \gitremotebranch
+            [origmaster]    % node name
+            {origin/master} % node text
+            {above=of F}    % node placement
+            {F}             % target
+        }
+
+        \onslide<4->{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- {
+                    F -- D' -- E',
+                    {[nodes=unreachable] D -- E },
+                }
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of E'} % node placement
+            {E'}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+            \gitremotebranch
+            [origmaster]    % node name
+            {origin/master} % node text
+            {above=of F}    % node placement
+            {F}             % target
+        }
+
+
+    \end{tikzpicture}
+
+    \vspace{3em}
+    \centering
+    \only<2>{
+        What happened on our remote? Let's have a look...\\
+        \Large
+        \texttt{git fetch origin}
+    }
+
+    \only<4>{
+        \Large
+        \texttt{git rebase origin/master} \par
+        \normalsize
+        (but you don't need it, because...)
+    }
+    \uncover<5>{
+        \Large
+        \texttt{git pull --rebase} \par
+    }
+
+\end{frame}
+
+
+\begin{frame}{}
+
+    \centering
+
+    \only<1>{
+        \begin{tikzpicture}
+            % Commit DAG
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- { 
+                    C,
+                    D -- E,
+                }
+            };
+            % Tag reference
+            \gittag
+            [v0p1]       % node name
+            {v0.1}       % node text
+            {above=of A} % node placement
+            {A}          % target
+            % Remote branch
+            \gitremotebranch
+            [origmaster]    % node name
+            {origin/master} % node text
+            {above=of C}    % node placement
+            {C}             % target
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+        \end{tikzpicture}
+    }
+
+    \only<2>{
+        \begin{tikzpicture}
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- { 
+                    C -- D' -- E',
+                    {[nodes=unreachable] D -- E },
+                }
+            };
+            % Tag reference
+            \gittag
+            [v0p1]       % node name
+            {v0.1}       % node text
+            {above=of A} % node placement
+            {A}          % target
+            % Remote branch
+            \gitremotebranch
+            [origmaster]    % node name
+            {origin/master} % node text
+            {above=of C}    % node placement
+            {C}             % target
+            % Branch
+            \gitbranch
+            {master}      % node name and text 
+            {above=of E'} % node placement
+            {E'}          % target
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+        \end{tikzpicture}
+    }
+\end{frame}
+
+
+
+\begin{frame}{Working with branches}
+\end{frame}
+
+\section{Social coding: GitHub workflow}
 
 \imageframe{../figs/github-workflow.pdf}
 \imageframe{../figs/github-workflow-2.pdf}
 \imageframe{../figs/github-workflow-3.pdf}
 
+\section{Social coding: a few unwritten rules}
+
+\begin{frame}{}
+    \centering
+
+    {\Medium Principle of least surprise}
+
+    Make people feel at home (and save time!)
+
+\end{frame}
+\begin{frame}{Source code organization}
+
+
+
+\end{frame}
+
+\begin{frame}{Build system}
+
+    \begin{itemize}
+        \item P
+    \end{itemize}
+    
+    In case of doubt, use
+\end{frame}
+
+\begin{frame}{Other tips}
+    \begin{itemize}
+        \item Have a \texttt{README} (or better, \texttt{README.md}): what is
+            it about? who is the target audience? how to install? how to get started?
+        \item No binaries!
+        \item First line of commit messages < 72 characters
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Software management 101}
+
+\end{frame}
 
 \end{document}
 
