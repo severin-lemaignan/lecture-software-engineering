@@ -1,6 +1,6 @@
 
 LATEX=lualatex
-TARGET=$(wildcard *.tex)
+TARGET=slides.tex
 
 SKETCHES=$(wildcard sketches/*.sk)
 DOT=$(wildcard figs/*.dot)

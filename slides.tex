@@ -48,16 +48,25 @@
 
 \newmintinline[sh]{sh}{fontsize=\small}
 
+\setbeamercolor{highlightCol}{bg=hriSec3,fg=white}
+\newcommand{\highlight}[1]{%
+    \vspace{1em}%
+    \begin{beamercolorbox}[wd=\linewidth,ht=2ex,dp=0.7ex]{highlightCol}%
+    \centering #1%
+    \end{beamercolorbox}%
+    \vspace{1em}%
+}%
+
 
 %--------------------------------------------------------------------------
 % General presentation settings
 %--------------------------------------------------------------------------
-\title{git: The Basics}
-\subtitle{CS211 -- Introduction à l'Informatique Visuelle}
-\date{17 février 2015}
+\title{\Medium git}
+\subtitle{the basics}
+\date{12 Feb. 2016}
 \author{Séverin Lemaignan}
-\institute{Computer-Human Interaction\\for Learning and Instruction {\Medium
-EPFL}}
+\institute{Centre for Robotics \& Neural
+Systems\\{\Medium Plymouth University}}
 
 %--------------------------------------------------------------------------
 % Notes settings
