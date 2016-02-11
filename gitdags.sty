@@ -146,7 +146,7 @@
     DAGcommit,
     reset preaction,
     fill opacity = 0,
-    draw         = solarized-base02,
+    draw         = hriSec3Comp,
   },
   problematic commits/.style={
     reset preaction,
@@ -266,6 +266,12 @@
   ] (workingtree) {working tree};
 }
 
+\newcommand\gitSA{%
+  \node[
+    gitSA,
+  ] (stagingarea) at (current bounding box.south east) {staging area};
+}
+
 % arrows pointing from a commit to the staging area or working tree
 \newcommand\toSAorWT[2]{%
   \node[highlighted commit] at (#1) {\phantom{#1}};
@@ -273,7 +279,14 @@
     ([xshift=1em,yshift=-1em]#2.north west);
 }
 
+\newcommand\fromSAorWT[2]{%
+  \node[highlighted commit] at (#2) {\phantom{#2}};
+  \draw[resetarrows] ([xshift=1em,yshift=-1em]#1.north west) to[in=290, out=170]
+    (#2.south);
+}
 \newcommand\toSAfrom[1]{\toSAorWT{#1}{stagingarea}}
+\newcommand\fromSAto[1]{\fromSAorWT{stagingarea}{#1}}
 \newcommand\toWTfrom[1]{\toSAorWT{#1}{workingtree}}
+\newcommand\fromWTto[1]{\fromSAorWT{workingtree}{#1}}
 
 \endinput

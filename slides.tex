@@ -20,7 +20,7 @@
 \usepackage{setspace}
 
 \usepackage{gitdags}
-
+\usepackage[normalem]{ulem} % strikeout
 %--------------------------------------------------------------------------
 % Load theme
 %--------------------------------------------------------------------------
@@ -58,6 +58,10 @@
     \end{beamercolorbox}%
     \vspace{1em}%
 }%
+
+\tikzset{temporal/.code args={<#1>#2#3#4}{%
+          \temporal<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}}{\pgfkeysalso{#4}} % \pgfkeysalso doesn't change the path
+}}
 
 
 %--------------------------------------------------------------------------
@@ -122,9 +126,10 @@ Systems\\{\Medium Plymouth University}}
     }
     \only<2>{
     \begin{itemize}
-        \item Easy to understand changes
+        \item Easy to understand the change
         \item Debugging made easy (\texttt{git bisect})
         \item Collaboration made easy (less, smaller conflict)
+        \item Easy to write a useful commit message
     \end{itemize}
     }
 
@@ -134,20 +139,17 @@ Systems\\{\Medium Plymouth University}}
 
 \centering
 
-\tikzset{temporal/.code args={<#1>#2#3#4}{%
-          \temporal<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}}{\pgfkeysalso{#4}} % \pgfkeysalso doesn't change the path
-}}
-
 \begin{tikzpicture}[
     >=latex,
     every edge/.style={draw,thick,hriSec3},
     file/.style={align=left, inner sep=1pt,font=\scriptsize\tt}
 ]
 
-\node at (-2, 1)[file,temporal=<3>{red}{red}{black}] (file1) {src/main.cpp};
-\node [file,temporal=<1>{red}{red}{black},below=0.0 of file1.south east, anchor=north east] (file2) {src/position.cpp};
-\node [file,temporal=<1>{red}{red}{black},below=0.02 of file2.south east,anchor=north east] (file3) {src/position.hpp};
-\node [file,temporal=<2>{red}{red}{black},below=0.02 of file3.south east,anchor=north east] (file4) {share/model.csv};
+\node at (-2, 1.5)[file,temporal=<4>{red}{black}{white}] (file1) {\sout{main.cpp}};
+\node [file,temporal=<4>{red}{black}{white},below=0.0 of file1.south east,anchor=north east] (file2) {src/main.cpp};
+\node [file,temporal=<2>{red}{black}{white},below=0.0 of file2.south east, anchor=north east] (file3) {src/position.cpp};
+\node [file,temporal=<2>{red}{black}{white},below=0.0 of file3.south east,anchor=north east] (file4) {src/position.hpp};
+\node [file,temporal=<3>{red}{black}{white},below=0.0 of file4.south east,anchor=north east] (file5) {share/model.csv};
 
 
     \onslide<2>{
@@ -165,8 +167,8 @@ Systems\\{\Medium Plymouth University}}
         {master}          % target
 
 
-    \path[draw] (file2.east) edge [->, bend left] (A);
     \path[draw] (file3.east) edge [->, bend left] (A);
+    \path[draw] (file4.east) edge [->, bend left] (A);
 
     }
     \onslide<3>{
@@ -183,7 +185,7 @@ Systems\\{\Medium Plymouth University}}
         {above=of master} % node placement
         {master}          % target
 
-        \path[draw] (file4.east) edge [->, bend left,hriSec2] (B);
+        \path[draw] (file5.east) edge [->, bend left,hriSec2] (B);
     }
 
     \onslide<4->{
@@ -201,6 +203,7 @@ Systems\\{\Medium Plymouth University}}
         {master}          % target
 
         \path[draw] (file1.east) edge [->, bend left,hriSec1Comp] (C);
+        \path[draw] (file2.east) edge [->, bend left,hriSec1Comp] (C);
     }
 
 \end{tikzpicture}
@@ -217,7 +220,7 @@ Systems\\{\Medium Plymouth University}}
 }
 \uncover<4>{
 \texttt{git add src/main.*}\\
-\texttt{git commit -m"Add cmdline opt to change simu. speed"}
+\texttt{git commit -m"Move main.cpp to src/"}
 }
 
 \end{frame}
@@ -229,7 +232,7 @@ commit fa009cd7fca05b0b61170b20cf76a5f72b8843c2
 Author: Severin Lemaignan <severin.lemaignan@plymouth.ac.uk>
 Date:   Wed Feb 10 16:48:22 2016 +0000
 
-    Add cmdline opt to change simu. speed
+    Move main.cpp to src/
 
 commit aff81119459d9193c09effef1c150c4f7eac08dc
 Author: Severin Lemaignan <severin.lemaignan@plymouth.ac.uk>
@@ -265,12 +268,83 @@ Date:   Wed Feb 10 16:47:46 2016 +0000
         {above=of master} % node placement
         {master}          % target
 
-
 \end{tikzpicture}
 
 \end{frame}
 
+\begin{frame}{The staging area}
+    \centering
+    \only<1>{
+    But why do we have to manually tell Git what files to add or remove?
+    }
+    \only<2>{
+    To help preparing nice atomic commits!\\ $\Rightarrow$ No need to commit all current changes together.
+    }
+    \only<3->{
+        Preparing a commit consists in filling the {\Medium staging area} (or
+        {\Medium index}) with the list of changes:
 
+\begin{tikzpicture}[
+    >=latex,
+    every edge/.style={draw,thick,hriSec3},
+    file/.style={align=left, inner sep=1pt,font=\scriptsize\tt}
+]
+
+\node at (-3.5, 1.5)[file,red] (file1) {\sout{main.cpp}};
+\node [file,red,below=0.0 of file1.south east,anchor=north east] (file2) {src/main.cpp};
+\node [file,temporal=<3>{red}{black}{white},below=0.0 of file2.south east, anchor=north east] (file3) {src/position.cpp};
+\node [file,temporal=<3>{red}{black}{white},below=0.0 of file3.south east,anchor=north east] (file4) {src/position.hpp};
+\node [file,red,below=0.0 of file4.south east,anchor=north east] (file5) {share/model.csv};
+
+
+\node[gitSA,] (stagingarea) at (-2.5,3) {staging area};
+
+    \only<3>{
+        \gitDAG[grow right sep = 2em]{
+            A -- B;
+        };
+
+        \gitbranch
+        {master}     % node name and text 
+        {above=of B} % node placement
+        {B}          % target
+
+        \gitHEAD
+        {above=of master} % node placement
+        {master}          % target
+
+
+
+        \path[draw] (file3.east) edge [->, bend left,hriSec1Comp] (stagingarea);
+        \path[draw] (file4.east) edge [->, bend left,hriSec1Comp] (stagingarea);
+
+    }
+    \only<4>{
+        \gitDAG[grow right sep = 2em]{
+            A -- B -- C;
+        };
+
+        \gitbranch
+        {master}     % node name and text 
+        {above=of C} % node placement
+        {C}          % target
+
+        \gitHEAD
+        {above=of master} % node placement
+        {master}          % target
+
+        \node[highlighted commit] at (C) {\phantom{C}};
+        \draw[resetarrows] ([xshift=-1em,yshift=-1em]stagingarea.east) to[bend
+        left] (C.north west);
+
+    }
+
+
+\end{tikzpicture}
+
+
+    }
+\end{frame}
 
 \begin{frame}[fragile]{To summarize...}
 
