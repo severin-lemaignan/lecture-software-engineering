@@ -28,7 +28,7 @@
 
 \usepackage{dtklogos} % must be loaded after theme
 \usepackage{tikz}
-\usetikzlibrary{arrows,shapes,snakes,calc,mindmap,backgrounds,positioning,svg.path}
+\usetikzlibrary{intersections,arrows,shapes,calc,mindmap,backgrounds,positioning,svg.path}
 
 \graphicspath{{figs/}}
 
@@ -86,8 +86,8 @@ Systems\\{\Medium Plymouth University}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\imageframe{zipfiles.pdf}
-\imageframe{dropbox_zipfiles.pdf}
+\imageframe{}{zipfiles.pdf}
+\imageframe{}{dropbox_zipfiles.pdf}
 
 {
     \fullbackground{../figs/facebook-wall.png}
@@ -887,44 +887,51 @@ $ git rebase new-idea
 
 \end{frame}
 
-
-\section{Sharing}
-
-\imageframe{dvcs-1}
-\imageframe{dvcs-2}
-\imageframe{dvcs-3}
-\imageframe{dvcs-4}
-\imageframe{dvcs-5}
-\imageframe{dvcs-6}
-\imageframe{dvcs-7}
-\imageframe{dvcs-8}
-
-
-\section{GIT}
-
-\begin{frame}[fragile]{General workflow}
-
-The first time...
-\begin{shcode}
-$ mkdir my_repo && cd my_repo
-$ git init
-\end{shcode}
-Then...
-\begin{shcode}
-# make some changes...
-$ git add <files>
-$ git commit -m"<commit message>"
-# make some changes...
-$ git add <files>
-$ git commit -m"<other commit message>"
-# ...
-# when you are happy:
-$ git pull # any changes on the remote?
-$ git push
-\end{shcode}
-
-
+\begin{frame}{So far...}
+    So far, we have looked at GIT from the only perspective of {\Medium code
+    versioning}:
+    \begin{itemize}
+        \item {\Medium atomic commits} and how to prepare them;
+        \item the 
+    \end{itemize}
 \end{frame}
+
+\section{Viewed from a GUI...}
+
+\begin{frame}{}
+    \centering
+    {\Medium GitHub for Windows} (GHfW) Walkthrough
+    \vspace{2em}
+    \url{https://desktop.github.com/}
+\end{frame}
+
+\imageframe[black]{Log in to your GitHub account}{github-windows/1}
+\imageframe[black]{Create a (local) repository}{github-windows/2}
+\imageframe[black]{GHfW has already made a first commit on your behalf}{github-windows/3}
+\imageframe[black]{Open the repo in Windows Explorer}{github-windows/4}
+\imageframe[black]{Add a simple \texttt{README.md}...}{github-windows/5}
+\imageframe[black]{Back to GHfW: the change is listed in the {\Medium Changes} panel}{github-windows/6}
+\imageframe[black]{Write a commit message \& commit!}{github-windows/7}
+\imageframe[black]{The {\Medium History} panel shows the log and a diff of your changes}{github-windows/8}
+\imageframe[black]{We can easily create a new branch}{github-windows/9}
+\imageframe[black]{We can compare \texttt{numerical\_coordinates} with \texttt{master}\\ (click on {\Medium View branch} for the full history)}{github-windows/10}
+\imageframe[black]{We can jump between branches...}{github-windows/11}
+\imageframe[black]{...and watch how they diverge}{github-windows/12}
+\imageframe[black]{We swtich back to \texttt{numerical\_coordinates} and merge in \texttt{master}}{github-windows/13}
+\imageframe[black]{The merge commit is reflected in the history of the branch}{github-windows/14}
+
+\section{Collaborating}
+
+\imageframe{}{dvcs-1}
+\imageframe{}{dvcs-2}
+\imageframe{}{dvcs-3}
+\imageframe{}{dvcs-4}
+\imageframe{}{dvcs-5}
+\imageframe{}{dvcs-6}
+\imageframe{}{dvcs-7}
+\imageframe{}{dvcs-8}
+
+
 
 \begin{frame}[fragile]{}
 
