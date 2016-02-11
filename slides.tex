@@ -1168,37 +1168,103 @@ $ git push
 \imageframe{../figs/github-workflow-2.pdf}
 \imageframe{../figs/github-workflow-3.pdf}
 
-\section{Social coding: a few unwritten rules}
+\section{Etiquette of social coding 101}
 
 \begin{frame}{}
     \centering
 
-    {\Medium Principle of least surprise}
+    \highlight{\Medium principle of least surprise}
 
-    Make people feel at home (and save time!)
+    Make people feel at home when they interact with your project!
 
 \end{frame}
-\begin{frame}{Source code organization}
 
+\begin{frame}{}
+    \centering
+    \highlight{one repo = one thing}
+
+    make plenty of repos!
+\end{frame}
+
+\begin{frame}[fragile]{Repository layout}
+
+Try to follow as much as possible the {\Medium Filesystem Hierarchy
+ Standard} (FHS). Mainly:
+
+\begin{shcode}
+src/        # source
+include/    # *public* headers
+etc/        # configuration files
+share/      # data
+doc/        # documentation
+README
+LICENSE
+\end{shcode}
+
+\centering
+
+\only<1>{
+{\Medium NO build artifacts!!}\\
+{\Medium no binaries} (except possibly in \sh{share/})
+}
+\only<2>{
+\sh{README} (or better, use markdown: \sh{README.md}): what is
+the project about? who is the target audience? how to install? how to get started?
+}
+
+\end{frame}
+
+\begin{frame}{License}
+    \begin{itemize}
+        \item {\Medium no license} $\Rightarrow$ default copyright laws apply.
+            You (or probably UoP) retain all rights to your source code; nobody else may
+            reproduce, distribute, or create derivative works from your work.
+        \item {\Medium Permissive licenses}: others do essentially whatever they
+            want with your code, as long as they give your attribution.
+            Examples: MIT, BSD
+        \item {\Medium Copyleft licenses}: Derivative work must be made
+            available under the same terms as the original work (\emph{viral
+            licenses}). Example: GPL
+    \end{itemize}
+
+    \centering
+    \only<1>{
+        {\Medium You always keep the author rights!}\\
+        $\Rightarrow$ you can change the
+        license at any time.
+    }
+
+    \only<2>{
+    Check \url{http://choosealicense.com/}\\
+    and discuss that with your supervisor
+    }
 
 
 \end{frame}
 
 \begin{frame}{Build system}
 
+    Use and provide a build system!
+
     \begin{itemize}
-        \item P
+        \item Windows-only $\Rightarrow$ Visual Studio solution
+        \item MacOS-only $\Rightarrow$ XCode project
     \end{itemize}
-    
-    In case of doubt, use
+
+    In all other cases, go for a cross-platform build system like {\Medium
+    CMake}.
 \end{frame}
 
-\begin{frame}{Other tips}
+\begin{frame}{Commit hygiene}
+    \centering
+
+    {\Medium ``Show me the project history, I'll tell you who you are''}
+
     \begin{itemize}
-        \item Have a \texttt{README} (or better, \texttt{README.md}): what is
-            it about? who is the target audience? how to install? how to get started?
-        \item No binaries!
+        \item Useful messages (\sout{\texttt{Fixed bug}}, \sout{\texttt{New
+            file}})
         \item First line of commit messages < 72 characters
+        \item Tag important commits!
     \end{itemize}
 \end{frame}
 
