@@ -29,7 +29,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -501,17 +501,17 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1600"
-     inkscape:window-height="838"
+     inkscape:window-width="1920"
+     inkscape:window-height="1026"
      id="namedview5894"
      showgrid="false"
      inkscape:zoom="1.1400966"
-     inkscape:cx="290.84636"
-     inkscape:cy="453.57523"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:cx="279.41983"
+     inkscape:cy="140.23342"
+     inkscape:window-x="1080"
+     inkscape:window-y="867"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g10990"
+     inkscape:current-layer="svg5015"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
@@ -519,7 +519,7 @@
      units="px" />
   <g
      id="g11309"
-     transform="translate(0,969.42169)">
+     transform="translate(0,485.50861)">
     <g
        transform="matrix(2.3325101,0,0,2.33251,1065.0978,4142.2214)"
        inkscape:label="Layer 1"
@@ -1498,7 +1498,7 @@
            transform="matrix(1.797297,0.06472219,0.0647222,0.91945012,-2374.7373,5932.0431)"
            id="polygon7971"
            style="fill:#000000;stroke:#000000;stroke-width:16;stroke-miterlimit:8"
-           points="4522,1582 4522,1582 4395,1605 4518,1645 " />
+           points="4395,1605 4518,1645 4522,1582 4522,1582 " />
       </g>
       <polyline
          transform="translate(1217.1975,6085.9871)"
@@ -1509,7 +1509,7 @@
          transform="matrix(1.2772413,0.0536427,0.0536427,0.54966905,-848.46056,6575.7416)"
          id="polygon7975"
          style="fill:#000000;stroke:#000000;stroke-width:16;stroke-miterlimit:8"
-         points="6835,1850 6827,1976 6827,1976 7083,1931 " />
+         points="6827,1976 7083,1931 6835,1850 6827,1976 " />
     </g>
     <g
        id="g7633"
@@ -1525,7 +1525,7 @@
            id="polyline5035"
            transform="translate(1217.1975,6085.9871)" />
         <polygon
-           points="4518,1645 4522,1582 4522,1582 4395,1605 "
+           points="4522,1582 4395,1605 4518,1645 4522,1582 "
            style="fill:#000000;stroke:#000000;stroke-width:16;stroke-miterlimit:8"
            id="polygon5037"
            transform="matrix(1.4611063,0.03699714,0.03765784,0.96677335,-862.3597,5977.338)" />
@@ -1536,7 +1536,7 @@
          id="polyline5051"
          transform="translate(1217.1975,6085.9871)" />
       <polygon
-         points="7083,1931 6835,1850 6827,1976 6827,1976 "
+         points="6827,1976 6827,1976 7083,1931 6835,1850 "
          style="fill:#000000;stroke:#000000;stroke-width:16;stroke-miterlimit:8"
          id="polygon5053"
          transform="matrix(1.0212659,0.03398956,0.034309,0.56535152,1008.9543,6685.186)" />
@@ -1558,7 +1558,7 @@
            transform="matrix(1.797297,0.06472219,0.0647222,0.91945012,-2374.7373,5932.0431)"
            id="polygon7646"
            style="fill:#000000;stroke:#000000;stroke-width:16;stroke-miterlimit:8"
-           points="4522,1582 4522,1582 4395,1605 4518,1645 " />
+           points="4395,1605 4518,1645 4522,1582 4522,1582 " />
       </g>
       <polyline
          transform="translate(1217.1975,6085.9871)"
@@ -1569,7 +1569,7 @@
          transform="matrix(1.2772413,0.0536427,0.0536427,0.54966905,-848.46056,6575.7416)"
          id="polygon7650"
          style="fill:#000000;stroke:#000000;stroke-width:16;stroke-miterlimit:8"
-         points="6835,1850 6827,1976 6827,1976 7083,1931 " />
+         points="6827,1976 7083,1931 6835,1850 6827,1976 " />
     </g>
     <text
        style="font-style:normal;font-weight:bold;font-size:235.23551941px;font-family:FlamaLight;text-anchor:start;fill:#00008f;stroke-width:0.025in"
@@ -1701,9 +1701,7 @@
        id="text8020-9"
        style="font-style:normal;font-weight:bold;font-size:133.75253296px;font-family:FlamaLight;text-anchor:start;fill:#008f00;stroke-width:0.025in"><tspan
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:201.63046265px;font-family:Courier;-inkscape-font-specification:'Courier Bold';fill:#000000"
-         id="tspan8022-7">github.com/haddock/cs211</tspan><tspan
-         id="tspan9492"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:201.63046265px;font-family:Courier;-inkscape-font-specification:'Courier Bold';fill:#000000" /></text>
+         id="tspan8022-7">github.com/john/cool_app</tspan></text>
     <text
        style="font-style:normal;font-weight:bold;font-size:133.75253296px;font-family:FlamaLight;text-anchor:start;fill:#008f00;stroke-width:0.025in"
        id="text9494"
@@ -1714,12 +1712,10 @@
        x="576.36676"
        xml:space="preserve"><tspan
          id="tspan9496"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:201.63046265px;font-family:Courier;-inkscape-font-specification:'Courier Bold';fill:#000000">github.com/milou/cs211</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:201.63046265px;font-family:Courier;-inkscape-font-specification:'Courier Bold';fill:#000000"
-         id="tspan9498" /></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:201.63046265px;font-family:Courier;-inkscape-font-specification:'Courier Bold';fill:#000000">github.com/paul/cool_app</tspan></text>
     <text
        xml:space="preserve"
-       x="5742.0796"
+       x="5661.4268"
        y="1570.0704"
        font-style="normal"
        font-weight="bold"
@@ -1727,9 +1723,7 @@
        id="text9500"
        style="font-style:normal;font-weight:bold;font-size:133.75253296px;font-family:FlamaLight;text-anchor:start;fill:#008f00;stroke-width:0.025in"><tspan
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:201.63046265px;font-family:Courier;-inkscape-font-specification:'Courier Bold';fill:#000000"
-         id="tspan9502">github.com/tournesol/cs211</tspan><tspan
-         id="tspan9504"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:201.63046265px;font-family:Courier;-inkscape-font-specification:'Courier Bold';fill:#000000" /></text>
+         id="tspan9502">github.com/georges/cool_app</tspan></text>
     <text
        xml:space="preserve"
        x="1570.9392"
@@ -1740,7 +1734,7 @@
        id="text8028"
        style="font-style:normal;font-weight:bold;font-size:186.36709595px;font-family:FlamaLight;text-anchor:start;fill:#008f00;stroke-width:0.025in"><tspan
          style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:FlamaMedium;-inkscape-font-specification:'FlamaMedium Medium'"
-         id="tspan8030">Milou</tspan></text>
+         id="tspan8030">Paul</tspan></text>
     <text
        style="font-style:normal;font-weight:bold;font-size:186.36709595px;font-family:FlamaLight;text-anchor:start;fill:#008f00;stroke-width:0.025in"
        id="text8032"
@@ -1748,13 +1742,13 @@
        font-weight="bold"
        font-style="normal"
        y="5849.2119"
-       x="4402.4795"
+       x="4563.7852"
        xml:space="preserve"><tspan
          id="tspan8034"
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:FlamaMedium;-inkscape-font-specification:'FlamaMedium Medium'">Haddock</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:FlamaMedium;-inkscape-font-specification:'FlamaMedium Medium'">John</tspan></text>
     <text
        xml:space="preserve"
-       x="6782.2324"
+       x="6862.8853"
        y="5849.2119"
        font-style="normal"
        font-weight="bold"
@@ -1762,52 +1756,6 @@
        id="text8036"
        style="font-style:normal;font-weight:bold;font-size:186.36709595px;font-family:FlamaLight;text-anchor:start;fill:#008f00;stroke-width:0.025in"><tspan
          style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:FlamaMedium;-inkscape-font-specification:'FlamaMedium Medium'"
-         id="tspan8038">Tournesol</tspan></text>
-  </g>
-  <g
-     id="g10990"
-     transform="translate(4.6347569e-5,-5564.0671)">
-    <rect
-       y="6026.8569"
-       x="-1043.5533"
-       height="981.26819"
-       width="10505.117"
-       id="rect9506"
-       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;color-interpolation:sRGB;color-interpolation-filters:linearRGB;fill:#d3d7cf;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.708;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
-    <text
-       xml:space="preserve"
-       x="738.7569"
-       y="6456.8525"
-       font-style="normal"
-       font-weight="bold"
-       font-size="202"
-       id="text8119"
-       style="font-style:normal;font-weight:bold;font-size:185.28912354px;font-family:FlamaLight;text-anchor:start;fill:#008f00;stroke-width:0.025in"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:218.4329834px;font-family:Courier;-inkscape-font-specification:'Courier Bold';fill:#000000"
-         id="tspan8121">$ git clone https://github.com/milou/cs211.git </tspan></text>
-    <text
-       style="font-style:normal;font-weight:bold;font-size:185.28912354px;font-family:FlamaLight;text-anchor:start;fill:#008f00;stroke-width:0.025in"
-       id="text8141"
-       font-size="202"
-       font-weight="bold"
-       font-style="normal"
-       y="6728.0283"
-       x="738.7569"
-       xml:space="preserve"><tspan
-         id="tspan8143"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:218.4329834px;font-family:Courier;-inkscape-font-specification:'Courier Bold';fill:#000000" /></text>
-    <text
-       style="font-style:normal;font-weight:bold;font-size:185.28913879px;font-family:FlamaLight;text-anchor:start;fill:#008f00;stroke-width:0.025in"
-       id="text8141-2"
-       font-size="202"
-       font-weight="bold"
-       font-style="normal"
-       y="6728.0283"
-       x="738.75684"
-       xml:space="preserve"><tspan
-         id="tspan8143-5"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:218.4329834px;font-family:Courier;-inkscape-font-specification:'Courier Bold';fill:#000000">$ git push|pull <tspan
-   style="font-style:italic"
-   id="tspan11650">[origin]</tspan></tspan></text>
+         id="tspan8038">Georges</tspan></text>
   </g>
 </svg>

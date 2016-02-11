@@ -107,16 +107,18 @@ Systems\\{\Medium Plymouth University}}
     \begin{itemize}
         \item The history of your development
         \item Compare the current code with an older version
-        \item Roll-back to previous version
+        \item Roll-back to previous versions
         \item Experiment without loosing anything
         \item Trace who did what (at the level of the line of code)
-        \item Keep things organized
+        \item Annotate your workflow (important milestones, etc)
+        \item Avoid catastrophies!
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Atomic commits}
 
-    The single most important concept:
+    The single most important concept (because it requires to think about
+    development in terms of {\Medium functional units}):
 
     \highlight{Atomic commit}
 
@@ -158,13 +160,13 @@ Systems\\{\Medium Plymouth University}}
         };
 
         \gitbranch
-        {master}     % node name and text 
-        {above=of A} % node placement
-        {A}          % target
+        {master}
+        {above=of A}
+        {A}
 
         \gitHEAD
-        {above=of master} % node placement
-        {master}          % target
+        {above=of master}
+        {master}
 
 
     \path[draw] (file3.east) edge [->, bend left] (A);
@@ -177,13 +179,13 @@ Systems\\{\Medium Plymouth University}}
         };
 
         \gitbranch
-        {master}     % node name and text 
-        {above=of B} % node placement
-        {B}          % target
+        {master}
+        {above=of B}
+        {B}
 
         \gitHEAD
-        {above=of master} % node placement
-        {master}          % target
+        {above=of master}
+        {master}
 
         \path[draw] (file5.east) edge [->, bend left,hriSec2] (B);
     }
@@ -977,7 +979,11 @@ $ git rebase new-idea
 \centering
 \only<2>{
 \small
-\texttt{git remote add origin git@github.com:user/repo.git}
+\texttt{git remote add origin git@github.com:user/repo.git}\par
+\scriptsize
+\texttt{git remote add john-usb E:\textbackslash john\_repo}\\
+\texttt{git remote add ftp-origin ftp://host.xz/path/to/repo.git/}\\
+...\\
 }
 
 \uncover<3>{
@@ -1043,7 +1049,7 @@ $ git rebase new-idea
             {F}             % target
         }
 
-        \onslide<4->{
+        \onslide<4-5>{
             \gitDAG[grow right sep = 2em]{
                 A -- B -- C -- {
                     F -- D' -- E',
@@ -1069,6 +1075,32 @@ $ git rebase new-idea
             {F}             % target
         }
 
+        \onslide<6->{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- {
+                    F -- D' -- E',
+                    {[nodes=unreachable] D -- E },
+                }
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of E'} % node placement
+            {E'}          % target
+
+
+            \gitremotebranch
+            [origmaster]    % node name
+            {origin/master} % node text
+            {above=of master}    % node placement
+            {master}             % target
+
+            \gitHEAD
+            {above=of origmaster} % node placement
+            {origmaster}          % target
+        }
+
 
     \end{tikzpicture}
 
@@ -1077,103 +1109,62 @@ $ git rebase new-idea
     \only<2>{
         What happened on our remote? Let's have a look...\\
         \Large
-        \texttt{git fetch origin}
+        \texttt{git fetch origin}\\
     }
 
     \only<4>{
         \Large
-        \texttt{git rebase origin/master} \par
+        \texttt{git rebase origin/master}\par
         \normalsize
-        (but you don't need it, because...)
+        (but you don't need it, because...)\\
     }
-    \uncover<5>{
+    \only<5>{
         \Large
-        \texttt{git pull --rebase} \par
+        \texttt{git pull --rebase}\\
+    }
+    \uncover<6>{
+        \Large
+        \texttt{git push}\\
     }
 
 \end{frame}
 
 
-\begin{frame}{}
 
-    \centering
+\begin{frame}[fragile]{To summarize...}
 
-    \only<1>{
-        \begin{tikzpicture}
-            % Commit DAG
-            \gitDAG[grow right sep = 2em]{
-                A -- B -- { 
-                    C,
-                    D -- E,
-                }
-            };
-            % Tag reference
-            \gittag
-            [v0p1]       % node name
-            {v0.1}       % node text
-            {above=of A} % node placement
-            {A}          % target
-            % Remote branch
-            \gitremotebranch
-            [origmaster]    % node name
-            {origin/master} % node text
-            {above=of C}    % node placement
-            {C}             % target
-            % Branch
-            \gitbranch
-            {master}     % node name and text 
-            {above=of E} % node placement
-            {E}          % target
-            % HEAD reference
-            \gitHEAD
-            {above=of master} % node placement
-            {master}          % target
-        \end{tikzpicture}
-    }
+The first time...
+\begin{shcode}
+$ git clone <url>
+# for instance,
+# git clone https://github.com/user/repo.git
+\end{shcode}
+Then...
+\begin{shcode}
+$ cd <repo>
+# make some changes...
+$ git add <files>
+$ git commit -m"<commit message>"
+# ...
+# when you want to share:
+$ git pull --rebase # any changes on the remote?
+$ git push
+\end{shcode}
 
-    \only<2>{
-        \begin{tikzpicture}
-            \gitDAG[grow right sep = 2em]{
-                A -- B -- { 
-                    C -- D' -- E',
-                    {[nodes=unreachable] D -- E },
-                }
-            };
-            % Tag reference
-            \gittag
-            [v0p1]       % node name
-            {v0.1}       % node text
-            {above=of A} % node placement
-            {A}          % target
-            % Remote branch
-            \gitremotebranch
-            [origmaster]    % node name
-            {origin/master} % node text
-            {above=of C}    % node placement
-            {C}             % target
-            % Branch
-            \gitbranch
-            {master}      % node name and text 
-            {above=of E'} % node placement
-            {E'}          % target
-            % HEAD reference
-            \gitHEAD
-            {above=of master} % node placement
-            {master}          % target
-        \end{tikzpicture}
-    }
-\end{frame}
-
-
-
-\begin{frame}{Working with branches}
 \end{frame}
 
 \section{Social coding: GitHub workflow}
 
-\imageframe{../figs/github-workflow.pdf}
-\imageframe{../figs/github-workflow-2.pdf}
-\imageframe{../figs/github-workflow-3.pdf}
+\imageframe[black]{\Medium GitHub}{github-morse}
+\imageframe[black]{\Medium BitBucket}{bitbucket}
+\imageframe[black]{{\Medium GitLab} -- open-source\\You can install it on your own server}{gitlab}
+
+\imageframe{}{github-workflow-1}
+\imageframe{}{github-workflow-2}
+\imageframe{}{github-workflow-3}
+\imageframe{}{github-workflow-4}
+\imageframe{}{github-workflow-5}
+\imageframe{}{github-workflow-6}
 
 \section{Etiquette of social coding 101}
 
