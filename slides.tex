@@ -299,7 +299,7 @@ Date:   Wed Feb 10 16:47:46 2016 +0000
 
 \node[gitSA,] (stagingarea) at (-2.5,3) {staging area};
 
-    \only<3>{
+    \onslide<3>{
         \gitDAG[grow right sep = 2em]{
             154ce2 -- f327ba;
         };
@@ -319,7 +319,7 @@ Date:   Wed Feb 10 16:47:46 2016 +0000
         \path[draw] (file4.east) edge [->, bend right,hriSec1Comp] (stagingarea);
 
     }
-    \only<4>{
+    \onslide<4>{
         \gitDAG[grow right sep = 2em]{
             154ce2 -- f327ba -- 4113b9;
         };
@@ -801,6 +801,67 @@ $ git commit -m"<other commit message>"
 
 
 \end{frame}
+
+\begin{frame}{Tags}
+
+    \centering
+
+    \begin{tikzpicture}
+            \gitDAG[grow right sep = 1.5em]{
+                A -- B -- C -- {
+                    D -- E,
+                    F -- G -- H -- {
+                        K,
+                        I -- J
+                        },
+                }
+            };
+
+            \gittag
+            [v12]
+            {v1.2}
+            {above=of C}
+            {C}
+
+            \gitbranch
+            {master}
+            {above=of K}
+            {K}
+
+            \gitbranch
+            {new-gui}
+            {above=of E}
+            {E}
+
+            \gitbranch
+            {bug142}
+            {above=of J}
+            {J}
+
+            \gittag
+            {WP5}
+            {above=of H}
+            {H}
+
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+
+    \end{tikzpicture}
+
+    \vspace{3em}
+    \centering
+        {\Medium Label} important commits/milestones\\
+        \Large
+        \texttt{git tag v1.2}\\
+        \texttt{git tag WP5}
+
+
+\end{frame}
+
 
 
 \begin{frame}[fragile]{To summarize...}
