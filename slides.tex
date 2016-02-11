@@ -277,72 +277,89 @@ Date:   Wed Feb 10 16:47:46 2016 +0000
 \begin{frame}{The staging area}
     \centering
     \only<1>{
-    But why do we have to manually tell Git what files to add or remove?
+        But why do we have to manually tell Git what files to add or remove?
     }
     \only<2>{
-    To help preparing nice atomic commits!\\ $\Rightarrow$ No need to commit all current changes together.
+        No ``commit all changes'' by default {\tiny (well, you
+        can, actually...)}\\
+        $\Rightarrow$ Help thinking in terms of atomic commits!
     }
     \only<3->{
         Preparing a commit consists in filling the {\Medium staging area} (or
         {\Medium index}) with the list of changes:
 
-\begin{tikzpicture}[
-    >=latex,
-    every edge/.style={draw,thick,hriSec3},
-    file/.style={align=left, inner sep=1pt,font=\scriptsize\tt}
-]
+        \begin{tikzpicture}[
+                >=latex,
+                every edge/.style={draw,thick,hriSec3},
+                file/.style={align=left, inner sep=1pt,font=\scriptsize\tt}
+            ]
 
-\node at (-3.5, 2)[file,red] (file1) {\sout{main.cpp}};
-\node [file,red,below=0.0 of file1.south east,anchor=north east] (file2) {src/main.cpp};
-\node [file,temporal=<3>{red}{black}{white},below=0.0 of file2.south east, anchor=north east] (file3) {src/position.cpp};
-\node [file,temporal=<3>{red}{black}{white},below=0.0 of file3.south east,anchor=north east] (file4) {src/position.hpp};
-\node [file,red,below=0.0 of file4.south east,anchor=north east] (file5) {share/model.csv};
-
-
-\node[gitSA,] (stagingarea) at (-2.5,3) {staging area};
-
-    \onslide<3>{
-        \gitDAG[grow right sep = 2em]{
-            154ce2 -- f327ba;
-        };
-
-        \gitbranch
-        {master}     % node name and text 
-        {above=of f327ba} % node placement
-        {f327ba}          % target
-
-        \gitHEAD
-        {above=of master} % node placement
-        {master}          % target
+            \node at (-3.5, 2)[file,red] (file1) {\sout{main.cpp}};
+            \node [file,red,below=0.0 of file1.south east,anchor=north east] (file2) {src/main.cpp};
+            \node [file,temporal=<3>{red}{black}{white},below=0.0 of file2.south east, anchor=north east] (file3) {src/position.cpp};
+            \node [file,temporal=<3>{red}{black}{white},below=0.0 of file3.south east,anchor=north east] (file4) {src/position.hpp};
+            \node [file,red,below=0.0 of file4.south east,anchor=north east] (file5) {share/model.csv};
 
 
+            \node[gitSA,] (stagingarea) at (-2.5,3) {staging area};
 
-        \path[draw] (file3.east) edge [->, bend right,hriSec1Comp] (stagingarea);
-        \path[draw] (file4.east) edge [->, bend right,hriSec1Comp] (stagingarea);
+            \onslide<3>{
+                \gitDAG[grow right sep = 2em]{
+                    154ce2 -- f327ba;
+                };
 
-    }
-    \onslide<4>{
-        \gitDAG[grow right sep = 2em]{
-            154ce2 -- f327ba -- 4113b9;
-        };
+                \gitbranch
+                {master}     % node name and text 
+                {above=of f327ba} % node placement
+                {f327ba}          % target
 
-        \gitbranch
-        {master}     % node name and text 
-        {above=of 4113b9} % node placement
-        {4113b9}          % target
-
-        \gitHEAD
-        {above=of master} % node placement
-        {master}          % target
-
-        \node[highlighted commit] at (4113b9) {\phantom{4113b9}};
-        \draw[resetarrows] ([xshift=-1em,yshift=-1em]stagingarea.east) to[bend
-        left] (4113b9.north west);
-
-    }
+                \gitHEAD
+                {above=of master} % node placement
+                {master}          % target
 
 
-\end{tikzpicture}
+
+                \path[draw] (file3.east) edge [->, bend right,hriSec1Comp] (stagingarea);
+                \path[draw] (file4.east) edge [->, bend right,hriSec1Comp] (stagingarea);
+
+            }
+            \onslide<4>{
+                \gitDAG[grow right sep = 2em]{
+                    154ce2 -- f327ba -- 4113b9;
+                };
+
+                \gitbranch
+                {master}     % node name and text 
+                {above=of 4113b9} % node placement
+                {4113b9}          % target
+
+                \gitHEAD
+                {above=of master} % node placement
+                {master}          % target
+
+                \node[highlighted commit] at (4113b9) {\phantom{4113b9}};
+                \draw[resetarrows] ([xshift=-1em,yshift=-1em]stagingarea.east) to[bend
+                left] (4113b9.north west);
+
+            }
+
+
+
+        \end{tikzpicture}
+
+
+        \only<3>{
+            \texttt{git add}\\
+            \texttt{git rm}\\
+            \texttt{git add -p}\\
+            ...\\
+        }
+        \only<4>{
+            ~\\
+            \texttt{git commit}\\
+            ~\\
+            ~\\
+        }
 
 
     }
@@ -368,6 +385,24 @@ $ git commit -m"<other commit message>"
 
 
 \end{frame}
+
+
+\begin{frame}{}
+    \centering
+    Viewed from a GUI\\
+    {\Medium GitHub for Windows} (GHfW) Walkthrough\par
+    \vspace{3em}
+    \url{https://desktop.github.com/}
+\end{frame}
+
+\imageframe[black]{Log in to your GitHub account}{github-windows/1}
+\imageframe[black]{Create a (local) repository}{github-windows/2}
+\imageframe[black]{GHfW has already made a first commit on your behalf}{github-windows/3}
+\imageframe[black]{Open the repo in Windows Explorer}{github-windows/4}
+\imageframe[black]{Add a simple \texttt{README.md}...}{github-windows/5}
+\imageframe[black]{Back to GHfW: the change is listed in the {\Medium Changes} panel}{github-windows/6}
+\imageframe[black]{Write a commit message \& commit!}{github-windows/7}
+\imageframe[black]{The {\Medium History} panel shows the log and a diff of your changes}{github-windows/8}
 
 \begin{frame}{Branches}
 
@@ -405,14 +440,14 @@ $ git commit -m"<other commit message>"
             {C}          % target
 
             \gitbranch
-            {new-gui}     % node name and text 
+            {cool-idea}     % node name and text 
             {above=of master} % node placement
             {master}          % target
 
             % HEAD reference
             \gitHEAD
-            {above=of new-gui} % node placement
-            {new-gui}          % target
+            {above=of cool-idea} % node placement
+            {cool-idea}          % target
         }
 
         \onslide<3>{
@@ -427,14 +462,14 @@ $ git commit -m"<other commit message>"
             {C}          % target
 
             \gitbranch
-            {new-gui}     % node name and text 
+            {cool-idea}     % node name and text 
             {above=of E} % node placement
             {E}          % target
 
             % HEAD reference
             \gitHEAD
-            {above=of new-gui} % node placement
-            {new-gui}          % target
+            {above=of cool-idea} % node placement
+            {cool-idea}          % target
         }
 
         \onslide<4>{
@@ -449,7 +484,7 @@ $ git commit -m"<other commit message>"
             {C}          % target
 
             \gitbranch
-            {new-gui}     % node name and text 
+            {cool-idea}     % node name and text 
             {above=of E} % node placement
             {E}          % target
 
@@ -474,7 +509,7 @@ $ git commit -m"<other commit message>"
             {H}          % target
 
             \gitbranch
-            {new-gui}     % node name and text 
+            {cool-idea}     % node name and text 
             {above=of E} % node placement
             {E}          % target
 
@@ -502,7 +537,7 @@ $ git commit -m"<other commit message>"
             {K}          % target
 
             \gitbranch
-            {new-gui}     % node name and text 
+            {cool-idea}     % node name and text 
             {above=of E} % node placement
             {E}          % target
 
@@ -528,7 +563,7 @@ $ git commit -m"<other commit message>"
     }
     \only<2>{
         \Large
-        \texttt{git checkout -b new-gui}\\
+        \texttt{git checkout -b cool-idea}\\
     }
     \only<5>{
         The branch name is an alias for the tip of the current branch\\
@@ -571,7 +606,7 @@ $ git commit -m"<other commit message>"
             {H}          % target
 
             \gitbranch
-            {new-gui}     % node name and text 
+            {cool-idea}     % node name and text 
             {above=of E} % node placement
             {E}          % target
 
@@ -601,7 +636,7 @@ $ git commit -m"<other commit message>"
             {merge}          % target
 
             \gitbranch
-            {new-gui}     % node name and text 
+            {cool-idea}     % node name and text 
             {above=of E} % node placement
             {E}          % target
 
@@ -628,7 +663,7 @@ $ git commit -m"<other commit message>"
             {J}          % target
 
             \gitbranch
-            {new-gui}     % node name and text 
+            {cool-idea}     % node name and text 
             {above=of E} % node placement
             {E}          % target
 
@@ -655,14 +690,14 @@ $ git commit -m"<other commit message>"
             {J}          % target
 
             \gitbranch
-            {new-gui}     % node name and text 
+            {cool-idea}     % node name and text 
             {above=of L} % node placement
             {L}          % target
 
             % HEAD reference
             \gitHEAD
-            {above=of new-gui} % node placement
-            {new-gui}          % target
+            {above=of cool-idea} % node placement
+            {cool-idea}          % target
 
     }
 
@@ -678,7 +713,7 @@ $ git commit -m"<other commit message>"
     \only<2>{
         Merging\\
         \Large
-        \texttt{git merge new-gui}\\
+        \texttt{git merge cool-idea}\\
     }
     \only<3>{
         \Large
@@ -686,7 +721,7 @@ $ git commit -m"<other commit message>"
     }
     \uncover<4>{
         \Large
-        \texttt{git checkout new-gui}\\
+        \texttt{git checkout cool-idea}\\
         \texttt{git commit}\\
         \normalsize
         ...etc.
@@ -719,7 +754,7 @@ $ git commit -m"<other commit message>"
             {H}          % target
 
             \gitbranch
-            {new-gui}     % node name and text 
+            {cool-idea}     % node name and text 
             {above=of E} % node placement
             {E}          % target
 
@@ -747,7 +782,7 @@ $ git commit -m"<other commit message>"
             {H'}          % target
 
             \gitbranch
-            {new-gui}     % node name and text 
+            {cool-idea}     % node name and text 
             {above=of E} % node placement
             {E}          % target
 
@@ -775,14 +810,14 @@ $ git commit -m"<other commit message>"
             {H'}          % target
 
             \gitbranch
-            {new-gui}     % node name and text 
+            {cool-idea}     % node name and text 
             {above=of J} % node placement
             {J}          % target
 
             % HEAD reference
             \gitHEAD
-            {above=of new-gui} % node placement
-            {new-gui}          % target
+            {above=of cool-idea} % node placement
+            {cool-idea}          % target
 
     }
 
@@ -793,11 +828,11 @@ $ git commit -m"<other commit message>"
     \only<2>{
         Rebasing\\
         \Large
-        \texttt{git rebase new-gui}\\
+        \texttt{git rebase cool-idea}\\
     }
     \uncover<3>{
         \Large
-        \texttt{git checkout new-gui}\\
+        \texttt{git checkout cool-idea}\\
         \texttt{git commit}\\
     }
 
@@ -831,7 +866,7 @@ $ git commit -m"<other commit message>"
             {K}
 
             \gitbranch
-            {new-gui}
+            {cool-idea}
             {above=of E}
             {E}
 
@@ -898,23 +933,12 @@ $ git rebase new-idea
     \end{itemize}
 \end{frame}
 
-\section{Viewed from a GUI...}
 
 \begin{frame}{}
     \centering
-    {\Medium GitHub for Windows} (GHfW) Walkthrough
-    \vspace{2em}
-    \url{https://desktop.github.com/}
+    {Viewed from a GUI...}
 \end{frame}
 
-\imageframe[black]{Log in to your GitHub account}{github-windows/1}
-\imageframe[black]{Create a (local) repository}{github-windows/2}
-\imageframe[black]{GHfW has already made a first commit on your behalf}{github-windows/3}
-\imageframe[black]{Open the repo in Windows Explorer}{github-windows/4}
-\imageframe[black]{Add a simple \texttt{README.md}...}{github-windows/5}
-\imageframe[black]{Back to GHfW: the change is listed in the {\Medium Changes} panel}{github-windows/6}
-\imageframe[black]{Write a commit message \& commit!}{github-windows/7}
-\imageframe[black]{The {\Medium History} panel shows the log and a diff of your changes}{github-windows/8}
 \imageframe[black]{We can easily create a new branch}{github-windows/9}
 \imageframe[black]{We can compare \texttt{numerical\_coordinates} with \texttt{master}\\ (click on {\Medium View branch} for the full history)}{github-windows/10}
 \imageframe[black]{We can jump between branches...}{github-windows/11}
