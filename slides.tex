@@ -290,7 +290,7 @@ Date:   Wed Feb 10 16:47:46 2016 +0000
     file/.style={align=left, inner sep=1pt,font=\scriptsize\tt}
 ]
 
-\node at (-3.5, 1.5)[file,red] (file1) {\sout{main.cpp}};
+\node at (-3.5, 2)[file,red] (file1) {\sout{main.cpp}};
 \node [file,red,below=0.0 of file1.south east,anchor=north east] (file2) {src/main.cpp};
 \node [file,temporal=<3>{red}{black}{white},below=0.0 of file2.south east, anchor=north east] (file3) {src/position.cpp};
 \node [file,temporal=<3>{red}{black}{white},below=0.0 of file3.south east,anchor=north east] (file4) {src/position.hpp};
@@ -301,13 +301,13 @@ Date:   Wed Feb 10 16:47:46 2016 +0000
 
     \only<3>{
         \gitDAG[grow right sep = 2em]{
-            A -- B;
+            154ce2 -- f327ba;
         };
 
         \gitbranch
         {master}     % node name and text 
-        {above=of B} % node placement
-        {B}          % target
+        {above=of f327ba} % node placement
+        {f327ba}          % target
 
         \gitHEAD
         {above=of master} % node placement
@@ -315,27 +315,27 @@ Date:   Wed Feb 10 16:47:46 2016 +0000
 
 
 
-        \path[draw] (file3.east) edge [->, bend left,hriSec1Comp] (stagingarea);
-        \path[draw] (file4.east) edge [->, bend left,hriSec1Comp] (stagingarea);
+        \path[draw] (file3.east) edge [->, bend right,hriSec1Comp] (stagingarea);
+        \path[draw] (file4.east) edge [->, bend right,hriSec1Comp] (stagingarea);
 
     }
     \only<4>{
         \gitDAG[grow right sep = 2em]{
-            A -- B -- C;
+            154ce2 -- f327ba -- 4113b9;
         };
 
         \gitbranch
         {master}     % node name and text 
-        {above=of C} % node placement
-        {C}          % target
+        {above=of 4113b9} % node placement
+        {4113b9}          % target
 
         \gitHEAD
         {above=of master} % node placement
         {master}          % target
 
-        \node[highlighted commit] at (C) {\phantom{C}};
+        \node[highlighted commit] at (4113b9) {\phantom{4113b9}};
         \draw[resetarrows] ([xshift=-1em,yshift=-1em]stagingarea.east) to[bend
-        left] (C.north west);
+        left] (4113b9.north west);
 
     }
 
@@ -372,6 +372,7 @@ $ git commit -m"<other commit message>"
     \centering
 
     \begin{tikzpicture}
+        \only<1-5>{
         \onslide<1>{
             \gitDAG[grow right sep = 2em]{
                 A -- B -- C;
@@ -456,7 +457,7 @@ $ git commit -m"<other commit message>"
             {master}          % target
         }
 
-        \onslide<5->{
+        \onslide<5>{
             \gitDAG[grow right sep = 2em]{
                 A -- B -- C -- {
                     D -- E,
@@ -474,6 +475,40 @@ $ git commit -m"<other commit message>"
             {new-gui}     % node name and text 
             {above=of E} % node placement
             {E}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+        }
+    }
+        \only<6->{
+            \gitDAG[grow right sep = 1.5em]{
+                A -- B -- C -- {
+                    D -- E,
+                    F -- G -- H -- {
+                        K,
+                        I -- J
+                        },
+                }
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of K} % node placement
+            {K}          % target
+
+            \gitbranch
+            {new-gui}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            \gitbranch
+            {bug142}     % node name and text 
+            {above=of J} % node placement
+            {J}          % target
+
 
             % HEAD reference
             \gitHEAD
@@ -574,6 +609,61 @@ $ git commit -m"<other commit message>"
             {master}          % target
 
     }
+        \onslide<3>{
+            \gitDAG[grow right sep = 2em]{
+                B -- C -- {
+                    D -- E,
+                    F -- G -- H -- I -- J,
+                };
+
+                E -- I;
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of J} % node placement
+            {J}          % target
+
+            \gitbranch
+            {new-gui}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+    }
+        \onslide<4>{
+            \gitDAG[grow right sep = 2em]{
+                B -- C -- {
+                    D -- E -- K -- L,
+                    F -- G -- H -- I -- J,
+                };
+
+                E -- I;
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of J} % node placement
+            {J}          % target
+
+            \gitbranch
+            {new-gui}     % node name and text 
+            {above=of L} % node placement
+            {L}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of new-gui} % node placement
+            {new-gui}          % target
+
+    }
+
 
 
     \end{tikzpicture}
@@ -581,14 +671,158 @@ $ git commit -m"<other commit message>"
     \vspace{3em}
     \centering
     \only<1>{
-        Two options: {\Medium merging} and {\Medium rebasing}
+        Two options: {\Medium merging} and {\Medium rebasing}\\
     }
-    \uncover<2>{
+    \only<2>{
         Merging\\
         \Large
-        \texttt{git merge new-gui}
+        \texttt{git merge new-gui}\\
+    }
+    \only<3>{
+        \Large
+        \texttt{git commit}\\
+    }
+    \uncover<4>{
+        \Large
+        \texttt{git checkout new-gui}\\
+        \texttt{git commit}\\
+        \normalsize
+        ...etc.
     }
 
+
+\end{frame}
+
+\begin{frame}{Rebasing branches}
+
+    \centering
+
+\begin{tikzpicture}[
+    >=latex,
+    every edge/.style={draw,thick,hriSec3}
+]
+
+        \onslide<1>{
+            \gitDAG[grow right sep = 2em]{
+                B -- C -- {
+                    D -- E,
+                    F -- G -- H,
+                };
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of H} % node placement
+            {H}          % target
+
+            \gitbranch
+            {new-gui}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+            \node[DAGcommit,right=3 of E.south,dashed] (merge) {?};
+            \path[draw] (E) edge [->, bend left] (merge);
+            \path[draw] (H) edge [->, bend right] (merge);
+    }
+        \onslide<2>{
+            \gitDAG[grow right sep = 2em]{
+                B -- C -- {
+                    D -- E -- F' -- G' -- H',
+                    {[nodes=unreachable] F -- G -- H },
+                };
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of H'} % node placement
+            {H'}          % target
+
+            \gitbranch
+            {new-gui}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+    }
+        \onslide<3>{
+            \gitDAG[grow right sep = 2em]{
+                B -- C -- {
+                    D -- E -- {
+                        I -- J,
+                        F' -- G' -- H',
+                    },
+                    {[nodes=unreachable] F -- G -- H },
+                };
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of H'} % node placement
+            {H'}          % target
+
+            \gitbranch
+            {new-gui}     % node name and text 
+            {above=of J} % node placement
+            {J}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of new-gui} % node placement
+            {new-gui}          % target
+
+    }
+
+    \end{tikzpicture}
+
+    \vspace{3em}
+    \centering
+    \only<2>{
+        Rebasing\\
+        \Large
+        \texttt{git rebase new-gui}\\
+    }
+    \uncover<3>{
+        \Large
+        \texttt{git checkout new-gui}\\
+        \texttt{git commit}\\
+    }
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{To summarize...}
+
+\begin{shcode}
+# where are we?
+$ git branch
+master
+# make some changes...
+$ git add <files> && git commit -m"<commit message>"
+# start working on something new?
+$ git checkout -b new-idea
+$ git branch
+new-idea
+# work in that branch for a while
+$ git add <files> && git commit -m"<commit message>"
+# back to master
+$ git checkout master
+#...
+# rebase master on new-idea: new-idea is now in master
+$ git rebase new-idea
+\end{shcode}
 
 \end{frame}
 
