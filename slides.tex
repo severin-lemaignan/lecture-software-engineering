@@ -839,7 +839,7 @@ $ git commit -m"<other commit message>"
 
 \end{frame}
 
-\begin{frame}{Tags}
+\begin{frame}{More commit aliases: Tags}
 
     \centering
 
@@ -923,16 +923,6 @@ $ git rebase new-idea
 \end{shcode}
 
 \end{frame}
-
-\begin{frame}{So far...}
-    So far, we have looked at GIT from the only perspective of {\Medium code
-    versioning}:
-    \begin{itemize}
-        \item {\Medium atomic commits} and how to prepare them;
-        \item the 
-    \end{itemize}
-\end{frame}
-
 
 \begin{frame}{}
     \centering
@@ -1373,6 +1363,12 @@ $ git push
 \end{overlayarea}
 \end{frame}
 
+\begin{frame}{}
+    \centering
+    (what happens next on John's side is a story for another day :-) But to make
+    it short, he can press ``Merge pull request'' on his GitHub account if he is
+    happy with the pull-request!)
+\end{frame}
 \imageframe{}{github-workflow-7}
 
 
@@ -1523,8 +1519,8 @@ the project about? who is the target audience? how to install? how to get starte
     Use and provide a build system!
 
     \begin{itemize}
-        \item Windows-only $\Rightarrow$ Visual Studio solution
-        \item MacOS-only $\Rightarrow$ XCode project
+        \item Windows-only $\Rightarrow$ a Visual Studio solution is ok
+        \item MacOS-only $\Rightarrow$ a XCode project is ok
     \end{itemize}
 
     In all other cases, go for a cross-platform build system like {\Medium
@@ -1534,20 +1530,51 @@ the project about? who is the target audience? how to install? how to get starte
 \begin{frame}{Commit hygiene}
     \centering
 
-    {\Medium ``Show me the project history, I'll tell you who you are''}
+    {\Medium ``Show me the project history, I'll tell you what coder you are''}
 
     \begin{itemize}
-        \item Useful messages (\sout{\texttt{Fixed bug}}, \sout{\texttt{New
-            file}})
-        \item First line of commit messages < 72 characters
-        \item Tag important commits!
+        \item<1> {\Medium Commit often!} Push when needed (or at the end of day)
+        \item<2> Write useful messages (no ``\texttt{Fixed bug}'' or ``\texttt{New
+            file}'')
+        \item<2> First line of commit messages < 72 characters
+        \item<3> Tag important commits!
+    \end{itemize}
+
+    \only<1>{
+        Because commits are local (ie, private), {\Medium do commit often}:
+        {\Medium mistakes are ok} as you can fix them before sharing with others.
+    }
+    \only<3>{
+        Notably, GitHub (amongst others) interpret tags as {\Medium releases} of
+        your code.
+    }
+\end{frame}
+
+\begin{frame}{A few cool GitHub stuff to finish}
+    Besides bugtracking, project homepages and wikis,GitHub integrates with many
+    third-party services \& tools:
+
+    \begin{itemize}
+        \item {\Medium Travis CI} or {\Medium AppVeyor} for continuous integration
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Software management 101}
+\imageframe{}{pr-failed-ci}
 
+\begin{frame}{A few cool stuff to finish}
+    + GitHub integrates with many external services 
+    \& tools:
+
+    \begin{itemize}
+        \item {\Medium Travis CI} or {\Medium AppVeyor} for continuous integration
+        \item {\Medium zenodo}: associate a DOI to your repository
+        \item {\Medium ReadTheDocs}: generate and publish on-line 
+            documentation
+    \end{itemize}
 \end{frame}
 
+\imageframe{That's all folks! The slides are on-line:\\
+\url{http://academia.skadge.org/teaching}}{git}
 \end{document}
 
 
