@@ -1166,6 +1166,73 @@ $ git push
 \imageframe{}{github-workflow-5}
 \imageframe{}{github-workflow-6}
 
+\section{The one slide to remember}
+
+\begin{frame}{GIT cheat sheet}
+\scriptsize
+    \begin{multicols}{2}
+
+    {\Medium To start...}\\
+    ...from scratch: \texttt{git init}\\
+    ...from existing repo: \texttt{git clone <url>}\par
+
+    \rule{\columnwidth}{0.2pt}
+
+    {\Medium Prepare commits:}\\
+    \texttt{git add}\\
+    \texttt{git rm}\\
+    \texttt{git add -p} (partial files)\par
+
+    {\Medium Commit:}\\
+    \texttt{git commit}\par
+
+    \rule{\columnwidth}{0.2pt}
+
+    {\Medium Create branch:}\\
+    \texttt{git checkout -b <branch>}\par
+
+    {\Medium Jump between branches:}\\
+    \texttt{git checkout <branch>}\par
+
+    {\Medium ``Import'' another branch:}\\
+    \texttt{git rebase <other\_branch>}\par
+
+    \rule{\columnwidth}{0.2pt}
+
+    {\Medium Add a remote source:}\\
+    \texttt{git remote add <name> <url>}\par
+
+    {\Medium What's new on a remote?}\\
+    \texttt{git pull <remote> <branch>}\\
+    {\tiny (\texttt{git pull} alone $\equiv$ \texttt{git pull origin master})}\par
+
+    {\Medium Share stuff on a remote:}\\
+    \texttt{git push <remote> <branch>}\\
+    {\tiny (\texttt{git push} alone $\equiv$ \texttt{git push origin master})}\par
+
+    \rule{\columnwidth}{0.2pt}
+
+    \begin{multicols}{2}
+    {\Medium Repo state}\\
+    \texttt{git status}\par
+
+    {\Medium Repo history}\\
+    \texttt{git log}\par
+
+    {\Medium Who did what?}\\
+    \texttt{git blame}\par
+
+    {\Medium I've lost everythg!}\\
+    \texttt{git reflog}\par
+
+
+    \end{multicols}
+
+
+    \end{multicols}
+
+\end{frame}
+
 \section{Etiquette of social coding 101}
 
 \begin{frame}{}
