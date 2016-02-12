@@ -5,14 +5,13 @@
 \newcommand{\git}{\texttt{git}\xspace}
 \newcommand\bs{\char`\\}
 
-\week{1.2}
 \title{git: The basics}
-\date{February 17, 2015}
+\date{12 Feb. 2016}
 
 \summary{
-This class aims at giving you a good overview of the basics of \git. Steps will
+This tutorial aims at giving you a good overview of the basics of \git. Steps will
 be provided both for the command-line (Linux, MacOSX users) and the graphical
-GitHub application (MacOSX, Windows users). Even if you use the graphical user
+``GitHub for Desktop'' application (MacOSX, Windows users). Even if you use the graphical user
 interface, we recommend you to carefully read the equivalent command line
 instruction to understand what happen ``behind the scene''.
 
@@ -22,15 +21,8 @@ instruction to understand what happen ``behind the scene''.
 To be able to create a code repository, to understand and be able to create
 commits, to be able to share code amongst a group of people using GitHub's
 \emph{pull requests}.
-
-While we require you to use \git to collaborate within your group during the
-project and to share code with us at the project's milestones, \textbf{you will not be
-graded on how you use \git during the project.}
 }
 
-\challenges{
-Learning how to think the \emph{code versioning} way!
-}
 \begin{document}
 
 \maketitle
@@ -49,23 +41,16 @@ On Windows/MacOSX, we recommend you to use the GitHub official app, that takes
 care of properly configuring \git for your system, and also provide an
 easy to use user interface (but obviously, an ``easy to use'' interface also means
 that it hides things from your eyes, and makes the underlying mecanisms harder to
-understand. Anyway...)
-
-\begin{itemize}
-\item For Windows : \url{https://windows.github.com/}
-\item For Mac : \url{https://mac.github.com/}
-\end{itemize}
+understand. Anyway...) Head to \url{https://desktop.github.com/}
 
 \note{
 Once installed, the Windows GitHub app also provides a link to the Windows
 shell, conveniently configured to work with Git. We encourage you to make use of
 it and use the command-line based instructions below.  }
 
-Besides, we recommend you to create a GitHub account: while not mandatory, it's
-an easy way to share and review code within your group. You can also use
-\url{http://git.epfl.ch} as shared server (a \textbf{remote} in \git parlance).
-You can login with your GASPAR credential, which is convenient, but the
-interface is however quite basic.
+While not necessary to use \git, we will make use of GitHub today: if you do not
+already have an account, create one, either from the desktop application, or
+from the website.
 
 \part{A first git repository}
 
@@ -83,17 +68,17 @@ $ git config --global user.name "Surname Lastname"
 $ git config --global user.email "<email>"
 \end{shcode}
 
-If using the GUI, click on the small gear in the top right corner, then
-\emph{Options...} and set the two fields below \emph{Configure git}.
+If using the GUI, the app will ask you for these details on the first run.
 
 \step{Create a new local repository}
 
-Simply create a new directory (like \url{/home/<username>/cs211/first-repo}) and initialize
+Simply create a new directory (like \url{/home/<username>/src/first-git-repo}) and initialize
 it by typing \texttt{git init} from within the directory. The name of this
 directory becomes the name of your repository.
 
 If you are using the GUI, click on the big ``plus'' button and create a new repo,
-for instance here:\\ \texttt{C:\bs{}Users\bs{}<username>\bs{}Documents\bs{}cs211\bs{}first-repo}
+for instance here:\\
+\texttt{C:\bs{}Users\bs{}<username>\bs{}Documents\bs{}src\bs{}first-git-repo}
 
 That's it: a \git \textbf{repository} is simply a regular directory, with one
 special item: an hidden \texttt{.git/} directory that stores all the
@@ -104,8 +89,8 @@ parts of files).
 
 One of the first steps after creating a new repository is to add a
 \texttt{README} file that describes briefly the content of the repository:
-create such a file and describe in 2-3 lines the Processing sketch you made
-earlier.
+create such a file and describe in 2-3 lines the new CoolApp\copyright you are going to
+develop.
 
 \more{It's nowadays common practise to write \texttt{README}s using the \textsc{markdown} syntax
     (extension \texttt{.md}): \textsc{markdown} is a markup language that lets you write simple text
@@ -118,7 +103,7 @@ earlier.
 Then, \textbf{commit} this \textbf{change}: since the file \texttt{README} is
 not yet known to \git, first \textbf{add it}: \sh{git add README}, and
 then create a new \textbf{commit} with \sh{git commit}. If using the GUI, simply
-make sure the file is checked in the \emph{Uncommitted changes} tab of the GUI.
+make sure the file is checked in the \emph{Changes} tab of the GUI.
 
 \git will ask you for a
 commit message (a commit message is made of a mandatory one-line \emph{summary} --
@@ -133,16 +118,19 @@ the change. For now, use the simple commit message ``Added a README''.
     with a commit message.
 }
 
-By typing \sh{git log} (or just looking at the GitHub GUI), you can see the
+By typing \sh{git log} (or just looking at the \emph{History} tab of the GitHub GUI), you can see the
 history of changes in your repo. On Linux, \texttt{gitk} is another
 convenient way to display in a graphical way the history of the repo.
 
 \step{Code versioning}
 
-Copy the Processing sketch you have worked on during the first hour to your
-repo, and add it to the \git repository. Commit this change.
+Download this nice embryo of a TicTacToe game:\\
+\url{https://raw.githubusercontent.com/severin-lemaignan/git-presentation/master/sample-code/main.cpp}
 
-Now, change the background colour used in your sketch.
+Add it to the \git repository. Commit this change.
+
+Now, change the coordinates of the TicTacToe grid to use the numerical
+coordinates \texttt{1, 2, 3} instead of \texttt{A, B, C}, as it simplifies the code.
 
 Using \sh{git status} or the GUI, review the change and commit it (\sh{git
 commit <your file>}, choosing an appropriate commit message.
@@ -168,8 +156,8 @@ participant own a full, autonomous copy of the repository and can obtain
     \includegraphics[width=0.8\linewidth]{figs/distributed-git.pdf}
 \end{center}
 
-Distant repositories can be on a remote Internet server like GitHub or
-\url{git.epfl.ch}, on your friends' computers,
+Distant repositories can be on a remote Internet server like GitHub, on your
+colleagues' computers,
 or even on a USB stick that you carry over with you. \git calls them
 \textbf{remotes}. You can add as many remotes as you want to your local
 repository by giving them names.
@@ -197,20 +185,19 @@ Then, add this remote to your local repository, and \textbf{push} your changes
 online:
 
 \begin{shcode}
-$ cd <REPO DIR> # for instance $HOME/cs211/first-repo
+$ cd <REPO DIR> # for instance $HOME/src/first-git-repo
 $ git remote add origin https://github.com/<account>/<repo>.git # add a remote called origin
 $ git push -u origin # push all your local commits to GitHub
 \end{shcode}
 
 \note{
     If you are using the GitHub GUI, adding a \underline{GitHub} remote is easy:
-    just press the \emph{Publish Repository} button: the GitHub app while create
+    just press the \emph{Publish} button: the GitHub app while create
     a new remote repository for you and immediately push the changes.
     
-    However, if you want
-    to use another remote (like \url{git.epfl.ch}), you need to use the command
+    However, if you want to use a non-GitHub remote, you need to use the command
     \sh{git remote add...} to setup the remote. You can then use the GUI
-    normally.
+    normally, also with this new remote.
 }
 
 \more{
@@ -235,8 +222,8 @@ Besides hosting your code, GitHub allows you to also create \textbf{Issues} to
 track what need to be done or corrected in your project. Go to the \emph{Issues}
 panel
 $\vcenter{\hbox{\includegraphics[scale=0.8]{figs/github-issues-icon.png}}}$ and
-create a new issue (for instance, to suggest that pink would be a better
-background color for your Processing project). \textbf{Label} the issue as a
+create a new issue (for instance, to suggest to use deep learning to implement
+the TicTacToe AI). \textbf{Label} the issue as a
 proposed \emph{Enhancement}.
 
 Note the issue number that GitHub displays after the title of the issue (or in the address
@@ -269,16 +256,16 @@ opens the GitHub application to clone the repository from the app.}
 Copy the URL, and then:
 
 \begin{shcode}
-$ cd <SOURCE DIR> # for instance $HOME/cs211
+$ cd <SOURCE DIR> # for instance $HOME/src
 # Clone the repo <repo> inside directory <dir_name> (same as <repo> if omitted)
-# To avoid confusion with your own repository, use smthg like 'first-repo-gerard' as dir_name
+# To avoid confusion with your own repository, use smthg like 'first-git-repo-gerard' as dir_name
 $ git clone https://github.com/<account>/<repo>.git <dir_name>
 \end{shcode}
 
 You now have a full copy of the repository on your local machine in
-\texttt{<dir\_name>}. Edit the Processing sketch of your teammate to correct the
-background color as he/she suggested in the issue he/she opened, and commit the result.
-In this case, a good commit message would be: ``Fixing background color (issue
+\texttt{<dir\_name>}. Edit the source of your teammate to (attempt to) correct the
+the issue he/she opened, and commit the result.
+In this case, a good commit message would be: ``Fixing <description of issue> (issue
 \#1)''. By referencing the GitHub issue number in the commit message, GitHub will
 automatically link your commit to the issue.
 
@@ -374,7 +361,7 @@ looks good), and finally \textbf{merge} the pull request:
 \end{center}
 
 To retrieve these changes in your local repository, simply run \sh{git pull} (or
-press the \emph{Sync} button) from your local repository (\texttt{first-repo}).
+press the \emph{Sync} button) from your local repository (\texttt{first-git-repo}).
 
 \more{
     If you think the pull request needs further refinement, explain in the

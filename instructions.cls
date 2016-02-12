@@ -1,4 +1,4 @@
-\ProvidesClass{instructions}[2014/01/15 version 1.00 Instruction sheets of Exercices Sessions of the EPFL CS211 lecture]
+\ProvidesClass{instructions}[2014/01/15 version 1.00 Instruction sheets for various tutorials]
 \NeedsTeXFormat{LaTeX2e}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
@@ -31,7 +31,7 @@
 
 \RequirePackage{hyperref}
 
-\author{CHILI Lab, EPFL}
+\author{Séverin Lemaignan, Plymouth University}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% Set up the header and footer  %%%%%%%%%%%%%%%%%%
 \RequirePackage{fancyhdr}
@@ -39,7 +39,7 @@
 \RequirePackage{extramarks} % Required for headers and footers
 \pagestyle{fancy}
 \lhead{} % Top left header
-\chead{CS211 -- \@title} % Top center head
+\chead{\@title} % Top center head
 \rhead{\firstxmark} % Top right header
 \lfoot{\lastxmark} % Bottom left footer
 \cfoot{} % Bottom center footer
@@ -99,10 +99,7 @@
 \def\maketitle{%
   \vskip 60\p@
   \begin{center}%
-    {\Large \textbf{Introduction to Visual Computing}}
     \vskip 3em%
-    {\LARGE Assignment\# \@week \par}%
-    \vskip 1em%
     {\LARGE \textbf{\@title} \par}%
     \vskip 4.5em%
     {\large \@date \par}%       % Set date in \large size.
@@ -147,7 +144,7 @@
 \noindent\fcolorbox{Gray}{MoreBoxColor}{%
 \begin{minipage}{0.9\textwidth}{%
 \noindent\includegraphics[width=0.5cm]{arrow.pdf}\hspace{1em}\textbf{Taking it
-further (optional)}%
+further}%
 \par\vspace{1em}%
 #1\par%
 }%
