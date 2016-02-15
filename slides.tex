@@ -32,24 +32,6 @@
 
 \graphicspath{{figs/}}
 
-\usepackage[cache]{minted}
-\renewcommand{\theFancyVerbLine}{
-  \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
-
-\newminted{java}{frame=lines,
-                 linenos=true,
-                 fontsize=\small,
-                 xleftmargin=1.8em}
-
-\newmintinline[java]{java}{fontsize=\small}
-
-\newminted{sh}{frame=lines,
-                 linenos=false,
-                 fontsize=\small,
-                 xleftmargin=1.8em}
-
-\newmintinline[sh]{sh}{fontsize=\small}
-
 \setbeamercolor{highlightCol}{bg=hriSec3,fg=white}
 \newcommand{\highlight}[1]{%
     \vspace{1em}%
