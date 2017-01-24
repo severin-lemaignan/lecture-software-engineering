@@ -26,7 +26,6 @@
 %--------------------------------------------------------------------------
 \usetheme{hri}
 
-\usepackage{dtklogos} % must be loaded after theme
 \usepackage{tikz}
 \usetikzlibrary{intersections,arrows,shapes,calc,mindmap,backgrounds,positioning,svg.path}
 
@@ -49,12 +48,12 @@
 %--------------------------------------------------------------------------
 % General presentation settings
 %--------------------------------------------------------------------------
-\title{\Medium git}
+\title{\bf git}
 \subtitle{the basics}
 \date{12 Feb. 2016}
 \author{Séverin Lemaignan}
 \institute{Centre for Robotics \& Neural
-Systems\\{\Medium Plymouth University}}
+Systems\\{\bf Plymouth University}}
 
 %--------------------------------------------------------------------------
 % Notes settings
@@ -69,8 +68,10 @@ Systems\\{\Medium Plymouth University}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\imageframe{}{zipfiles.pdf}
-\imageframe{}{dropbox_zipfiles.pdf}
+\section{First things first: Why bother?}
+
+\imageframe{zipfiles.pdf}
+\imageframe{dropbox_zipfiles.pdf}
 
 {
     \fullbackground{../figs/facebook-wall.png}
@@ -101,12 +102,12 @@ Systems\\{\Medium Plymouth University}}
 \begin{frame}{Atomic commits}
 
     The single most important concept (because it requires to think about
-    development in terms of {\Medium functional units}):
+    development in terms of {\bf functional units}):
 
     \highlight{Atomic commit}
 
     \only<1>{
-        A (typically small) commit that represent a {\Medium single, coherent \&
+        A (typically small) commit that represent a {\bf single, coherent \&
     complete} functional change.
     }
     \only<2>{
@@ -268,8 +269,8 @@ Date:   Wed Feb 10 16:47:46 2016 +0000
         $\Rightarrow$ Help thinking in terms of atomic commits!
     }
     \only<3->{
-        Preparing a commit consists in filling the {\Medium staging area} (or
-        {\Medium index}) with the list of changes:
+        Preparing a commit consists in filling the {\bf staging area} (or
+        {\bf index}) with the list of changes:
 
         \begin{tikzpicture}[
                 >=latex,
@@ -372,20 +373,576 @@ $ git commit -m"<other commit message>"
 
 \begin{frame}{}
     \centering
-    Viewed from a GUI\\
-    {\Medium GitHub for Windows} (GHfW) Walkthrough\par
+    Viewed from a GUI (macOS \& Windows)\\
+    {\bf GitHub Desktop} Walkthrough\par
     \vspace{3em}
     \url{https://desktop.github.com/}
 \end{frame}
 
-\imageframe[black]{Log in to your GitHub account}{github-windows/1}
-\imageframe[black]{Create a (local) repository}{github-windows/2}
-\imageframe[black]{GHfW has already made a first commit on your behalf}{github-windows/3}
-\imageframe[black]{Open the repo in Windows Explorer}{github-windows/4}
-\imageframe[black]{Add a simple \texttt{README.md}...}{github-windows/5}
-\imageframe[black]{Back to GHfW: the change is listed in the {\Medium Changes} panel}{github-windows/6}
-\imageframe[black]{Write a commit message \& commit!}{github-windows/7}
-\imageframe[black]{The {\Medium History} panel shows the log and a diff of your changes}{github-windows/8}
+\imageframe[caption=Log in to your GitHub account,color=black]{github-windows/1}
+\imageframe[caption=Create a (local) repository,color=black]{github-windows/2}
+\imageframe[caption=GitHub Desktop has already made a first commit on your behalf,color=black]{github-windows/3}
+\imageframe[caption=Open the repo in Windows Explorer,color=black]{github-windows/4}
+\imageframe[caption=Add a simple README.md...,color=black]{github-windows/5}
+\imageframe[caption=The change is listed in the Changes panel,color=black]{github-windows/6}
+\imageframe[caption=Write a commit message \& commit!,color=black]{github-windows/7}
+\imageframe[caption=The History panel shows the log and a diff of your changes,color=black]{github-windows/8}
+
+\begin{frame}{}
+    Viewed from a GUI\\
+    {\bf Tortoise GIT}\par
+    \vspace{3em}
+    \url{https://tortoisegit.org/}
+\end{frame}
+
+\imageframe[color=black,caption=Direct interaction in the Windows explorer]{tortoise-git/gitcommit}
+\imageframe[color=black,caption=Files' status appear as icons]{tortoise-git/overlays}
+\imageframe[color=black,caption=All the functionalities are available]{tortoise-git/contextmenu}
+\imageframe[color=black,caption=Commit window]{tortoise-git/commit}
+
+
+\section{Collaborating}
+
+\imageframe{dvcs-1}
+\imageframe{dvcs-2}
+\imageframe{dvcs-3}
+\imageframe{dvcs-4}
+\imageframe{dvcs-5}
+\imageframe{dvcs-6}
+\imageframe{dvcs-7}
+\imageframe{dvcs-8}
+
+
+
+\begin{frame}[fragile]{}
+
+\centering
+
+    \begin{tikzpicture}
+    % Commit DAG
+    \onslide<1-3>{
+      \gitDAG[grow right sep = 2em]{
+        A -- B -- C;
+      };
+
+      % Branch
+      \gitbranch
+        {master}     % node name and text 
+        {above=of C} % node placement
+        {C}          % target
+    }
+
+
+
+      % HEAD reference
+    \onslide<1-2>{
+      \gitHEAD
+        {above=of master} % node placement
+        {master}          % target
+    }
+
+    \onslide<3>{
+      \gitremotebranch
+        [origmaster]    % node name
+        {origin/master} % node text
+        {above=of master}    % node placement
+        {master}             % target
+      \gitHEAD
+        {above=of origmaster} % node placement
+        {origmaster}          % target
+    }
+
+    \end{tikzpicture}
+
+\vspace{3em}
+    \begin{overlayarea}{\textwidth}{5cm}
+\only<2>{
+\small
+\texttt{git remote add origin git@github.com:user/repo.git}\par
+\scriptsize
+\texttt{git remote add john-usb E:\textbackslash john\_repo}\\
+\texttt{git remote add ftp-origin ftp://host.xz/path/to/repo.git/}\\
+...\\
+}
+
+\only<3>{
+\Large
+\texttt{git push origin master} \par
+\normalsize
+(or simply \texttt{git push})
+}
+\end{overlayarea}
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+    \centering
+
+    \begin{tikzpicture}
+        \onslide<1-2>{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- D -- E;
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+            \gitremotebranch
+            [origmaster]    % node name
+            {origin/master} % node text
+            {above=of C}    % node placement
+            {C}             % target
+        }
+
+        \onslide<3>{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- {
+                    F,
+                    D -- E,
+                }
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+            \gitremotebranch
+            [origmaster]    % node name
+            {origin/master} % node text
+            {above=of F}    % node placement
+            {F}             % target
+        }
+
+        \onslide<4-5>{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- {
+                    F -- D' -- E',
+                    {[nodes=unreachable] D -- E },
+                }
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of E'} % node placement
+            {E'}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+            \gitremotebranch
+            [origmaster]    % node name
+            {origin/master} % node text
+            {above=of F}    % node placement
+            {F}             % target
+        }
+
+        \onslide<6->{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- {
+                    F -- D' -- E',
+                    {[nodes=unreachable] D -- E },
+                }
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of E'} % node placement
+            {E'}          % target
+
+
+            \gitremotebranch
+            [origmaster]    % node name
+            {origin/master} % node text
+            {above=of master}    % node placement
+            {master}             % target
+
+            \gitHEAD
+            {above=of origmaster} % node placement
+            {origmaster}          % target
+        }
+
+
+    \end{tikzpicture}
+
+    \vspace{3em}
+    \begin{overlayarea}{\textwidth}{5cm}
+    \only<2>{
+        What happened on our remote? Let's have a look...\\
+        \Large
+        \texttt{git fetch origin}\\
+    }
+
+    \only<4>{
+        \Large
+        \texttt{git rebase origin/master}\par
+        \normalsize
+        (but you don't need it, because...)\\
+    }
+    \only<5>{
+        \Large
+        \texttt{git pull --rebase}\\
+    }
+    \only<6>{
+        \Large
+        \texttt{git push}\\
+    }
+    \end{overlayarea}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{To summarize...}
+
+The first time...
+\begin{shcode}
+$ git clone <url>
+# for instance,
+# git clone https://github.com/user/repo.git
+\end{shcode}
+Then...
+\begin{shcode}
+$ cd <repo>
+# make some changes...
+$ git add <files>
+$ git commit -m"<commit message>"
+# ...
+# when you want to share:
+$ git pull --rebase # any changes on the remote?
+$ git push
+\end{shcode}
+
+\end{frame}
+
+\section{The dreadful conflicts}
+
+\begin{frame}[fragile]{The dreadful conflict}
+
+    While peacefully editing your last (great) paper...
+
+\begin{shcode}
+$ git pull --rebase john master
+First, rewinding head to replay your work on top of it...
+Applying: Better terminology
+Using index info to reconstruct a base tree...
+M	main.tex
+Falling back to patching base and 3-way merge...
+Auto-merging main.tex
+CONFLICT (content): Merge conflict in main.tex
+error: Failed to merge in the changes.
+Patch failed at 0001 Better terminology
+The copy of the patch that failed is found in: .git/rebase-apply/patch
+
+When you have resolved this problem, run "git rebase --continue".
+If you prefer to skip this patch, run "git rebase --skip" instead.
+To check out the original branch and stop rebasing, run "git rebase --abort".
+\end{shcode}
+\end{frame}
+
+\begin{frame}[fragile]{}
+\begin{shcode}
+$ git pull --rebase john master
+# conflict!
+$ git mergetool
+\end{shcode}
+\end{frame}
+
+\imageframe[color=black,caption=Meld is one of the nice tools to fix conflicts]{meld}
+
+\section{Social coding: GitHub workflow}
+
+\imageframe[caption=GitHub,color=black]{github-morse}
+\imageframe[caption=BitBucket,color=black]{bitbucket}
+\imageframe[caption=GitLab -- open-source You can install it on your own server,color=black]{gitlab}
+
+\imageframe[color=black]{github-morse}
+
+\imageframe{github-workflow-1}
+\imageframe{github-workflow-2}
+\imageframe{github-workflow-3}
+\imageframe{github-workflow-4}
+\imageframe{github-workflow-5}
+\imageframe{github-workflow-6}
+
+
+\begin{frame}[fragile]{What happened exactly?}
+
+    \vspace{1em}
+    \centering
+
+    \begin{multicols}{2}
+        \resizebox{\columnwidth}{!}{%
+    \begin{tikzpicture}
+        \onslide<1>{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- D -- E;
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            % HEAD reference
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+            \gitremotebranch
+            [origmaster]    % node name
+            {origin/master} % node text
+            {above=of C}    % node placement
+            {C}             % target
+        }
+
+        \onslide<2>{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- {
+                    F,
+                    D -- E,
+                }
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of E} % node placement
+            {E}          % target
+
+            \gitremotebranch
+            [johnmaster]    % node name
+            {john/master} % node text
+            {above=1.2 of F}    % node placement
+            {F}             % target
+
+
+            \gitremotebranch
+            [origmaster]    % node name
+            {origin/master} % node text
+            {above=of C}    % node placement
+            {C}             % target
+
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+        }
+
+        \onslide<3>{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- {
+                    F -- D' -- E',
+                    {[nodes=unreachable] D -- E },
+                }
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of E'} % node placement
+            {E'}          % target
+
+            \gitremotebranch
+            [origmaster]    % node name
+            {origin/master} % node text
+            {above=of C}    % node placement
+            {C}             % target
+
+            \gitremotebranch
+            [johnmaster]    % node name
+            {john/master} % node text
+            {above=1.2 of F}    % node placement
+            {F}             % target
+
+
+            \gitHEAD
+            {above=of master} % node placement
+            {master}          % target
+
+
+        }
+        \onslide<4>{
+            \gitDAG[grow right sep = 2em]{
+                A -- B -- C -- {
+                    F -- D' -- E',
+                    {[nodes=unreachable] D -- E },
+                }
+            };
+
+            % Branch
+            \gitbranch
+            {master}     % node name and text 
+            {above=of E'} % node placement
+            {E'}          % target
+
+            \gitremotebranch
+            [origmaster]    % node name
+            {origin/master} % node text
+            {above=of master}    % node placement
+            {master}             % target
+
+            \gitremotebranch
+            [johnmaster]    % node name
+            {john/master} % node text
+            {above=1.2 of F}    % node placement
+            {F}             % target
+
+
+            \gitHEAD
+            {above=of origmaster} % node placement
+            {origmaster}          % target
+
+
+        }
+
+    \end{tikzpicture}
+    }
+
+    \only<1>{
+        \includegraphics[width=0.8\columnwidth]{github-workflow-details-3}
+    }
+    \only<2-3>{
+        \includegraphics[width=0.8\columnwidth]{github-workflow-details-5}
+    }
+
+    \only<4>{
+        \includegraphics[width=0.8\columnwidth]{github-workflow-details-6}
+    }
+
+    \end{multicols}
+
+    \begin{overlayarea}{\textwidth}{5cm}
+    \only<1>{
+        After forking on GitHub, Paul runs\\
+        \texttt{git clone https://github.com/paul/cool\_app.git}\\
+        \normalsize
+        and he adds few local commits\\
+    }
+
+    \only<2>{
+        He would like to propose his changes to John\\
+        First, he needs to get the latest changes from John:\par
+        \footnotesize
+        \texttt{git add remote john https://github.com/john/cool\_app.git}\\
+        \normalsize
+        \texttt{git fetch john}\\
+    }
+
+    \only<3>{
+        Paul rebases his \texttt{master} branch on John's one:\par
+        \texttt{git rebase john/master}\par
+        \footnotesize
+        (actually, Paul would simply run \texttt{git pull --rebase john master})
+    }
+    \only<4>{
+        He pushes his commits to his own GitHub account:\par
+        \texttt{git push}\\
+        ...and finally press the ``Create a pull request'' button in GitHub.
+    }
+
+\end{overlayarea}
+\end{frame}
+
+\begin{frame}{}
+    \centering
+    (what happens next on John's side is a story for another day :-) But to make
+    it short, he can press ``Merge pull request'' on his GitHub account if he is
+    happy with the pull-request!)
+\end{frame}
+\imageframe{github-workflow-7}
+
+
+\section{The one slide to remember}
+
+\begin{frame}{GIT cheat sheet}
+\scriptsize
+    \begin{multicols}{2}
+
+    {\bf To start...}\\
+    ...from scratch: \texttt{git init}\\
+    ...from existing repo: \texttt{git clone <url>}\par
+
+    \rule{\columnwidth}{0.2pt}
+
+    {\bf Prepare commits:}\\
+    \texttt{git add}\\
+    \texttt{git rm}\\
+    \texttt{git add -p} (partial files)\par
+
+    {\bf Commit:}\\
+    \texttt{git commit}\par
+
+    \rule{\columnwidth}{0.2pt}
+
+    {\bf Create branch:}\\
+    \texttt{git checkout -b <branch>}\par
+
+    {\bf Jump between branches:}\\
+    \texttt{git checkout <branch>}\par
+
+    {\bf ``Import'' another branch:}\\
+    \texttt{git rebase <other\_branch>}\par
+
+    \rule{\columnwidth}{0.2pt}
+
+    {\bf Add a remote source:}\\
+    \texttt{git remote add <name> <url>}\par
+
+    {\bf What's new on a remote?}\\
+    \texttt{git pull <remote> <branch>}\\
+    {\tiny (\texttt{git pull} alone $\equiv$ \texttt{git pull origin master})}\par
+
+    {\bf Share stuff on a remote:}\\
+    \texttt{git push <remote> <branch>}\\
+    {\tiny (\texttt{git push} alone $\equiv$ \texttt{git push origin master})}\par
+
+    \rule{\columnwidth}{0.2pt}
+
+    \begin{multicols}{2}
+    {\bf Repo state}\\
+    \texttt{git status}\par
+
+    {\bf Repo history}\\
+    \texttt{git log}\par
+
+    {\bf Who did what?}\\
+    \texttt{git blame}\par
+
+    {\bf I've lost everythg!}\\
+    \texttt{git reflog}\par
+
+
+    \end{multicols}
+
+    ~\\
+
+    \end{multicols}
+
+\end{frame}
+
+\imageframe[caption=That's all folks! The slides are on-line: https://github.com/severin-lemaignan/git-presentation]{git}
+
+\section{Working with branches}
 
 \begin{frame}{Branches}
 
@@ -691,7 +1248,7 @@ $ git commit -m"<other commit message>"
     \vspace{3em}
     \centering
     \only<1>{
-        Two options: {\Medium merging} and {\Medium rebasing}\\
+        Two options: {\bf merging} and {\bf rebasing}\\
     }
     \only<2>{
         Merging\\
@@ -874,7 +1431,7 @@ $ git commit -m"<other commit message>"
 
     \vspace{3em}
     \centering
-        {\Medium Label} important commits/milestones\\
+        {\bf Label} important commits/milestones\\
         \Large
         \texttt{git tag v1.2}\\
         \texttt{git tag WP5}
@@ -912,523 +1469,20 @@ $ git rebase new-idea
     {Viewed from a GUI...}
 \end{frame}
 
-\imageframe[black]{We can easily create a new branch}{github-windows/9}
-\imageframe[black]{We can compare \texttt{numerical\_coordinates} with \texttt{master}\\ (click on {\Medium View branch} for the full history)}{github-windows/10}
-\imageframe[black]{We can jump between branches...}{github-windows/11}
-\imageframe[black]{...and watch how they diverge}{github-windows/12}
-\imageframe[black]{We switch back to \texttt{numerical\_coordinates} and merge in \texttt{master}}{github-windows/13}
-\imageframe[black]{The merge commit is reflected in the history of the branch}{github-windows/14}
+\imageframe[caption=We can easily create a new branch,color=black]{github-windows/9}
+\imageframe[caption=We can compare numerical\_coordinates with master (click on View branch for the full history),color=black]{github-windows/10}
+\imageframe[caption=We can jump between branches...,color=black]{github-windows/11}
+\imageframe[caption=...and watch how they diverge,color=black]{github-windows/12}
+\imageframe[caption=We switch back to numerical\_coordinates and merge in master,color=black]{github-windows/13}
+\imageframe[caption=The merge commit is reflected in the history of the branch,color=black]{github-windows/14}
 
-\section{Collaborating}
-
-\imageframe{}{dvcs-1}
-\imageframe{}{dvcs-2}
-\imageframe{}{dvcs-3}
-\imageframe{}{dvcs-4}
-\imageframe{}{dvcs-5}
-\imageframe{}{dvcs-6}
-\imageframe{}{dvcs-7}
-\imageframe{}{dvcs-8}
-
-
-
-\begin{frame}[fragile]{}
-
-\centering
-
-    \begin{tikzpicture}
-    % Commit DAG
-    \onslide<1-3>{
-      \gitDAG[grow right sep = 2em]{
-        A -- B -- C;
-      };
-
-      % Branch
-      \gitbranch
-        {master}     % node name and text 
-        {above=of C} % node placement
-        {C}          % target
-    }
-
-
-
-      % HEAD reference
-    \onslide<1-2>{
-      \gitHEAD
-        {above=of master} % node placement
-        {master}          % target
-    }
-
-    \onslide<3>{
-      \gitremotebranch
-        [origmaster]    % node name
-        {origin/master} % node text
-        {above=of master}    % node placement
-        {master}             % target
-      \gitHEAD
-        {above=of origmaster} % node placement
-        {origmaster}          % target
-    }
-
-    \end{tikzpicture}
-
-\vspace{3em}
-    \begin{overlayarea}{\textwidth}{5cm}
-\only<2>{
-\small
-\texttt{git remote add origin git@github.com:user/repo.git}\par
-\scriptsize
-\texttt{git remote add john-usb E:\textbackslash john\_repo}\\
-\texttt{git remote add ftp-origin ftp://host.xz/path/to/repo.git/}\\
-...\\
-}
-
-\only<3>{
-\Large
-\texttt{git push origin master} \par
-\normalsize
-(or simply \texttt{git push})
-}
-\end{overlayarea}
-\end{frame}
-
-\begin{frame}[fragile]{}
-
-    \centering
-
-    \begin{tikzpicture}
-        \onslide<1-2>{
-            \gitDAG[grow right sep = 2em]{
-                A -- B -- C -- D -- E;
-            };
-
-            % Branch
-            \gitbranch
-            {master}     % node name and text 
-            {above=of E} % node placement
-            {E}          % target
-
-            % HEAD reference
-            \gitHEAD
-            {above=of master} % node placement
-            {master}          % target
-
-            \gitremotebranch
-            [origmaster]    % node name
-            {origin/master} % node text
-            {above=of C}    % node placement
-            {C}             % target
-        }
-
-        \onslide<3>{
-            \gitDAG[grow right sep = 2em]{
-                A -- B -- C -- {
-                    F,
-                    D -- E,
-                }
-            };
-
-            % Branch
-            \gitbranch
-            {master}     % node name and text 
-            {above=of E} % node placement
-            {E}          % target
-
-            % HEAD reference
-            \gitHEAD
-            {above=of master} % node placement
-            {master}          % target
-
-            \gitremotebranch
-            [origmaster]    % node name
-            {origin/master} % node text
-            {above=of F}    % node placement
-            {F}             % target
-        }
-
-        \onslide<4-5>{
-            \gitDAG[grow right sep = 2em]{
-                A -- B -- C -- {
-                    F -- D' -- E',
-                    {[nodes=unreachable] D -- E },
-                }
-            };
-
-            % Branch
-            \gitbranch
-            {master}     % node name and text 
-            {above=of E'} % node placement
-            {E'}          % target
-
-            % HEAD reference
-            \gitHEAD
-            {above=of master} % node placement
-            {master}          % target
-
-            \gitremotebranch
-            [origmaster]    % node name
-            {origin/master} % node text
-            {above=of F}    % node placement
-            {F}             % target
-        }
-
-        \onslide<6->{
-            \gitDAG[grow right sep = 2em]{
-                A -- B -- C -- {
-                    F -- D' -- E',
-                    {[nodes=unreachable] D -- E },
-                }
-            };
-
-            % Branch
-            \gitbranch
-            {master}     % node name and text 
-            {above=of E'} % node placement
-            {E'}          % target
-
-
-            \gitremotebranch
-            [origmaster]    % node name
-            {origin/master} % node text
-            {above=of master}    % node placement
-            {master}             % target
-
-            \gitHEAD
-            {above=of origmaster} % node placement
-            {origmaster}          % target
-        }
-
-
-    \end{tikzpicture}
-
-    \vspace{3em}
-    \begin{overlayarea}{\textwidth}{5cm}
-    \only<2>{
-        What happened on our remote? Let's have a look...\\
-        \Large
-        \texttt{git fetch origin}\\
-    }
-
-    \only<4>{
-        \Large
-        \texttt{git rebase origin/master}\par
-        \normalsize
-        (but you don't need it, because...)\\
-    }
-    \only<5>{
-        \Large
-        \texttt{git pull --rebase}\\
-    }
-    \only<6>{
-        \Large
-        \texttt{git push}\\
-    }
-    \end{overlayarea}
-
-\end{frame}
-
-
-
-\begin{frame}[fragile]{To summarize...}
-
-The first time...
-\begin{shcode}
-$ git clone <url>
-# for instance,
-# git clone https://github.com/user/repo.git
-\end{shcode}
-Then...
-\begin{shcode}
-$ cd <repo>
-# make some changes...
-$ git add <files>
-$ git commit -m"<commit message>"
-# ...
-# when you want to share:
-$ git pull --rebase # any changes on the remote?
-$ git push
-\end{shcode}
-
-\end{frame}
-
-\section{Social coding: GitHub workflow}
-
-\imageframe[black]{\Medium GitHub}{github-morse}
-\imageframe[black]{\Medium BitBucket}{bitbucket}
-\imageframe[black]{{\Medium GitLab} -- open-source\\You can install it on your own server}{gitlab}
-
-\imageframe[black]{}{github-morse}
-
-\imageframe{}{github-workflow-1}
-\imageframe{}{github-workflow-2}
-\imageframe{}{github-workflow-3}
-\imageframe{}{github-workflow-4}
-\imageframe{}{github-workflow-5}
-\imageframe{}{github-workflow-6}
-
-
-\begin{frame}[fragile]{What happened exactly?}
-
-    \vspace{1em}
-    \centering
-
-    \begin{multicols}{2}
-        \resizebox{\columnwidth}{!}{%
-    \begin{tikzpicture}
-        \onslide<1>{
-            \gitDAG[grow right sep = 2em]{
-                A -- B -- C -- D -- E;
-            };
-
-            % Branch
-            \gitbranch
-            {master}     % node name and text 
-            {above=of E} % node placement
-            {E}          % target
-
-            % HEAD reference
-            \gitHEAD
-            {above=of master} % node placement
-            {master}          % target
-
-            \gitremotebranch
-            [origmaster]    % node name
-            {origin/master} % node text
-            {above=of C}    % node placement
-            {C}             % target
-        }
-
-        \onslide<2>{
-            \gitDAG[grow right sep = 2em]{
-                A -- B -- C -- {
-                    F,
-                    D -- E,
-                }
-            };
-
-            % Branch
-            \gitbranch
-            {master}     % node name and text 
-            {above=of E} % node placement
-            {E}          % target
-
-            \gitremotebranch
-            [johnmaster]    % node name
-            {john/master} % node text
-            {above=1.2 of F}    % node placement
-            {F}             % target
-
-
-            \gitremotebranch
-            [origmaster]    % node name
-            {origin/master} % node text
-            {above=of C}    % node placement
-            {C}             % target
-
-            \gitHEAD
-            {above=of master} % node placement
-            {master}          % target
-
-        }
-
-        \onslide<3>{
-            \gitDAG[grow right sep = 2em]{
-                A -- B -- C -- {
-                    F -- D' -- E',
-                    {[nodes=unreachable] D -- E },
-                }
-            };
-
-            % Branch
-            \gitbranch
-            {master}     % node name and text 
-            {above=of E'} % node placement
-            {E'}          % target
-
-            \gitremotebranch
-            [origmaster]    % node name
-            {origin/master} % node text
-            {above=of C}    % node placement
-            {C}             % target
-
-            \gitremotebranch
-            [johnmaster]    % node name
-            {john/master} % node text
-            {above=1.2 of F}    % node placement
-            {F}             % target
-
-
-            \gitHEAD
-            {above=of master} % node placement
-            {master}          % target
-
-
-        }
-        \onslide<4>{
-            \gitDAG[grow right sep = 2em]{
-                A -- B -- C -- {
-                    F -- D' -- E',
-                    {[nodes=unreachable] D -- E },
-                }
-            };
-
-            % Branch
-            \gitbranch
-            {master}     % node name and text 
-            {above=of E'} % node placement
-            {E'}          % target
-
-            \gitremotebranch
-            [origmaster]    % node name
-            {origin/master} % node text
-            {above=of master}    % node placement
-            {master}             % target
-
-            \gitremotebranch
-            [johnmaster]    % node name
-            {john/master} % node text
-            {above=1.2 of F}    % node placement
-            {F}             % target
-
-
-            \gitHEAD
-            {above=of origmaster} % node placement
-            {origmaster}          % target
-
-
-        }
-
-    \end{tikzpicture}
-    }
-
-    \only<1>{
-        \includegraphics[width=0.8\columnwidth]{github-workflow-details-3}
-    }
-    \only<2-3>{
-        \includegraphics[width=0.8\columnwidth]{github-workflow-details-5}
-    }
-
-    \only<4>{
-        \includegraphics[width=0.8\columnwidth]{github-workflow-details-6}
-    }
-
-    \end{multicols}
-
-    \begin{overlayarea}{\textwidth}{5cm}
-    \only<1>{
-        After forking on GitHub, Paul runs\\
-        \texttt{git clone https://github.com/paul/cool\_app.git}\\
-        \normalsize
-        and he adds few local commits\\
-    }
-
-    \only<2>{
-        He would like to propose his changes to John\\
-        First, he needs to get the latest changes from John:\par
-        \footnotesize
-        \texttt{git add remote john https://github.com/john/cool\_app.git}\\
-        \normalsize
-        \texttt{git fetch john}\\
-    }
-
-    \only<3>{
-        Paul rebases his \texttt{master} branch on John's one:\par
-        \texttt{git rebase john/master}\par
-        \footnotesize
-        (actually, Paul would simply run \texttt{git pull --rebase john master})
-    }
-    \only<4>{
-        He pushes his commits to his own GitHub account:\par
-        \texttt{git push}\\
-        ...and finally press the ``Create a pull request'' button in GitHub.
-    }
-
-\end{overlayarea}
-\end{frame}
-
-\begin{frame}{}
-    \centering
-    (what happens next on John's side is a story for another day :-) But to make
-    it short, he can press ``Merge pull request'' on his GitHub account if he is
-    happy with the pull-request!)
-\end{frame}
-\imageframe{}{github-workflow-7}
-
-
-\section{The one slide to remember}
-
-\begin{frame}{GIT cheat sheet}
-\scriptsize
-    \begin{multicols}{2}
-
-    {\Medium To start...}\\
-    ...from scratch: \texttt{git init}\\
-    ...from existing repo: \texttt{git clone <url>}\par
-
-    \rule{\columnwidth}{0.2pt}
-
-    {\Medium Prepare commits:}\\
-    \texttt{git add}\\
-    \texttt{git rm}\\
-    \texttt{git add -p} (partial files)\par
-
-    {\Medium Commit:}\\
-    \texttt{git commit}\par
-
-    \rule{\columnwidth}{0.2pt}
-
-    {\Medium Create branch:}\\
-    \texttt{git checkout -b <branch>}\par
-
-    {\Medium Jump between branches:}\\
-    \texttt{git checkout <branch>}\par
-
-    {\Medium ``Import'' another branch:}\\
-    \texttt{git rebase <other\_branch>}\par
-
-    \rule{\columnwidth}{0.2pt}
-
-    {\Medium Add a remote source:}\\
-    \texttt{git remote add <name> <url>}\par
-
-    {\Medium What's new on a remote?}\\
-    \texttt{git pull <remote> <branch>}\\
-    {\tiny (\texttt{git pull} alone $\equiv$ \texttt{git pull origin master})}\par
-
-    {\Medium Share stuff on a remote:}\\
-    \texttt{git push <remote> <branch>}\\
-    {\tiny (\texttt{git push} alone $\equiv$ \texttt{git push origin master})}\par
-
-    \rule{\columnwidth}{0.2pt}
-
-    \begin{multicols}{2}
-    {\Medium Repo state}\\
-    \texttt{git status}\par
-
-    {\Medium Repo history}\\
-    \texttt{git log}\par
-
-    {\Medium Who did what?}\\
-    \texttt{git blame}\par
-
-    {\Medium I've lost everythg!}\\
-    \texttt{git reflog}\par
-
-
-    \end{multicols}
-
-    ~\\
-
-    \end{multicols}
-
-\end{frame}
 
 \section{Etiquette of social coding 101}
 
 \begin{frame}{}
     \centering
 
-    \highlight{\Medium principle of least surprise}
+    \highlight{\bf principle of least surprise}
 
     Make people feel at home when they interact with your project!
 
@@ -1443,7 +1497,7 @@ $ git push
 
 \begin{frame}[fragile]{Repository layout}
 
-Try to follow as much as possible the {\Medium Filesystem Hierarchy
+Try to follow as much as possible the {\bf Filesystem Hierarchy
  Standard} (FHS). Mainly:
 
 \begin{shcode}
@@ -1459,8 +1513,8 @@ LICENSE
 \centering
 
 \only<1>{
-{\Medium NO build artifacts!!}\\
-{\Medium no binaries} (except possibly in \sh{share/})
+{\bf NO build artifacts!!}\\
+{\bf no binaries} (except possibly in \sh{share/})
 }
 \only<2>{
 \sh{README} (or better, use markdown: \sh{README.md}): what is
@@ -1471,20 +1525,20 @@ the project about? who is the target audience? how to install? how to get starte
 
 \begin{frame}{License}
     \begin{itemize}
-        \item {\Medium no license} $\Rightarrow$ default copyright laws apply.
+        \item {\bf no license} $\Rightarrow$ default copyright laws apply.
             You (or probably UoP) retain all rights to your source code; nobody else may
             reproduce, distribute, or create derivative works from your work.
-        \item {\Medium Permissive licenses}: others do essentially whatever they
+        \item {\bf Permissive licenses}: others do essentially whatever they
             want with your code, as long as they give your attribution.
             Examples: MIT, BSD
-        \item {\Medium Copyleft licenses}: Derivative work must be made
+        \item {\bf Copyleft licenses}: Derivative work must be made
             available under the same terms as the original work (\emph{viral
             licenses}). Example: GPL
     \end{itemize}
 
     \centering
     \only<1>{
-        {\Medium You always keep the author rights!}\\
+        {\bf You always keep the author rights!}\\
         $\Rightarrow$ you can change the
         license at any time.
     }
@@ -1506,17 +1560,17 @@ the project about? who is the target audience? how to install? how to get starte
         \item MacOS-only $\Rightarrow$ a XCode project is ok
     \end{itemize}
 
-    In all other cases, go for a cross-platform build system like {\Medium
+    In all other cases, go for a cross-platform build system like {\bf
     CMake}.
 \end{frame}
 
 \begin{frame}{Commit hygiene}
     \centering
 
-    {\Medium ``Show me the project history, I'll tell you what coder you are''}
+    {\bf ``Show me the project history, I'll tell you what coder you are''}
 
     \begin{itemize}
-        \item<1> {\Medium Commit often!} Push when needed (or at the end of day)
+        \item<1> {\bf Commit often!} Push when needed (or at the end of day)
         \item<2> Write useful messages (no ``\texttt{Fixed bug}'' or ``\texttt{New
             file}'')
         \item<2> First line of commit messages < 72 characters
@@ -1524,11 +1578,11 @@ the project about? who is the target audience? how to install? how to get starte
     \end{itemize}
 
     \only<1>{
-        Because commits are local (ie, private), {\Medium do commit often}:
-        {\Medium mistakes are ok} as you can fix them before sharing with others.
+        Because commits are local (ie, private), {\bf do commit often}:
+        {\bf mistakes are ok} as you can fix them before sharing with others.
     }
     \only<3>{
-        Notably, GitHub (amongst others) interpret tags as {\Medium releases} of
+        Notably, GitHub (amongst others) interpret tags as {\bf releases} of
         your code.
     }
 \end{frame}
@@ -1538,26 +1592,24 @@ the project about? who is the target audience? how to install? how to get starte
     third-party services \& tools:
 
     \begin{itemize}
-        \item {\Medium Travis CI} or {\Medium AppVeyor} for continuous integration
+        \item {\bf Travis CI} or {\bf AppVeyor} for continuous integration
     \end{itemize}
 \end{frame}
 
-\imageframe{}{pr-failed-ci}
+\imageframe{pr-failed-ci}
 
 \begin{frame}{A few cool stuff to finish}
     + GitHub integrates with many external services 
     \& tools:
 
     \begin{itemize}
-        \item {\Medium Travis CI} or {\Medium AppVeyor} for continuous integration
-        \item {\Medium zenodo}: associate a DOI to your repository
-        \item {\Medium ReadTheDocs}: generate and publish on-line 
+        \item {\bf Travis CI} or {\bf AppVeyor} for continuous integration
+        \item {\bf zenodo}: associate a DOI to your repository
+        \item {\bf ReadTheDocs}: generate and publish on-line 
             documentation
     \end{itemize}
 \end{frame}
 
-\imageframe{That's all folks! The slides are on-line:\\
-\url{http://academia.skadge.org/teaching}}{git}
 \end{document}
 
 

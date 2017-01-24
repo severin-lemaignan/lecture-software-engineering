@@ -1,3 +1,8 @@
+*.nav
+*.toc
+*.vrb
+*.snm
+*.pdf
 .minted*
 *.out
 *.log

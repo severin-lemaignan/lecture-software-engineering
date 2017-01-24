@@ -9,6 +9,10 @@
 \usepackage{color}
 \usepackage{etoolbox}
 \usepackage{eso-pic}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\usepackage{pgfkeys}
 
 \newif\if@doSans
 \@doSansfalse
@@ -16,6 +20,9 @@
 \newif\if@doNoFlama
 \@doNoFlamafalse
 \DeclareOption{noflama}{\@doNoFlamatrue}
+\newif\if@doBasicFont
+\@doBasicFontfalse
+\DeclareOption{basicfont}{\@doBasicFonttrue}
 \newif\if@doSectionPage
 \@doSectionPagefalse
 \DeclareOption{nosectionpages}{\@doSectionPagetrue}
@@ -37,12 +44,21 @@
 \newcommand{\quoted}[1]{›#1‹}
 \newcommand{\doublequoted}[1]{»#1«}
 
+\RequirePackage{xspace}
+\newcommand{\eg}{e.g.\xspace}
+\newcommand{\etal}{\textit{et al.}\xspace}
+\newcommand{\ie}{i.e.\xspace}
+\newcommand{\etc}{etc.\xspace}
+\newcommand{\vs}{\textit{vs.}\xspace}
+
+\RequirePackage{xstring}
+
 %---------------------------------------------------------------------
 % Itemize
 %---------------------------------------------------------------------
 \setbeamertemplate{itemize item}{$\circ$}
 \setbeamertemplate{itemize subitem}{\rightTextArrow}
-\setbeamertemplate{itemize subsubitem}{\rightTextArrow}
+\setbeamertemplate{itemize subsubitem}{--}
 
 \setlength{\parskip}{0.5em}
 
@@ -51,8 +67,8 @@
 %---------------------------------------------------------------------
 
 \setbeamertemplate{background}{
-    \includegraphics[width=\paperwidth,
-    height=\paperheight]{slide-background.pdf}
+%    \includegraphics[width=\paperwidth,
+%    height=\paperheight]{slide-background.pdf}
 }
 
 %---------------------------------------------------------------------
@@ -115,58 +131,37 @@
 % Fonts
 %---------------------------------------------------------------------
 
+% HACK: by doing so, Beamer replacements are disabled, and fontspec can effectively use Flama everywhere.
+% Without it, digits are typeset using a serif font.
+\usepackage{lmodern}
+
 % General
 
-% Declare fontfamilys
-\if@doNoFlama%
-    % Sans serif math option
-    \if@doSans%
-        % sans serif math %
-        \usepackage[no-math]{fontspec}%    
-        \setmainfont{Arial}%
-    \else%
-        % serif math %
-        \usepackage{fontspec}%    
-        \usefonttheme[onlymath]{serif}%
-    \fi%
-    \newfontfamily\Light{Arial}%
-    \newfontfamily\Book{Arial-Bold}%
-    \newfontfamily\Medium{Arial-Bold}%
-    \setsansfont{Arial}%
-\else%
-    % Sans serif math option
-    \if@doSans%
-        \usepackage[no-math]{fontspec}%    
-        \setmainfont{FlamaLight}%
-    \else%
-        \usepackage{fontspec}%    
-        \usefonttheme[onlymath]{serif}%
-    \fi%
-        \usepackage{fontspec}
-    \defaultfontfeatures{Ligatures=TeX} % To support LaTeX quoting style
-    \newfontfamily\Light{FlamaLight}%
-    \newfontfamily\Book{FlamaBook}%
-    \newfontfamily\Medium{FlamaMedium}%
-    \setsansfont{FlamaLight}%
-\fi%
 
-\renewcommand\UrlFont{\Medium}
+\usepackage{fontspec}
+\setmainfont{Flama}[Extension=.otf,UprightFont=*Light,BoldFont=*Medium,ItalicFont=*Italic]
+\setsansfont{Flama}[Extension=.otf,UprightFont=*Light,BoldFont=*Medium,ItalicFont=*Italic]
+%\setsansfont{FlamaLight}[Extension=.otf]
+
+%\setsansfont{FlamaLight.otf}%
+
+\renewcommand\UrlFont{\bf}
 % Titlepage
-\setbeamerfont{title}{family=\Light,size=\fontsize{20}{20}}
-\setbeamerfont{subtitle}{family=\Light,size=\fontsize{12}{14}}
+\setbeamerfont{title}{size=\fontsize{20}{20}}
+\setbeamerfont{subtitle}{size=\fontsize{12}{14}}
 \setbeamerfont{date}{size=\fontsize{8}{10}}
 \setbeamerfont{author}{size=\fontsize{12}{15}}
 \setbeamerfont{institute}{size=\fontsize{8}{10}}
 % Section
 \setbeamerfont{section title}{size=\LARGE}
 % Content
-\setbeamerfont{frametitle}{family=\Light,size=\large}
-\setbeamerfont{copyright text}{family=\Light,size=\tiny}
-\setbeamerfont{block title}{family=\Book,size=\large}
-\setbeamerfont{block title alerted}{family=\Book,size=\large}
-\setbeamerfont{alerted text}{family=\Medium}
+\setbeamerfont{frametitle}{size=\large}
+\setbeamerfont{copyright text}{size=\tiny}
+\setbeamerfont{block title}{family=\bf,size=\large}
+\setbeamerfont{block title alerted}{family=\bf,size=\large}
+\setbeamerfont{alerted text}{family=\bf}
 % Captions
-\setbeamerfont{caption name}{family=\Book}
+\setbeamerfont{caption name}{family=\bf}
 
 %---------------------------------------------------------------------
 % Titlepage
@@ -184,7 +179,7 @@
     \AddToShipoutPictureFG*{\includegraphics[width=\paperwidth]{background.pdf}}
     \begin{minipage}[b][\paperheight]{\textwidth}
     \vspace*{5mm}
-    \includegraphics[height=14mm]{logo}\par
+    \includegraphics[height=20mm]{logo}\par
     \vspace*{5mm}
     \ifx\insertsubtitle\@empty%
     \else%
@@ -254,7 +249,7 @@
 %---------------------------------------------------------------------
 % Footline
 %---------------------------------------------------------------------
-\usenavigationsymbolstemplate{}
+\usenavigationsymbolstemplate{} % hides small icons in bottom right corner use to navigate the presentation
 \setbeamertemplate{footline}
 {%
 \begin{beamercolorbox}[wd=\textwidth,ht=3ex,dp=1.5ex,leftskip=0.3cm,rightskip=0.3cm]{structure}%
@@ -329,7 +324,7 @@
 
 \newminted{python}{frame=lines,
                  linenos=false,
-                 fontsize=\small,
+                 fontsize=\scriptsize,
                  xleftmargin=1.8em}
 
 \newmintinline[python]{python}{fontsize=\small}
@@ -363,39 +358,52 @@
     \usebeamerfont{copyright text}{\usebeamercolor[fg]{copyright text}{\vbox{\hsize=\mytempdimen#3}}}\vskip3pt%
 }}
 
-\newcommand\fullbackground[1]{%
-\setbeamertemplate{background}{
-    \includegraphics[width=\paperwidth, height=\paperheight,keepaspectratio]{#1}
-}
+\pgfkeys{
+    /background/.is family, /background,
+    default/.style = {scale = 1.0,color=white,caption=\empty},
+    scale/.estore in = \bgScale,
+    color/.estore in = \bgColor,
+    caption/.estore in = \bgCaption,
 }
 
-\newcommand\imageframe[3][]{%
+\newcommand\badge[1]{%
+    \begin{tikzpicture}[remember picture,overlay]%
+        \node [xshift=-1cm,yshift=-1.4cm] at (current page.north east){\includegraphics[width=2cm,height=2cm,keepaspectratio]{#1}};%
+    \end{tikzpicture}%
+}
+
+\newcommand\fullbackground[2][]{%
+    \pgfkeys{/background, default, #1}%
+    \setbeamertemplate{background}{
+        %\includegraphics[width=\paperwidth, height=\paperheight,keepaspectratio]{#1}
+        \begin{tikzpicture}[remember picture,overlay]
+            \node at (current page.center){\includegraphics[width=\bgScale\paperwidth,height=\bgScale\paperheight,keepaspectratio]{#2}};
+        \end{tikzpicture}
+    }
+}
+
+\newcommand\imageframe[2][]{%
+    \pgfkeys{/background, default, #1}%
     {
     \setbeamertemplate{background canvas}{
-        \ifstrempty{#1}{ 
-            \colorlet{bgcolor}{white}%
-        }{
-            \colorlet{bgcolor}{#1}%
-        }
         \begin{tikzpicture}[remember picture, overlay,background
-            rectangle/.style={fill=bgcolor}, show background rectangle]
+            rectangle/.style={fill=\bgColor}, show background rectangle]
             \useasboundingbox (current page.north east) rectangle (current page.south west);
 
-            \node at (current page.center) {\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]{#3}};
+            \node at (current page.center){\includegraphics[width=\bgScale\paperwidth,height=\bgScale\paperheight,keepaspectratio]{#2}};
         \end{tikzpicture}
 
     }
     \setbeamertemplate{background}{}
 
     \begin{frame}[plain]
-        \ifstrempty{#2}{ 
-            % #1 is empty
-        }{
+        \ifdefequal{\bgCaption}{\empty}{%
+        }{%
             \begin{tikzpicture}[remember picture,overlay]
                 \node at (-1, -4.5) [anchor=south west,shape=rectangle,fill=hriSec3Dark, opacity=0.7, align=right, text width=0.6\paperwidth]
-                {\usebeamerfont{subtitle}\usebeamercolor[bg]{subtitle}#2\par};
+                {\usebeamerfont{subtitle}\usebeamercolor[bg]{subtitle}\bgCaption\par};
             \end{tikzpicture}
-        }
+        }%
     \end{frame}
     }
 }
@@ -500,7 +508,7 @@
         \includegraphics[width=0.3\paperwidth]{by-sa}
 
         This presentation is released under the terms of the\\ 
-        {\Medium \href{http://creativecommons.org/licenses/by-sa/4.0/}{Creative Commons Attribution-Share Alike}} license.
+        {\bf \href{http://creativecommons.org/licenses/by-sa/4.0/}{Creative Commons Attribution-Share Alike}} license.
 
         \vspace{1em}
         \small You are free to reuse it and modify it as much as you want as long as\\
@@ -509,11 +517,36 @@
         
         \normalsize\vspace{1em}
         You can download the sources of this presentation here:\\
-        {\Medium\url{#1}}
+        {\bf\footnotesize\IfBeginWith{#1}{http}{\url{#1}}{\href{https://#1}{#1}}}
     \end{frame}
 }
 
+%%%%%%%%%%%%%%%%% Bubbles to add explanations
 
+\usetikzlibrary{shapes.callouts}
+
+
+\usepackage{xparse}
+
+\tikzset{
+    invisible/.style={opacity=0,text opacity=0},
+    visible on/.style={alt=#1{}{invisible}},
+    alt/.code args={<#1>#2#3}{%
+      \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+    },
+}
+
+\NewDocumentCommand{\bubble}{r<> O{230} O{0.5cm} O{2cm} m m}{%
+\tikz[remember picture, overlay]\node[align=center, fill=hriSec3Comp!60,font=\footnotesize, text width=#4,
+opacity=0.8,text opacity=1,visible on=<#1>,rectangle callout,anchor=pointer,callout relative pointer={(#2:#3)}]
+at (#5) {#6};
+}
+
+\NewDocumentCommand{\bubblemark}{O{-0.5ex} m}{%
+\tikz[overlay,remember picture,baseline=#1] \node (#2) {};
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \mode
 <all>

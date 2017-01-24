@@ -1,6 +1,7 @@
 
 LATEX=lualatex
 TARGET=slides.tex
+#TARGET=tutorial.tex
 
 SKETCHES=$(wildcard sketches/*.sk)
 DOT=$(wildcard figs/*.dot)
