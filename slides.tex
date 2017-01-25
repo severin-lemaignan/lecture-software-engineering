@@ -70,20 +70,15 @@ Systems\\{\bf Plymouth University}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \imageframe[color=black, caption=These directories are git repositories]{windows-explorer/explorer-base}
-\imageframe[color=black, caption=They look quite normal!]{windows-explorer/explorer-gitrepo}
+\imageframe[color=black, caption=They look boringly normal]{windows-explorer/explorer-gitrepo}
 
-\begin{frame}{}
-    \textbf{git} is essentially about recording the history of files
-    \pause
-
-    (and who did what)
-    \pause
-
-    (and sharing as well)
+\begin{frame}[plain]
+    A few roundtrips later with colleagues...
 \end{frame}
 
-\imageframe{zipfiles.pdf}
-\imageframe{dropbox_zipfiles.pdf}
+\imageframe{zipfiles}
+\imageframe{dropbox_zipfiles}
+\imageframe{dropbox_zipfiles_devil}
 
 {
     \fullbackground{../figs/facebook-wall.png}
@@ -96,6 +91,21 @@ Systems\\{\bf Plymouth University}}
     \end{frame}
 }
 
+
+\begin{frame}{}
+    \begin{center}
+        \textbf{We can do better!}
+    \end{center}
+    \pause
+
+    \textbf{git} is essentially about recording the history of files
+    \pause
+
+    (and who did what)
+    \pause
+
+    (and sharing as well)
+\end{frame}
 
 \section{Versioning}
 
@@ -115,7 +125,7 @@ Systems\\{\bf Plymouth University}}
 \begin{frame}{Atomic commits}
 
     The single most important concept (because it requires to think about
-    development in terms of {\bf functional units}):
+    development/writing in terms of {\bf functional units}):
 
     \highlight{Atomic commit}
 
@@ -218,7 +228,8 @@ Systems\\{\bf Plymouth University}}
 \texttt{git commit -m"Re-trained model with 52 more participants"}
 }
 \uncover<4>{
-\texttt{git add src/main.*}\\
+\texttt{git rm main.cpp}\\
+\texttt{git add src/main.cpp}\\
 \texttt{git commit -m"Move main.cpp to src/"}
 }
 
@@ -979,7 +990,27 @@ $ git mergetool
 
 \end{frame}
 
-\imageframe[caption=That's all folks! The slides are on-line: https://github.com/severin-lemaignan/git-presentation]{git}
+{
+    \fullbackground{background}
+\begin{frame}[plain]
+        \Large
+        That's all, folks!\\[2em]
+        \normalsize
+        Questions:\\
+        Portland Square A216 or \url{severin.lemaignan@plymouth.ac.uk} \\[1em]
+
+        Slides: \href{https://github.com/severin-lemaignan/git-presentation}{\small github.com/severin-lemaignan/git-presentation}
+
+\end{frame}
+}
+
+\appendix
+
+\begin{frame}{Supplementary material}
+    \tableofcontents[hideallsubsections]
+    %\tableofcontents
+\end{frame}
+
 
 \section{Working with branches}
 
