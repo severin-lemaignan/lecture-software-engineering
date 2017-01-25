@@ -10,6 +10,7 @@
 \usepackage{subfigure}
 \usepackage{multicol}
 \usepackage{multirow}
+\usepackage{hyperref}
 \def\block(#1,#2)#3{\multicolumn{#2}{c}{\multirow{#1}{*}{$ #3 $}}}
 
 \usepackage{fontspec}
@@ -412,6 +413,32 @@ $ git commit -m"<other commit message>"
 \imageframe[color=black,caption=All the functionalities are available]{tortoise-git/contextmenu}
 \imageframe[color=black,caption=Commit window]{tortoise-git/commit}
 
+\begin{frame}{What should be tracked?}
+
+    Short answer: \textbf{everything you care about in your project}
+    \pause
+
+    (you can left out temporary files, automatically generated files, etc)
+    \pause
+
+    However, versioning is \textbf{less useful for binary files}: 
+
+    \begin{itemize}
+        \item no line-by-line tracking of changes
+        \item every single change creates a whole copy: repo size might grow
+            quickly!
+    \end{itemize}
+
+    Binary files include images, archives (zip files), \textbf{PDF},
+    \textbf{most office document (docx/xlsx/pptx)}
+    \pause
+
+    For documents, you might want to consider alternative like
+    \href{https://en.wikipedia.org/wiki/Markdown\#Example}{markdown}.
+
+\end{frame}
+
+\imageframe[color=black, caption=What should I track here?]{windows-explorer/explorer-gitrepo}
 
 \section{Collaborating}
 
