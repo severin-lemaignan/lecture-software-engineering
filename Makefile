@@ -31,7 +31,8 @@ bib: $(TARGET:.tex=.aux)
 
 paper: $(TARGET) $(SVG:.svg=.pdf) $(DOT:.dot=.pdf) $(SKETCHES:.sk=.tex)
 
-	TEXFONTS=:./fonts TEXINPUTS=:.fonts $(LATEX) --shell-escape $(TARGET)
+	TEXINPUTS=:./style $(LATEX) --interaction=$(MODE) -shell-escape `basename $<`; if [ $$? -gt 0 ]; then echo "Error while compiling $<"; touch `basename $<`; fi; \
+
 
 clean:
 	rm -f *.vrb *.spl *.idx *.aux *.log *.snm *.out *.toc *.nav *intermediate *~ *.glo *.ist *.bbl *.blg $(SVG:.svg=.pdf) $(DOT:.dot=.svg) $(DOT:.dot=.pdf)

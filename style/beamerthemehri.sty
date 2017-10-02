@@ -315,28 +315,44 @@
 \renewcommand{\theFancyVerbLine}{
   \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
 
-\newminted{cpp}{frame=lines,
+\newminted{cmake}{frame=none,
+                 linenos=false,
+                 fontsize=\footnotesize,
+                 xleftmargin=1.8em}
+
+\newmintinline[cmake]{cmake}{fontsize=\small}
+
+
+\newminted{asm}{frame=none,
+                 linenos=false,
+                 fontsize=\small,
+                 xleftmargin=1.8em}
+
+\newmintinline[asm]{asm}{fontsize=\small}
+
+
+\newminted{cpp}{frame=none,
                  linenos=false,
                  fontsize=\small,
                  xleftmargin=1.8em}
 
 \newmintinline[cpp]{cpp}{fontsize=\small}
 
-\newminted{python}{frame=lines,
+\newminted{python}{frame=none,
                  linenos=false,
                  fontsize=\scriptsize,
                  xleftmargin=1.8em}
 
 \newmintinline[python]{python}{fontsize=\small}
 
-\newminted{sh}{frame=lines,
+\newminted{sh}{frame=none,
                  linenos=false,
                  fontsize=\small,
                  xleftmargin=1.8em}
 
 \newmintinline[sh]{sh}{fontsize=\small}
 
-\newminted{xml}{frame=lines,
+\newminted{xml}{frame=none,
                  linenos=false,
                  fontsize=\small,
                  xleftmargin=1.8em}
