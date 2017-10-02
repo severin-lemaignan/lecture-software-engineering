@@ -45,13 +45,14 @@
           \temporal<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}}{\pgfkeysalso{#4}} % \pgfkeysalso doesn't change the path
 }}
 
+\newcommand{\source}[2]{{\begin{flushright}\small\it Source:\href{#1}{#2}\end{flushright}}}
 
 %--------------------------------------------------------------------------
 % General presentation settings
 %--------------------------------------------------------------------------
-\title{\bf git}
-\subtitle{the basics}
-\date{25 Jan. 2017}
+\title{\bf software engineering 101}
+\subtitle{(with a pinch of git on top)}
+\date{03 Oct. 2017}
 \author{Séverin Lemaignan}
 \institute{Centre for Robotics \& Neural
 Systems\\{\bf Plymouth University}}
@@ -67,7 +68,545 @@ Systems\\{\bf Plymouth University}}
 \licenseframe{https://github.com/severin-lemaignan/git-presentation/}
 \maketitle
 
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Building code}
+
+\begin{frame}{Compiled vs Not compiled}
+\end{frame}
+
+\begin{frame}[fragile]{Compiling code in C++}
+
+\begin{cppcode}
+/*
+ * "Hello, World!": A classic.
+ */
+
+#include <iostream>
+
+using namespace std;
+
+int main(void)
+{
+    cout << "Hello, World!" << endl;
+    return 0;
+}
+\end{cppcode}
+
+\pause
+
+\begin{shcode}
+$ g++ hello.cpp -ohello
+\end{shcode}
+
+\pause 
+
+\begin{shcode}
+$ ./hello
+Hello, World!
+\end{shcode}
+
+\end{frame}
+
+
+\begin{frame}{Compiling code in C++: the main stages}
+
+    \begin{enumerate}
+        \item Pre-processing
+        \item Compilation
+        \item Assembly
+        \item Linking
+    \end{enumerate}
+
+These four steps are transparently performed one after the other by your
+    favourite compiler.
+
+\end{frame}
+
+\begin{frame}[fragile]{Compiling code in C++: Pre-processing}
+
+
+\begin{cppcode}
+/*
+ * "Hello, World!": A classic.
+ */
+
+#include <iostream>
+
+using namespace std;
+
+int main(void)
+{
+    cout << "Hello, World!" << endl;
+    return 0;
+}
+\end{cppcode}
+
+Pre-processor \emph{directives} start with \cpp{#}
+
+$\rightarrow$ \cpp{#include <iostream>} is replaced by the content of that file.
+
+\end{frame}
+
+\begin{frame}[fragile]{Compiling code in C++: Compilation}
+
+\begin{shcode}
+$ g++ -S hello.cpp
+\end{shcode}
+
+
+\begin{asmcode}
+main:
+.LFB1493:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	leaq	.LC0(%rip), %rsi
+	leaq	_ZSt4cout(%rip), %rdi
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	movq	%rax, %rdx
+	movq	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rax
+	movq	%rax, %rsi
+	movq	%rdx, %rdi
+	call	_ZNSolsEPFRSoS_E@PLT
+\end{asmcode}
+\end{frame}
+
+\begin{frame}[fragile]{Compiling code in C++: Assembly}
+
+\begin{shcode}
+$ g++ -s hello.cpp
+$ hexdump a.out
+0000000 457f 464c 0102 0001 0000 0000 0000 0000
+0000010 0003 003e 0001 0000 07b0 0000 0000 0000
+0000020 0040 0000 0000 0000 1128 0000 0000 0000
+0000030 0000 0000 0040 0038 0009 0040 001b 001a
+0000040 0006 0000 0005 0000 0040 0000 0000 0000
+0000050 0040 0000 0000 0000 0040 0000 0000 0000
+0000060 01f8 0000 0000 0000 01f8 0000 0000 0000
+0000070 0008 0000 0000 0000 0003 0000 0004 0000
+0000080 0238 0000 0000 0000 0238 0000 0000 0000
+0000090 0238 0000 0000 0000 001c 0000 0000 0000
+00000a0 001c 0000 0000 0000 0001 0000 0000 0000
+00000b0 0001 0000 0005 0000 0000 0000 0000 0000
+00000c0 0000 0000 0000 0000 0000 0000 0000 0000
+00000d0 0b78 0000 0000 0000 0b78 0000 0000 0000
+00000e0 0000 0020 0000 0000 0001 0000 0006 0000
+...
+\end{shcode}
+\end{frame}
+
+\begin{frame}[fragile]{Compiling code in C++: Linking}
+
+The linker copies (and re-arrange) the machine code of the static dependencies
+(\emph{static libraries}) into the executable.
+
+That's what the \texttt{-l} flag is used for:
+
+\begin{shcode}
+$ g++ cool_app.cpp -ocool_app -lcv_core -lcv_highgui -lcv_videoproc
+\end{shcode}
+
+\end{frame}
+
+\begin{frame}{Libraries}
+
+    A library is a collection of pre-compiled functions that might get called by
+    an executable. \emph{Libraries are not executable} by themselves.
+
+    \begin{exampleblock}{Why libraries?}
+        \begin{itemize}
+            \item to modularise your code
+            \item to make it easier to reuse
+        \end{itemize}
+    \end{exampleblock}
+
+    \pause
+
+    Two main kinds:
+
+    \begin{itemize}
+        \item Static libraries, whose code is \emph{copied} into the executable
+            by the linker. Extensions: \texttt{.a}, \texttt{.lib}
+        \item Dynamic libraries, whose code is \emph{loaded by the operating
+            system} at runtime. They are also called \emph{shared libraries}.
+            Extensions: \texttt{.so}, \texttt{.dll}, \texttt{.dylib}
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Static vs Dynamic libraries}
+
+    \only<1>{
+    \begin{center}
+        \Large
+    Take 5 min and try to list 2 advantages for the static libraries
+    on one hand, and the dynamic libraries on the other hand.
+    \end{center}
+    }
+
+    \onslide<2-> {
+
+    \textbf{Advantages of static libraries}:
+    \begin{itemize}
+        \item application can be certain that all its libraries are present
+        \item libraries are the correct version {\small (on Linux, distributions
+            and package managers handle that for dynamic libraries)}
+        \item single executable: simpler distribution and installation
+        \item only need to copy (and load into memory) the parts that are needed
+    \end{itemize}
+
+}
+    \onslide<3->{
+    \textbf{Advantages of dynamic libraries}:
+    \begin{itemize}
+        \item executables smaller because no need to copy the libraries' code
+        \item prevent redundant code in the system
+        \item allows the libraries to be easily updated to fix bugs and security flaws
+            without updating each of the applications
+    \end{itemize}
+}
+\end{frame}
+
+\begin{frame}[fragile]{How to make \& use libraries?}
+
+\begin{onlyenv}<1>
+
+Code source of a pathfinding tool for our robots:
+
+\begin{shcode}
+main.cpp
+ui.cpp
+pathfinding.cpp
+\end{shcode}
+
+\begin{shcode}
+$ g++ main.cpp ui.cpp pathfinding.cpp -opathfinding_ui
+\end{shcode}
+
+
+\sh{pathfinding.cpp} contains the actual pathfinder, and might be useful for
+many other projects. How to turn it into a library?
+
+\end{onlyenv}
+\begin{onlyenv}<2>
+
+First, we need to extract the \textbf{API} of our library in a
+\textbf{public header} \sh{pathfinding.hpp}:
+
+\begin{cppcode}
+#ifndef _PATHFINDING_HPP
+#define _PATHFINDING_HPP
+
+class Pathfinder {
+
+    Pathfinder(std::shared_ptr<const Map> map);
+    Path find(size_t goal_x, size_t goal_y);
+}
+
+#endif
+\end{cppcode}
+
+The header contains the \textbf{declarations} of our classes, structures,
+functions, but not the \textbf{definitions} (the definitions are in
+\sh{pathfinding.cpp}).
+
+\end{onlyenv}
+
+\begin{onlyenv}<3>
+Next, compile the library:
+
+\begin{shcode}
+$ g++ -fPIC -shared pathfinding.cpp -olibpathfinding.so
+\end{shcode}
+\end{onlyenv}
+
+\begin{onlyenv}<4>
+Finally, use it:
+
+\begin{shcode}
+$ g++ main.cpp ui.cpp -lpathfinding -opathfinding_ui
+\end{shcode}
+\end{onlyenv}
+
+
+\end{frame}
+
+\begin{frame}{Build system}
+
+    Use and provide a build system!
+
+    \begin{itemize}
+        \item Windows-only $\Rightarrow$ a Visual Studio solution is ok
+        \item MacOS-only $\Rightarrow$ a XCode project is ok
+    \end{itemize}
+
+    In all other cases, go for a cross-platform build system like {\bf
+    CMake}.
+\end{frame}
+
+\begin{frame}[fragile]{Example of a CMake file}
+
+%\begin{multicols}{2}
+\begin{cmakecode}
+cmake_minimum_required(VERSION 2.8.3)
+project(cmake_example)
+
+find_package(OpenCV REQUIRED)
+
+include_directories(include)
+
+add_definitions(-std=c++11)
+
+add_executable(run src/main.cpp)
+target_link_libraries(run ${OpenCV_LIBRARIES})
+
+install(TARGETS run
+   RUNTIME DESTINATION bin
+)
+
+install(FILES
+    config/app.conf
+    DESTINATION etc
+)
+\end{cmakecode}
+%\end{multicols}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Organising your code}
+
+\begin{frame}{}
+    \centering
+
+    \highlight{\bf principle of least surprise}
+
+    Make people feel at home when they interact with your project!
+
+\end{frame}
+
+\begin{frame}[fragile]{Repository layout}
+
+Try to follow as much as possible the {\bf Filesystem Hierarchy
+ Standard} (FHS). Mainly:
+
+\begin{shcode}
+src/        # source
+include/    # *public* headers
+etc/        # configuration files
+share/      # data
+doc/        # documentation
+README
+LICENSE
+\end{shcode}
+
+\centering
+
+\only<1>{
+{\bf NO build artifacts!!}\\
+{\bf no binaries} (except possibly in \sh{share/})
+}
+\only<2>{
+\sh{README} (or better, use markdown: \sh{README.md}): what is
+the project about? who is the target audience? how to install? how to get started?
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Example}
+
+\begin{onlyenv}<1>
+\begin{shcode}
+my_proj/
+  main.cpp
+  ui.cpp
+  ui.hpp
+  pathfinding.cpp
+  pathfinding.hpp
+  ui.conf
+\end{shcode}
+
+\end{onlyenv}
+
+\begin{onlyenv}<2>
+\begin{shcode}
+my_proj/
+  src/
+    main.cpp
+    ui.cpp
+    ui.hpp
+    pathfinding.cpp
+  include/
+    pathfinding.hpp
+  etc/
+    ui.conf
+  README.md
+  CMakeLists.txt
+\end{shcode}
+
+\end{onlyenv}
+
+\begin{onlyenv}<3>
+When compiling the project, create a sub-directory \sh{build} and perform an
+    \textbf{out-of-tree} build:
+
+\begin{shcode}
+$ mkdir build && cd build
+$ cmake ..
+$ make
+\end{shcode}
+
+\end{onlyenv}
+
+\begin{onlyenv}<4>
+
+\begin{shcode}
+build/
+  ... # lots of compilation artifacts
+src/
+  main.cpp
+  ui.cpp
+  ui.hpp
+  pathfinding.cpp
+include/
+  pathfinding.hpp
+etc/
+  ui.conf
+README.md
+CMakeLists.txt
+\end{shcode}
+
+    The \sh{build/} directory can be deleted at any point as it contains only
+    generated files.
+\end{onlyenv}
+\end{frame}
+
+
+\section{Versioning}
+\begin{frame}{Semantic versioning}
+    \only<1>{
+    Given a version number \texttt{MAJOR.MINOR.PATCH}, increment the:
+
+    \begin{itemize}
+        \item \texttt{MAJOR} version when you make incompatible API changes,
+        \item \texttt{MINOR} version when you add functionality in a backwards-compatible
+manner, and
+        \item \texttt{PATCH} version when you make backwards-compatible bug fixes.
+    \end{itemize}
+
+Additional labels for pre-release and build metadata are
+    available as extensions to the \texttt{MAJOR.MINOR.PATCH format}.
+
+    \source{semver.org}{\texttt{semver} website}
+
+}
+
+    \only<2->{
+
+        You are the maintainer of \texttt{cool\_app}, that depends on OpenCV
+        \texttt{2.4.11}.
+
+        The OpenCV project releases a new version, what should you do...
+
+        \begin{itemize}
+            \item <2-> ...if the new version is \texttt{2.4.12}?
+            \item <3-> ...if the new version is \texttt{2.5.0}?
+            \item <4-> ...if the new version is \texttt{2.9.0}?
+            \item <5-> ...if the new version is \texttt{3.0.0-beta}?
+            \item <6-> ...if the new version is \texttt{3.0.0}?
+        \end{itemize}
+    }
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Softawre Licenses, Open-source, free software}
+
+\begin{frame}{Software licenses}
+    \begin{itemize}
+        \item<+-> {\bf no license} $\Rightarrow$ default copyright laws apply.
+            You retain all rights to your source code; nobody else may
+            reproduce, distribute, or create derivative works from your work.
+        \item<+-> {\bf Permissive licenses}: others do essentially whatever they
+            want with your code, as long as they give your attribution.
+            Examples: MIT, BSD
+        \item<+-> {\bf Copyleft licenses}: Derivative work must be made
+            available under the same terms as the original work (\emph{viral
+            licenses}). Example: GPL
+    \end{itemize}
+
+    \only<1-3>{
+    \begin{center}
+        \includegraphics[width=0.2\paperheight]{osi}\hspace{1em}
+        \includegraphics[width=0.2\paperheight]{GPLv3}
+    \end{center}
+    }
+
+    \centering
+    \only<4>{
+        {\bf You always keep the author rights!}\\
+        $\Rightarrow$ you can change the
+        license at any time.
+    }
+
+    \only<5>{
+    Check \url{http://choosealicense.com/}
+    }
+
+
+\end{frame}
+
+\begin{frame}{What if you want to use a GPL library?}
+    There is a legal dispute to know whether merely \emph{linking} with a
+    library result in a \emph{derivative work} (which would then have to be
+    licensed as GPL).
+
+    \pause
+
+    The LGPL (\emph{Lesser GPL}) explicitely allows the usage of the library
+    without putting restrictions on the licensing of the resulting executable.
+
+\end{frame}
+
+\begin{frame}{}
+
+    \begin{exampleblock}{Open-source vs Free software?}
+    ``When we call software "free," we mean that it respects the users' essential
+    freedoms: the freedom to run it, to study and change it, and to redistribute
+    copies with or without changes. This is a matter of freedom, not price, so
+    think of "free speech," not "free beer."''
+
+        \vspace{1em}
+    ``Open source is a development methodology; free software is a social
+        movement''
+
+    \end{exampleblock}
+
+    \source{https://www.gnu.org/philosophy/open-source-misses-the-point.en.html}{GNU
+    website}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Git}
+
+\imageframe[color=black, scale=0.95]{first_mention_git}
+\imageframe[color=black, scale=0.95]{windows_on_git_announcement}
 
 \imageframe[color=black, caption=These directories are git repositories]{windows-explorer/explorer-base}
 \imageframe[color=black, caption=They look boringly normal]{windows-explorer/explorer-gitrepo}
@@ -997,7 +1536,7 @@ $ git mergetool
         That's all, folks!\\[2em]
         \normalsize
         Questions:\\
-        Portland Square A216 or \url{severin.lemaignan@plymouth.ac.uk} \\[1em]
+        Portland Square B316 or \url{severin.lemaignan@plymouth.ac.uk} \\[1em]
 
         Slides: \href{https://github.com/severin-lemaignan/git-presentation}{\small github.com/severin-lemaignan/git-presentation}
 
@@ -1547,93 +2086,6 @@ $ git rebase new-idea
 \imageframe[caption=The merge commit is reflected in the history of the branch,color=black]{github-windows/14}
 
 
-\section{Etiquette of social coding 101}
-
-\begin{frame}{}
-    \centering
-
-    \highlight{\bf principle of least surprise}
-
-    Make people feel at home when they interact with your project!
-
-\end{frame}
-
-\begin{frame}{}
-    \centering
-    \highlight{one repo = one thing}
-
-    make plenty of repos!
-\end{frame}
-
-\begin{frame}[fragile]{Repository layout}
-
-Try to follow as much as possible the {\bf Filesystem Hierarchy
- Standard} (FHS). Mainly:
-
-\begin{shcode}
-src/        # source
-include/    # *public* headers
-etc/        # configuration files
-share/      # data
-doc/        # documentation
-README
-LICENSE
-\end{shcode}
-
-\centering
-
-\only<1>{
-{\bf NO build artifacts!!}\\
-{\bf no binaries} (except possibly in \sh{share/})
-}
-\only<2>{
-\sh{README} (or better, use markdown: \sh{README.md}): what is
-the project about? who is the target audience? how to install? how to get started?
-}
-
-\end{frame}
-
-\begin{frame}{License}
-    \begin{itemize}
-        \item {\bf no license} $\Rightarrow$ default copyright laws apply.
-            You (or probably UoP) retain all rights to your source code; nobody else may
-            reproduce, distribute, or create derivative works from your work.
-        \item {\bf Permissive licenses}: others do essentially whatever they
-            want with your code, as long as they give your attribution.
-            Examples: MIT, BSD
-        \item {\bf Copyleft licenses}: Derivative work must be made
-            available under the same terms as the original work (\emph{viral
-            licenses}). Example: GPL
-    \end{itemize}
-
-    \centering
-    \only<1>{
-        {\bf You always keep the author rights!}\\
-        $\Rightarrow$ you can change the
-        license at any time.
-    }
-
-    \only<2>{
-    Check \url{http://choosealicense.com/}\\
-    and discuss that with your supervisor
-    }
-
-
-\end{frame}
-
-\begin{frame}{Build system}
-
-    Use and provide a build system!
-
-    \begin{itemize}
-        \item Windows-only $\Rightarrow$ a Visual Studio solution is ok
-        \item MacOS-only $\Rightarrow$ a XCode project is ok
-    \end{itemize}
-
-    In all other cases, go for a cross-platform build system like {\bf
-    CMake}.
-\end{frame}
-
 \begin{frame}{Commit hygiene}
     \centering
 
@@ -1656,6 +2108,14 @@ the project about? who is the target audience? how to install? how to get starte
         your code.
     }
 \end{frame}
+
+\begin{frame}{}
+    \centering
+    \highlight{one repo = one thing}
+
+    make plenty of repos!
+\end{frame}
+
 
 \begin{frame}{A few cool GitHub stuff to finish}
     Besides bugtracking, project homepages and wikis,GitHub integrates with many
