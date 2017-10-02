@@ -1,14 +1,17 @@
-GIT: the basics
----------------
+Software engineering 101
+------------------------
 
-A ~2h-long introduction to GIT, covering:
+A ~3h-long introduction to software engineering and GIT, covering:
 
+- the compilation process
+- static vs dynamic libraries
+- code layout and the FHS
+- semantic versioning
+- software licenses
 - the basics of code versioning
 - understanding branching and merging
 - collaborative development
 - git hosting with GitHub
-- the 'etiquette' of collaborative coding
-- a few principles of software engineering
 
 [Download the slides](slides.pdf)
 
