@@ -215,10 +215,7 @@
 %---------------------------------------------------------------------
 
 % Make Sectionhead uppercase
-\newcommand{\insertsectionHEAD}{%
-    \expandafter\insertsectionHEADaux\insertsectionhead}
-    \newcommand{\insertsectionHEADaux}[3]{\MakeUppercase{#3}
-}
+\newcommand{\insertsectionHEAD}{\MakeUppercase{\secname}}
 
 \if@doSectionPage\@empty
 \else
@@ -364,6 +361,13 @@
 % Images
 %---------------------------------------------------------------------
 
+\tikzset{
+  double arrow/.style args={#1 colored by #2 and #3}{
+    -stealth,line width=#1,#2, % first arrow
+    postaction={draw,-stealth,#3,line width=(#1)/3,
+                shorten <=(#1)/3,shorten >=2*(#1)/3}, % second arrow
+  }
+}
 
 \newbox\mytempbox
 \newdimen\mytempdimen
@@ -376,10 +380,11 @@
 
 \pgfkeys{
     /background/.is family, /background,
-    default/.style = {scale = 1.0,color=white,caption=\empty},
+    default/.style = {scale = 1.0,color=white,caption=\empty,page=1},
     scale/.estore in = \bgScale,
     color/.estore in = \bgColor,
     caption/.estore in = \bgCaption,
+    page/.estore in = \bgPage,
 }
 
 \newcommand\badge[1]{%
@@ -393,7 +398,8 @@
     \setbeamertemplate{background}{
         %\includegraphics[width=\paperwidth, height=\paperheight,keepaspectratio]{#1}
         \begin{tikzpicture}[remember picture,overlay]
-            \node at (current page.center){\includegraphics[width=\bgScale\paperwidth,height=\bgScale\paperheight,keepaspectratio]{#2}};
+            \node at (current
+            page.center){\includegraphics[width=\bgScale\paperwidth,height=\bgScale\paperheight,page=\bgPage,keepaspectratio]{#2}};
         \end{tikzpicture}
     }
 }
@@ -406,7 +412,7 @@
             rectangle/.style={fill=\bgColor}, show background rectangle]
             \useasboundingbox (current page.north east) rectangle (current page.south west);
 
-            \node at (current page.center){\includegraphics[width=\bgScale\paperwidth,height=\bgScale\paperheight,keepaspectratio]{#2}};
+            \node at (current page.center){\includegraphics[width=\bgScale\paperwidth,height=\bgScale\paperheight,page=\bgPage,keepaspectratio]{#2}};
         \end{tikzpicture}
 
     }
@@ -425,7 +431,7 @@
 }
 
 \newcommand\grid{
-        \draw[help lines] (current page.south west) grid (14,10);
+        \draw[help lines] (-5,-5) grid (5,5);
         \foreach \x in {-5,...,5} {
             \foreach \y in {-5,...,5} {
                 \node at (\x,\y) [anchor=south west,gray]{{\fontsize{1.2mm}{0.1em}\selectfont (\x,\y)}};
@@ -561,6 +567,7 @@ at (#5) {#6};
 \NewDocumentCommand{\bubblemark}{O{-0.5ex} m}{%
 \tikz[overlay,remember picture,baseline=#1] \node (#2) {};
 }
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
