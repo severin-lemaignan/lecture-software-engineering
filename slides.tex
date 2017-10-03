@@ -75,10 +75,7 @@ Systems\\{\bf Plymouth University}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Building code}
-
-\begin{frame}{Compiled vs Not compiled}
-\end{frame}
+\section[Compilation]{Building code}
 
 \begin{frame}[fragile]{Compiling code in C++}
 
@@ -217,6 +214,28 @@ $ g++ cool_app.cpp -ocool_app -lcv_core -lcv_highgui -lcv_videoproc
 
 \end{frame}
 
+\begin{frame}{Compiled vs Not compiled}
+
+    Multiple \textbf{execution models}:
+
+    \begin{itemize}
+        \item<1-> Compiled languages (eg C, C++, Ada...)
+        \item<2-> Interpreted languages (eg: ...?)
+        \item<3-> $\rightarrow$ most 'interpreted languages' are actually 'JITed'
+    \end{itemize}
+
+    \onslide<3> {
+
+    \textbf{Just-In-Time} compilation: the interpreter generates an efficient
+    \textbf{intermediate representation} (commonly called \textbf{bytecode})
+    that is executed (and often stored).
+
+    Very common execution model: Python, C\#, Javascript...
+
+    }
+\end{frame}
+
+
 \begin{frame}{Libraries}
 
     A library is a collection of pre-compiled functions that might get called by
@@ -353,29 +372,29 @@ $ g++ main.cpp ui.cpp -lpathfinding -opathfinding_ui
     CMake}.
 \end{frame}
 
-\begin{frame}[fragile]{Example of a CMake file}
+\begin{frame}[fragile]{Example of a CMake file: CMakeLists.txt}
 
 %\begin{multicols}{2}
 \begin{cmakecode}
 cmake_minimum_required(VERSION 2.8.3)
 project(cmake_example)
 
-find_package(OpenCV REQUIRED)
+find_package(OpenCV REQUIRED) # one external dependency
 
-include_directories(include)
+# First, the library
+add_library(pathfinding pathfinding.cpp)
 
-add_definitions(-std=c++11)
-
-add_executable(run src/main.cpp)
-target_link_libraries(run ${OpenCV_LIBRARIES})
-
-install(TARGETS run
-   RUNTIME DESTINATION bin
+install(TARGET pathfinding
+   LIBRARY DESTINATION lib
 )
 
-install(FILES
-    config/app.conf
-    DESTINATION etc
+# then, the executable, which depends on the library's target
+include_directories(include)
+add_executable(pathfinding_ui pathfinding main.cpp ui.cpp)
+target_link_libraries(pathfinding_ui ${OpenCV_LIBRARIES})
+
+install(TARGET pathfinding_ui
+   RUNTIME DESTINATION bin
 )
 \end{cmakecode}
 %\end{multicols}
@@ -385,7 +404,7 @@ install(FILES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Organising your code}
+\section[Organising]{Organising your code}
 
 \begin{frame}{}
     \centering
@@ -424,7 +443,7 @@ the project about? who is the target audience? how to install? how to get starte
 
 \end{frame}
 
-\begin{frame}[fragile]{Example}
+\begin{frame}[fragile]{Example 1}
 
 \begin{onlyenv}<1>
 \begin{shcode}
@@ -452,6 +471,7 @@ my_proj/
   etc/
     ui.conf
   README.md
+  LICENSE
   CMakeLists.txt
 \end{shcode}
 
@@ -484,6 +504,7 @@ include/
 etc/
   ui.conf
 README.md
+LICENSE
 CMakeLists.txt
 \end{shcode}
 
@@ -492,6 +513,52 @@ CMakeLists.txt
 \end{onlyenv}
 \end{frame}
 
+\begin{frame}[fragile]{Example 2: you take over an existing project}
+
+
+\begin{onlyenv}<1>
+\begin{minted}[frame=none,
+               linenos=false,
+               fontsize=\small,
+               xleftmargin=0.5em]{sh}
+joe@doe:/usr/project$ ls -alh
+drwxr-xr-x  2 joe  root       4.0K Sep 22 10:40 .
+drwxr-xr-x 12 root root       4.0K Sep 22 10:36 ..
+-rwxrwxr-x  1 joe  joe        8.8K Sep 22 10:40 app
+-rw-rw-r--  1 joe  joe        2.1K Sep 22 10:39 compile.sh
+-rw-rw-r--  1 joe  joe         134 Sep 22 10:39 how-to-compile.txt
+-rw-rw-r--  1 joe  joe         895 Sep 22 10:38 main.cpp
+-rw-rw-r--  1 joe  joe        1.2K Sep 22 10:38 main.hpp
+-rw-rw-r--  1 joe  joe        5.8K Sep 22 10:40 main.o
+-rw-rw-r--  1 joe  joe          50 Sep 22 10:36 main.ini
+-rw-rw-r--  1 joe  joe        2.3K Sep 22 10:40 sound-lib.cpp
+-rw-rw-r--  1 joe  joe         230 Sep 22 10:40 sound-lib.hpp
+-rw-rw-r--  1 joe  joe        4.3K Sep 22 10:40 sound-lib.o
+-rw-rw-r--  1 joe  joe        5.3K Sep 22 10:40 sound-lib.a
+-rw-rw-r--  1 joe  joe        6.7K Sep 22 10:40 ui-lib.cpp
+-rw-rw-r--  1 joe  joe         874 Sep 22 10:40 ui-lib.hpp
+-rw-rw-r--  1 joe  joe        7.1K Sep 22 10:40 ui-lib.o
+-rw-rw-r--  1 joe  joe        7.6K Sep 22 10:40 ui-lib.so
+\end{minted}
+
+\end{onlyenv}
+
+    \begin{onlyenv}<2>
+        Points that can be improved:
+
+        \begin{itemize}
+            \item Developping in \texttt{usr/} is a bad practice
+            \item Rename files to be more descriptive
+            \item Change the layout to follow the FHS (eg \texttt{main.ini} to
+                \texttt{etc/main.ini})
+            \item Perform out-of-tree compilation
+            \item Use a buildsystem (like CMake) instead of relying on ad-hoc scripts
+            \item Add a \texttt{README} and a \texttt{LICENSE}
+            \item Inconsistent use of static and dynamic libraries
+            \item Public headers should be moved to \texttt{include/}
+        \end{itemize}
+    \end{onlyenv}
+\end{frame}
 
 \section{Versioning}
 \begin{frame}{Semantic versioning}
@@ -533,7 +600,7 @@ Additional labels for pre-release and build metadata are
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Softawre Licenses, Open-source, free software}
+\section[Licenses]{Softawre Licenses, Open-source, free software}
 
 \begin{frame}{Software licenses}
     \begin{itemize}
@@ -602,6 +669,12 @@ Additional labels for pre-release and build metadata are
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[plain]
+    \begin{center}
+        \Large
+        10 min break\\[2em]
+    \end{center}
+\end{frame}
 
 \section{Git}
 
@@ -612,7 +685,7 @@ Additional labels for pre-release and build metadata are
 \imageframe[color=black, caption=They look boringly normal]{windows-explorer/explorer-gitrepo}
 
 \begin{frame}[plain]
-    A few roundtrips later with colleagues...
+    A few roundtrips later with teammates...
 \end{frame}
 
 \imageframe{zipfiles}
@@ -646,7 +719,7 @@ Additional labels for pre-release and build metadata are
     (and sharing as well)
 \end{frame}
 
-\section{Versioning}
+\section{Code Versioning}
 
 \begin{frame}{Why versioning?}
 
@@ -990,7 +1063,7 @@ $ git commit -m"<other commit message>"
 
 \imageframe[color=black, caption=What should I track here?]{windows-explorer/explorer-gitrepo}
 
-\section{Collaborating}
+\section[Sharing]{Collaborating}
 
 \imageframe{dvcs-1}
 \imageframe{dvcs-2}
@@ -1222,11 +1295,11 @@ $ git push
 
 \end{frame}
 
-\section{The dreadful conflicts}
+\section[Conflicts]{The dreadful conflicts}
 
 \begin{frame}[fragile]{The dreadful conflict}
 
-    While peacefully editing your last (great) paper...
+    While peacefully editing your last (great) report...
 
 \begin{shcode}
 $ git pull --rebase john master
@@ -1257,7 +1330,7 @@ $ git mergetool
 
 \imageframe[color=black,caption=Meld is one of the nice tools to fix conflicts]{meld}
 
-\section{Social coding: GitHub workflow}
+\section[Going social]{Social coding: GitHub workflow}
 
 \imageframe[caption=GitHub,color=black]{github-morse}
 \imageframe[caption=BitBucket,color=black]{bitbucket}
@@ -1461,7 +1534,7 @@ $ git mergetool
 \imageframe{github-workflow-7}
 
 
-\section{The one slide to remember}
+\section[Summary]{The one slide to remember}
 
 \begin{frame}{GIT cheat sheet}
 \scriptsize
@@ -1529,28 +1602,85 @@ $ git mergetool
 
 \end{frame}
 
+\begin{frame}{Commit hygiene}
+    \centering
+
+    {\bf ``Show me the project history, I'll tell you what coder you are''}
+
+    \begin{itemize}
+        \item<1> {\bf Commit often!} Push when needed (or at the end of day)
+        \item<2> Write useful messages (no ``\texttt{Fixed bug}'' or ``\texttt{New
+            file}'')
+        \item<2> First line of commit messages < 72 characters
+        \item<3> Tag important commits!
+    \end{itemize}
+
+    \only<1>{
+        Because commits are local (ie, private), {\bf do commit often}:
+        {\bf mistakes are ok} as you can fix them before sharing with others.
+    }
+    \only<3>{
+        Notably, GitHub (amongst others) interpret tags as {\bf releases} of
+        your code.
+    }
+\end{frame}
+
+\begin{frame}{}
+    \centering
+    \highlight{one repo = one thing}
+
+    make plenty of repos!
+\end{frame}
+
+
+\begin{frame}{A few cool GitHub stuff to finish}
+    Besides bugtracking, project homepages and wikis,GitHub integrates with many
+    third-party services \& tools:
+
+    \begin{itemize}
+        \item {\bf Travis CI} or {\bf AppVeyor} for continuous integration
+    \end{itemize}
+\end{frame}
+
+\imageframe{pr-failed-ci}
+
+\begin{frame}{A few cool stuff to finish}
+    + GitHub integrates with many external services 
+    \& tools:
+
+    \begin{itemize}
+        \item {\bf Travis CI} or {\bf AppVeyor} for continuous integration
+        \item {\bf zenodo}: associate a DOI to your repository
+        \item {\bf ReadTheDocs}: generate and publish on-line 
+            documentation
+    \end{itemize}
+\end{frame}
+
+
 {
     \fullbackground{background}
 \begin{frame}[plain]
         \Large
-        That's all, folks!\\[2em]
+        That's all, folks!
+
         \normalsize
         Questions:\\
-        Portland Square B316 or \url{severin.lemaignan@plymouth.ac.uk} \\[1em]
+        Portland Square B316 or \url{severin.lemaignan@plymouth.ac.uk} 
 
-        Slides:
+        Slides:\\
         \href{https://github.com/severin-lemaignan/lecture-software-engineering}{\small
         github.com/severin-lemaignan/lecture-software-engineering}
+        \vspace{10em}
 
 \end{frame}
 }
 
 \appendix
 
-\begin{frame}{Supplementary material}
-    \tableofcontents[hideallsubsections]
-    %\tableofcontents
-\end{frame}
+%\begin{frame}{Supplementary material}
+%    \tableofcontents[hideallsubsections]
+%    %\tableofcontents
+%\end{frame}
 
 
 \section{Working with branches}
@@ -2087,60 +2217,6 @@ $ git rebase new-idea
 \imageframe[caption=We switch back to numerical\_coordinates and merge in master,color=black]{github-windows/13}
 \imageframe[caption=The merge commit is reflected in the history of the branch,color=black]{github-windows/14}
 
-
-\begin{frame}{Commit hygiene}
-    \centering
-
-    {\bf ``Show me the project history, I'll tell you what coder you are''}
-
-    \begin{itemize}
-        \item<1> {\bf Commit often!} Push when needed (or at the end of day)
-        \item<2> Write useful messages (no ``\texttt{Fixed bug}'' or ``\texttt{New
-            file}'')
-        \item<2> First line of commit messages < 72 characters
-        \item<3> Tag important commits!
-    \end{itemize}
-
-    \only<1>{
-        Because commits are local (ie, private), {\bf do commit often}:
-        {\bf mistakes are ok} as you can fix them before sharing with others.
-    }
-    \only<3>{
-        Notably, GitHub (amongst others) interpret tags as {\bf releases} of
-        your code.
-    }
-\end{frame}
-
-\begin{frame}{}
-    \centering
-    \highlight{one repo = one thing}
-
-    make plenty of repos!
-\end{frame}
-
-
-\begin{frame}{A few cool GitHub stuff to finish}
-    Besides bugtracking, project homepages and wikis,GitHub integrates with many
-    third-party services \& tools:
-
-    \begin{itemize}
-        \item {\bf Travis CI} or {\bf AppVeyor} for continuous integration
-    \end{itemize}
-\end{frame}
-
-\imageframe{pr-failed-ci}
-
-\begin{frame}{A few cool stuff to finish}
-    + GitHub integrates with many external services 
-    \& tools:
-
-    \begin{itemize}
-        \item {\bf Travis CI} or {\bf AppVeyor} for continuous integration
-        \item {\bf zenodo}: associate a DOI to your repository
-        \item {\bf ReadTheDocs}: generate and publish on-line 
-            documentation
-    \end{itemize}
-\end{frame}
 
 \end{document}
 
