@@ -110,7 +110,7 @@
 
 \begin{document}
 
-\licenseframe{github.com/severin-lemaignan/module-introduction-sensors-actuators}
+\licenseframe{github.com/severin-lemaignan/lecture-software-engineering}
 
 \maketitle
 
@@ -132,6 +132,8 @@
         \item The differences between the GPL, MIT, BSD, ... licenses
         \item ...and plenty of things about GIT!
     \end{itemize}
+
+    + intro to ROS (if time permit)
 \end{frame}
 
 \miniframeson
@@ -374,6 +376,72 @@ That's what the \texttt{-l} flag is used for:
             without updating each of the applications
     \end{itemize}
 }
+\end{frame}
+
+\begin{frame}[fragile]{Two tools to explore libraries}
+
+\sh{nm} lists the symbols provided by a shared library:
+
+\begin{shcode}
+> nm libgazr.so
+[...]
+000000000002d040 W _ZN4dlib9impl_fhog8init_hogIfNS_33memory_manager_stateless_kernel_1IcEES3_EEvRNS_5arrayINS_7array2dIT_T0_EET1_EEiiii
+000000000027e940 b _ZN4dlibL23OBJECT_PART_NOT_PRESENTE
+0000000000010d00 t _ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_mPKS8_P13__va_list_tagEmSB_z.constprop.1073
+                 U _ZN9_IplImageC1ERKN2cv3MatE
+                 U _Znam@@GLIBCXX_3.4
+0000000000011370 T _ZNK18HeadPoseEstimation12drawFeaturesERKSt6vectorIS0_IN2cv6Point_IiEESaIS3_EESaIS5_EERNS1_3MatE
+0000000000011b80 T _ZNK18HeadPoseEstimation12intersectionEN2cv6Point_IfEES2_S2_S2_RS2_
+0000000000011c40 T _ZNK18HeadPoseEstimation4poseEm
+0000000000014500 T _ZNK18HeadPoseEstimation5posesEv
+0000000000011b30 T _ZNK18HeadPoseEstimation8coordsOfEm14FACIAL_FEATURE
+[...]
+\end{shcode}
+
+\end{frame}
+\begin{frame}[fragile]{Two tools to explore libraries}
+
+C++ signatures returned by \sh{nm} are \textbf{mangled}. You can
+demangle them:
+
+\begin{shcode}
+> nm libgazr.so | c++filt
+[...]
+000000000027e940 b dlib::OBJECT_PART_NOT_PRESENT
+0000000000010d00 t std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > __gnu_cxx::__to_xstring<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, char>(int (*)(char*, unsigned long, char const*, __va_list_tag*), unsigned long, char const*, ...) [clone .constprop.1073]
+                 U _IplImage::_IplImage(cv::Mat const&)
+                 U operator new[](unsigned long)@@GLIBCXX_3.4
+0000000000011370 T HeadPoseEstimation::drawFeatures(std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > const&, cv::Mat&) const
+0000000000011b80 T HeadPoseEstimation::intersection(cv::Point_<float>, cv::Point_<float>, cv::Point_<float>, cv::Point_<float>, cv::Point_<float>&) const
+0000000000011c40 T HeadPoseEstimation::pose(unsigned long) const
+0000000000014500 T HeadPoseEstimation::poses() const
+0000000000011b30 T HeadPoseEstimation::coordsOf(unsigned long, FACIAL_FEATURE) const
+[...]
+\end{shcode}
+
+\end{frame}
+\begin{frame}[fragile]{Two tools to explore libraries}
+
+
+\sh{ldd} lists the dependencies to shared libraries:
+
+\begin{shcode}
+> ldd estimate_head_pose 
+linux-vdso.so.1 (0x00007fff32387000)
+libgazr.so (0x00007f3f1822f000)
+libopencv_imgcodecs.so.3.2 => /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.3.2 (0x00007f3f17ffa000)
+libopencv_core.so.3.2 => /usr/lib/x86_64-linux-gnu/libopencv_core.so.3.2 (0x00007f3f17bbf000)
+libdlib.so.18 => /usr/lib/libdlib.so.18 (0x00007f3f178a8000)
+libstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f3f1751a000)
+libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f3f17302000)
+libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3f16f11000)
+libblas.so.3 => /usr/lib/x86_64-linux-gnu/libblas.so.3 (0x00007f3f16ca4000)
+liblapack.so.3 => /usr/lib/x86_64-linux-gnu/liblapack.so.3 (0x00007f3f16406000)
+libopencv_calib3d.so.3.2 => /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.3.2 (0x00007f3f160b6000)
+libopencv_imgproc.so.3.2 => /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.3.2 (0x00007f3f15b65000)
+libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f3f157c7000)
+[...]
+\end{shcode}
 \end{frame}
 
 \begin{frame}[fragile]{How to make \& use libraries?}
@@ -985,19 +1053,19 @@ Additional labels for pre-release and build metadata are
 \begin{shcode}
 > git log
 commit fa009cd7fca05b0b61170b20cf76a5f72b8843c2
-Author: Severin Lemaignan <severin.lemaignan@plymouth.ac.uk>
+Author: Severin Lemaignan <severin.lemaignan@brl.ac.uk>
 Date:   Wed Feb 10 16:48:22 2016 +0000
 
     Move main.cpp to src/
 
 commit aff81119459d9193c09effef1c150c4f7eac08dc
-Author: Severin Lemaignan <severin.lemaignan@plymouth.ac.uk>
+Author: Severin Lemaignan <severin.lemaignan@brl.ac.uk>
 Date:   Wed Feb 10 16:48:02 2016 +0000
 
     Re-trained model with 52 more participants
 
 commit 4113b9b6e6bbc8de532ad90153e0059cb5819de7
-Author: Severin Lemaignan <severin.lemaignan@plymouth.ac.uk>
+Author: Severin Lemaignan <severin.lemaignan@brl.ac.uk>
 Date:   Wed Feb 10 16:47:46 2016 +0000
 
     Fix computation of position (float->double)
@@ -1675,6 +1743,17 @@ To check out the original branch and stop rebasing, run "git rebase --abort".
 \end{frame}
 \imageframe{github-workflow-7}
 
+\begin{frame}{GitLab@BRL}
+
+    We have our own 'GitHub': \url{git.brl.ac.uk}
+
+    If you can not yet login, drop an email to \url{itonline@uwe.ac.uk} and ask
+    for access.
+
+\end{frame}
+
+\imageframe[caption=GitLab@BRL,color=black]{gitlab-dashboard}
+\imageframe[caption=GitLab@BRL,color=black]{gitlab-project}
 
 \section[Summary]{The one slide to remember}
 
@@ -1805,17 +1884,15 @@ To check out the original branch and stop rebasing, run "git rebase --abort".
     \begin{center}
         \Large
         That's all, folks!\\[2em]
-        \normalsize
-        Questions:\\
-        Portland Square B316 or \url{severin.lemaignan@plymouth.ac.uk} \\[1em]
+    \end{center}
+
+        \vspace{10em}
 
         Slides:\\
         \href{https://github.com/severin-lemaignan/lecture-software-engineering}{\small
         github.com/severin-lemaignan/lecture-software-engineering}
-        \vspace{10em}
 
 
-    \end{center}
 \end{frame}
 
 \appendix
