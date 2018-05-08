@@ -179,7 +179,7 @@
     \AddToShipoutPictureFG*{\includegraphics[width=\paperwidth]{background.pdf}}
     \begin{minipage}[b][\paperheight]{\textwidth}
     \vspace*{5mm}
-    \includegraphics[height=20mm]{logo}\par
+    \includegraphics[height=15mm]{logo}\par
     \vspace*{5mm}
     \ifx\insertsubtitle\@empty%
     \else%
@@ -310,7 +310,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%  Syntax coloring with minted %%%%%%%%%%%%%%%%%%%%
 \RequirePackage[cache]{minted}
 \renewcommand{\theFancyVerbLine}{
-  \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
+  \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\tiny\arabic{FancyVerbLine}}}
 
 \newminted{cmake}{frame=none,
                  linenos=false,
@@ -330,8 +330,8 @@
 
 \newminted{cpp}{frame=none,
                  linenos=false,
-                 fontsize=\small,
-                 xleftmargin=1.8em}
+                 fontsize=\scriptsize,
+                 xleftmargin=1em}
 
 \newmintinline[cpp]{cpp}{fontsize=\small}
 
@@ -342,14 +342,22 @@
 
 \newmintinline[python]{python}{fontsize=\small}
 
-\newminted{sh}{frame=none,
+\newminted{md}{frame=none,
+                 linenos=false,
+                 fontsize=\scriptsize,
+                 xleftmargin=0.5em}
+
+\newmintinline[md]{md}{fontsize=\small}
+
+
+\newminted{sh}{frame=lines,
                  linenos=false,
                  fontsize=\small,
-                 xleftmargin=1.8em}
+                 xleftmargin=0.5em}
 
 \newmintinline[sh]{sh}{fontsize=\small}
 
-\newminted{xml}{frame=none,
+\newminted{xml}{frame=lines,
                  linenos=false,
                  fontsize=\small,
                  xleftmargin=1.8em}
@@ -533,8 +541,9 @@
         {\bf \href{http://creativecommons.org/licenses/by-sa/4.0/}{Creative Commons Attribution-Share Alike}} license.
 
         \vspace{1em}
-        \small You are free to reuse it and modify it as much as you want as long as\\
-        \small (1) you mention me as being the original author,\\
+        \small You are free to reuse it and modify it as much as you want as
+        long as:\par
+        \small (1) you mention Séverin Lemaignan as being the original author,\\
         \small (2) you re-share your presentation under the same terms.\\
         
         \normalsize\vspace{1em}
@@ -568,6 +577,21 @@ at (#5) {#6};
 \tikz[overlay,remember picture,baseline=#1] \node (#2) {};
 }
 
+%%%%%%%%% Highlight (math) text by putting it in a red colorbox
+
+\NewDocumentCommand{\highlight}{r<> m}{%
+\alt<#1>{\colorbox{red!50}{$#2$}}{#2}
+}
+
+
+\setbeamercolor{highlightCol}{bg=hriSec3,fg=white}
+\newcommand{\highlightbox}[1]{%
+    \vspace{1em}%
+    \begin{beamercolorbox}[wd=\linewidth,ht=2ex,dp=0.7ex]{highlightCol}%
+    \centering #1%
+    \end{beamercolorbox}%
+    \vspace{1em}%
+}%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

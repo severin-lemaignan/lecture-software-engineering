@@ -4,73 +4,137 @@
 %--------------------------------------------------------------------------
 % Common packages
 %--------------------------------------------------------------------------
+
+\definecolor{links}{HTML}{663000}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+
 \usepackage[english]{babel}
 \usepackage{pgfpages} % required for notes on second screen
 \usepackage{graphicx}
-\usepackage{subfigure}
-\usepackage{multicol}
-\usepackage{multirow}
-\usepackage{hyperref}
-\def\block(#1,#2)#3{\multicolumn{#2}{c}{\multirow{#1}{*}{$ #3 $}}}
 
-\usepackage{fontspec}
+\usepackage{pdfpcnotes}
+
+\usepackage{gitdags}
+
+\usepackage{multicol}
 
 \usepackage{tabularx,ragged2e}
 \usepackage{booktabs}
 
-\usepackage{setspace}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-\usepackage{gitdags}
-\usepackage[normalem]{ulem} % strikeout
-%--------------------------------------------------------------------------
-% Load theme
-%--------------------------------------------------------------------------
+
 \usetheme{hri}
 
-\usepackage{tikz}
-\usetikzlibrary{intersections,arrows,shapes,calc,mindmap,backgrounds,positioning,svg.path}
+% Display the navigation bullet even without subsections
+\usepackage{remreset}% tiny package containing just the \@removefromreset command
+\makeatletter
+\@removefromreset{subsection}{section}
+\makeatother
+\setcounter{subsection}{1}
 
-\graphicspath{{figs/}}
+\makeatletter
+\let\beamer@writeslidentry@miniframeson=\beamer@writeslidentry
+\def\beamer@writeslidentry@miniframesoff{%
+  \expandafter\beamer@ifempty\expandafter{\beamer@framestartpage}{}% does not happen normally
+  {%else
+    % removed \addtocontents commands
+    \clearpage\beamer@notesactions%
+  }
+}
+\newcommand*{\miniframeson}{\let\beamer@writeslidentry=\beamer@writeslidentry@miniframeson}
+\newcommand*{\miniframesoff}{\let\beamer@writeslidentry=\beamer@writeslidentry@miniframesoff}
+\makeatother
 
-\setbeamercolor{highlightCol}{bg=hriSec3,fg=white}
-\newcommand{\highlight}[1]{%
-    \vspace{1em}%
-    \begin{beamercolorbox}[wd=\linewidth,ht=2ex,dp=0.7ex]{highlightCol}%
-    \centering #1%
-    \end{beamercolorbox}%
-    \vspace{1em}%
-}%
+
 
 \tikzset{temporal/.code args={<#1>#2#3#4}{%
           \temporal<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}}{\pgfkeysalso{#4}} % \pgfkeysalso doesn't change the path
 }}
 
-\newcommand{\source}[2]{{\begin{flushright}\small\it Source:\href{#1}{#2}\end{flushright}}}
+\newcommand{\source}[2]{{\tiny\it Source: \href{#1}{#2}}}
 
-%--------------------------------------------------------------------------
-% General presentation settings
-%--------------------------------------------------------------------------
-\title{\bf software engineering 101}
-\subtitle{(with a pinch of git on top)}
-\date{03 Oct. 2017}
+\usepackage[normalem]{ulem}
+
+\usepackage{tikz}
+\usetikzlibrary{intersections,arrows,shapes,calc,mindmap,backgrounds,positioning,svg.path}
+
+\tikzset{box/.style={
+            draw, 
+            fill=blue!20,
+            fill opacity=0.8,
+            thick,
+            inner sep=0pt,
+            minimum size=1cm,
+            transform shape
+        },
+        finalbox/.style={
+            draw, 
+            fill=orange,
+            fill opacity=0.8,
+            thick,
+            inner sep=0pt,
+            minimum size=1cm,
+            transform shape
+        },
+        dot/.style={
+            draw,
+            circle,
+            fill=red!20,
+            inner sep=0pt,
+            minimum size=1cm,
+            transform shape
+        },
+        axis/.style={
+            thick,
+            gray,
+            font=\small},
+        every to/.style={
+            >=latex,
+            dashed,
+            thick
+        }
+    }
+
+
+\graphicspath{{figs/}}
+
+\title{Software Engineering 101}
+\subtitle{Getting started with software engineering best practices}
+
+\date{}
 \author{Séverin Lemaignan}
-\institute{Centre for Robotics \& Neural
-Systems\\{\bf Plymouth University}}
-
-%--------------------------------------------------------------------------
-% Notes settings
-%--------------------------------------------------------------------------
-%\setbeameroption{show notes on second screen}
-%\setbeameroption{hide notes}
+\institute{Bristol Robotics Lab\\{\bf University of West of England}}
 
 \begin{document}
 
-\licenseframe{https://github.com/severin-lemaignan/lecture-software-engineering/}
+\licenseframe{github.com/severin-lemaignan/module-introduction-sensors-actuators}
+
 \maketitle
 
+\miniframesoff
 
+\begin{frame}{Today's objectives}
 
+    In 2 hours time, you should know:
 
+    \begin{itemize}
+        \item What does ``compiling code'' \emph{really} means
+        \item What \textbf{JIT} (Just-In-Time) compilation means
+        \item The difference between a \sh{dll} and a \sh{lib}
+        \item (and what are \sh{dll}s)
+        \item What is {\bf CMake}
+        \item How to organise your code on your hard-drive
+        \item What \emph{Filesystem Standard Hierarchy} means
+        \item What a \emph{ROS package} is
+        \item The differences between the GPL, MIT, BSD, ... licenses
+        \item ...and plenty of things about GIT!
+    \end{itemize}
+\end{frame}
+
+\miniframeson
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -81,7 +145,7 @@ Systems\\{\bf Plymouth University}}
 
 \begin{cppcode}
 /*
- * "Hello, World!": A classic.
+ * Everyone's favourite: "Hello, World!"
  */
 
 #include <iostream>
@@ -98,13 +162,13 @@ int main(void)
 \pause
 
 \begin{shcode}
-$ g++ hello.cpp -ohello
+> g++ hello.cpp -ohello
 \end{shcode}
 
 \pause 
 
 \begin{shcode}
-$ ./hello
+> ./hello
 Hello, World!
 \end{shcode}
 
@@ -153,7 +217,7 @@ $\rightarrow$ \cpp{#include <iostream>} is replaced by the content of that file.
 \begin{frame}[fragile]{Compiling code in C++: Compilation}
 
 \begin{shcode}
-$ g++ -S hello.cpp
+> g++ -S hello.cpp
 \end{shcode}
 
 
@@ -180,8 +244,8 @@ main:
 \begin{frame}[fragile]{Compiling code in C++: Assembly}
 
 \begin{shcode}
-$ g++ -s hello.cpp
-$ hexdump a.out
+> g++ -s hello.cpp
+> hexdump a.out
 0000000 457f 464c 0102 0001 0000 0000 0000 0000
 0000010 0003 003e 0001 0000 07b0 0000 0000 0000
 0000020 0040 0000 0000 0000 1128 0000 0000 0000
@@ -209,7 +273,7 @@ The linker copies (and re-arrange) the machine code of the static dependencies
 That's what the \texttt{-l} flag is used for:
 
 \begin{shcode}
-$ g++ cool_app.cpp -ocool_app -lcv_core -lcv_highgui -lcv_videoproc
+> g++ cool_app.cpp -ocool_app -lcv_core -lcv_highgui -lcv_videoproc
 \end{shcode}
 
 \end{frame}
@@ -235,6 +299,23 @@ $ g++ cool_app.cpp -ocool_app -lcv_core -lcv_highgui -lcv_videoproc
     }
 \end{frame}
 
+\begin{frame}{Modern compiler infrastructure}
+    \begin{center}
+        \resizebox{\linewidth}{!}{
+            \begin{tikzpicture}[>=latex,font=\footnotesize,node distance=2cm]
+
+                \node[rectangle,draw] (fe) {Front-end};
+                \node[rectangle,draw,fill=hriSec2, right of=fe] (ir) {IR};
+                \node[rectangle,draw, right of=ir] (be) {Back-end};
+                \draw[->] (fe) -- (ir) -- (be);
+            \end{tikzpicture}
+        }
+    \end{center}
+
+    For instance, LLVM has a front-end for C/C++ called \texttt{clang} and has
+    many backends (like \texttt{emscripten} to create the new \texttt{wasm}
+    binaries for consumption by the web browsers)
+\end{frame}
 
 \begin{frame}{Libraries}
 
@@ -308,7 +389,7 @@ pathfinding.cpp
 \end{shcode}
 
 \begin{shcode}
-$ g++ main.cpp ui.cpp pathfinding.cpp -opathfinding_ui
+> g++ main.cpp ui.cpp pathfinding.cpp -opathfinding_ui
 \end{shcode}
 
 
@@ -344,7 +425,7 @@ functions, but not the \textbf{definitions} (the definitions are in
 Next, compile the library:
 
 \begin{shcode}
-$ g++ -fPIC -shared pathfinding.cpp -olibpathfinding.so
+> g++ -fPIC -shared pathfinding.cpp -olibpathfinding.so
 \end{shcode}
 \end{onlyenv}
 
@@ -352,7 +433,7 @@ $ g++ -fPIC -shared pathfinding.cpp -olibpathfinding.so
 Finally, use it:
 
 \begin{shcode}
-$ g++ main.cpp ui.cpp -lpathfinding -opathfinding_ui
+> g++ main.cpp ui.cpp -lpathfinding -opathfinding_ui
 \end{shcode}
 \end{onlyenv}
 
@@ -390,8 +471,8 @@ install(TARGET pathfinding
 
 # then, the executable, which depends on the library's target
 include_directories(include)
-add_executable(pathfinding_ui pathfinding main.cpp ui.cpp)
-target_link_libraries(pathfinding_ui ${OpenCV_LIBRARIES})
+add_executable(pathfinding_ui main.cpp ui.cpp)
+target_link_libraries(pathfinding_ui pathfinding ${OpenCV_LIBRARIES})
 
 install(TARGET pathfinding_ui
    RUNTIME DESTINATION bin
@@ -409,7 +490,7 @@ install(TARGET pathfinding_ui
 \begin{frame}{}
     \centering
 
-    \highlight{\bf principle of least surprise}
+    \highlightbox{\bf principle of least surprise}
 
     Make people feel at home when they interact with your project!
 
@@ -442,6 +523,7 @@ the project about? who is the target audience? how to install? how to get starte
 }
 
 \end{frame}
+
 
 \begin{frame}[fragile]{Example 1}
 
@@ -482,9 +564,9 @@ When compiling the project, create a sub-directory \sh{build} and perform an
     \textbf{out-of-tree} build:
 
 \begin{shcode}
-$ mkdir build && cd build
-$ cmake ..
-$ make
+> mkdir build && cd build
+> cmake ..
+> make
 \end{shcode}
 
 \end{onlyenv}
@@ -513,32 +595,62 @@ CMakeLists.txt
 \end{onlyenv}
 \end{frame}
 
+\begin{frame}[fragile]{README.md example}
+
+\begin{mdcode}
+Better pathfinder
+=================
+
+![doc/screenshot.png](Screenshot of the provided UI)
+
+This is a really better pathfinder. Check the
+[publication](http://link...).
+
+Pre-requisites
+--------------
+
+- dependency 1
+- dependency 2
+
+Installation
+------------
+
+```
+mkdir build && cd build && cmake .. && make install
+```
+
+\end{mdcode}
+
+\end{frame}
+
+
 \begin{frame}[fragile]{Example 2: you take over an existing project}
 
 
 \begin{onlyenv}<1>
 \begin{minted}[frame=none,
                linenos=false,
-               fontsize=\small,
+               fontsize=\footnotesize,
                xleftmargin=0.5em]{sh}
-joe@doe:/usr/project$ ls -alh
-drwxr-xr-x  2 joe  root       4.0K Sep 22 10:40 .
-drwxr-xr-x 12 root root       4.0K Sep 22 10:36 ..
--rwxrwxr-x  1 joe  joe        8.8K Sep 22 10:40 app
--rw-rw-r--  1 joe  joe        2.1K Sep 22 10:39 compile.sh
--rw-rw-r--  1 joe  joe         134 Sep 22 10:39 how-to-compile.txt
--rw-rw-r--  1 joe  joe         895 Sep 22 10:38 main.cpp
--rw-rw-r--  1 joe  joe        1.2K Sep 22 10:38 main.hpp
--rw-rw-r--  1 joe  joe        5.8K Sep 22 10:40 main.o
--rw-rw-r--  1 joe  joe          50 Sep 22 10:36 main.ini
--rw-rw-r--  1 joe  joe        2.3K Sep 22 10:40 sound-lib.cpp
--rw-rw-r--  1 joe  joe         230 Sep 22 10:40 sound-lib.hpp
--rw-rw-r--  1 joe  joe        4.3K Sep 22 10:40 sound-lib.o
--rw-rw-r--  1 joe  joe        5.3K Sep 22 10:40 sound-lib.a
--rw-rw-r--  1 joe  joe        6.7K Sep 22 10:40 ui-lib.cpp
--rw-rw-r--  1 joe  joe         874 Sep 22 10:40 ui-lib.hpp
--rw-rw-r--  1 joe  joe        7.1K Sep 22 10:40 ui-lib.o
--rw-rw-r--  1 joe  joe        7.6K Sep 22 10:40 ui-lib.so
+joe@doe:/usr/robot-planning$ ls -alh
+drwxr-xr-x  2 joe  root    4.0K Sep 22 10:40 .
+drwxr-xr-x 12 root root    4.0K Sep 22 10:36 ..
+-rwxrwxr-x  1 joe  joe     8.8K Sep 22 10:40 pathfinding_ui
+-rw-rw-r--  1 joe  joe     2.1K Sep 22 10:39 compile.sh
+-rw-rw-r--  1 joe  joe     1.8K Sep 22 10:39 compile.bat
+-rw-rw-r--  1 joe  joe      134 Sep 22 10:39 readme-first.txt
+-rw-rw-r--  1 joe  joe      895 Sep 21 21:38 main.cpp
+-rw-rw-r--  1 joe  joe     1.2K Sep 21 20:27 main.hpp
+-rw-rw-r--  1 joe  joe     5.8K Sep 22 10:40 main.o
+-rw-rw-r--  1 joe  joe       50 Sep 19 10:36 main.ini
+-rw-rw-r--  1 joe  joe     2.3K Sep 20 09:31 pathfinding.cpp
+-rw-rw-r--  1 joe  joe      230 Sep 20 10:32 pathfinding.hpp
+-rw-rw-r--  1 joe  joe     4.3K Sep 22 10:40 pathfinding.o
+-rw-rw-r--  1 joe  joe     7.3K Sep 21 10:40 pathfinding.so
+-rw-rw-r--  1 joe  joe     6.7K Sep 20 11:13 core.cpp
+-rw-rw-r--  1 joe  joe     7.1K Sep 22 10:40 core.o
+-rw-rw-r--  1 joe  joe     6.1K Sep 22 10:40 core.a
+-rw-rw-r--  1 joe  joe     6.0K Sep 21 16:22 core.lib
 \end{minted}
 
 \end{onlyenv}
@@ -554,11 +666,35 @@ drwxr-xr-x 12 root root       4.0K Sep 22 10:36 ..
             \item Perform out-of-tree compilation
             \item Use a buildsystem (like CMake) instead of relying on ad-hoc scripts
             \item Add a \texttt{README} and a \texttt{LICENSE}
-            \item Inconsistent use of static and dynamic libraries
             \item Public headers should be moved to \texttt{include/}
         \end{itemize}
     \end{onlyenv}
 \end{frame}
+
+
+\begin{frame}[fragile]{Organising your code: ROS packages}
+
+    When working with ROS, you can use \sh{catkin_create_pkg} to quickly
+    generate a project skeleton + \texttt{CMakeLists.txt}:
+
+\begin{minted}[frame=none,
+               linenos=false,
+               xleftmargin=0.5em]{sh}
+> catkin_create_pkg my_ros_node std_msgs rospy roscpp
+> ls -lh my_ros_node
+-rw-r--r-- 1 joe joe 6.7K Nov 28 15:46 CMakeLists.txt
+drwxr-xr-x 3 joe joe 4.0K Nov 28 15:46 include
+-rw-r--r-- 1 joe joe 2.1K Nov 28 15:46 package.xml
+drwxr-xr-x 2 joe joe 4.0K Nov 28 15:46 src
+\end{minted}
+
+
+\sh{catkin_create_pkg <package_name> [depend1] [depend2] [depend3]}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Versioning}
 \begin{frame}{Semantic versioning}
@@ -600,7 +736,7 @@ Additional labels for pre-release and build metadata are
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Licenses]{Softawre Licenses, Open-source, free software}
+\section[Licenses]{Software Licenses, Open-source, free software}
 
 \begin{frame}{Software licenses}
     \begin{itemize}
@@ -624,9 +760,7 @@ Additional labels for pre-release and build metadata are
 
     \centering
     \only<4>{
-        {\bf You always keep the author rights!}\\
-        $\Rightarrow$ you can change the
-        license at any time.
+        {\bf If you are paid by UWE or UoB, the copyright belongs to the uni.}
     }
 
     \only<5>{
@@ -672,7 +806,7 @@ Additional labels for pre-release and build metadata are
 \begin{frame}[plain]
     \begin{center}
         \Large
-        10 min break\\[2em]
+        break!\\[2em]
     \end{center}
 \end{frame}
 
@@ -726,7 +860,7 @@ Additional labels for pre-release and build metadata are
     \begin{itemize}
         \item The history of your development/document
         \item Compare the current code with an older version
-        \item Roll-back to previous versions
+        \item Roll-back to previous versions (think 'undo on steroids')
         \item Experiment without losing anything
         \item Trace who did what (at the level of the line of code)
         \item Annotate your workflow (important milestones, etc)
@@ -739,7 +873,7 @@ Additional labels for pre-release and build metadata are
     The single most important concept (because it requires to think about
     development/writing in terms of {\bf functional units}):
 
-    \highlight{Atomic commit}
+    \highlightbox{Atomic commit}
 
     \only<1>{
         A (typically small) commit that represent a {\bf single, coherent \&
@@ -849,7 +983,7 @@ Additional labels for pre-release and build metadata are
 
 \begin{frame}[fragile]{Log}
 \begin{shcode}
-$ git log
+> git log
 commit fa009cd7fca05b0b61170b20cf76a5f72b8843c2
 Author: Severin Lemaignan <severin.lemaignan@plymouth.ac.uk>
 Date:   Wed Feb 10 16:48:22 2016 +0000
@@ -989,17 +1123,17 @@ Date:   Wed Feb 10 16:47:46 2016 +0000
 
 The first time...
 \begin{shcode}
-$ mkdir my_repo && cd my_repo
-$ git init
+> mkdir my_repo && cd my_repo
+> git init
 \end{shcode}
 Then...
 \begin{shcode}
 # make some changes...
-$ git add <files>
-$ git commit -m"<commit message>"
+> git add <files>
+> git commit -m"<commit message>"
 # make some changes...
-$ git add <files>
-$ git commit -m"<other commit message>"
+> git add <files>
+> git commit -m"<other commit message>"
 # That's it!
 \end{shcode}
 
@@ -1277,16 +1411,16 @@ $ git commit -m"<other commit message>"
 
 The first time...
 \begin{shcode}
-$ git clone <url>
+> git clone <url>
 # for instance,
 # git clone https://github.com/user/repo.git
 \end{shcode}
 Then...
 \begin{shcode}
-$ cd <repo>
+> cd <repo>
 # make some changes...
-$ git add <files>
-$ git commit -m"<commit message>"
+> git add <files>
+> git commit -m"<commit message>"
 # ...
 # when you want to share:
 $ git pull --rebase # any changes on the remote?
@@ -1321,10 +1455,18 @@ To check out the original branch and stop rebasing, run "git rebase --abort".
 \end{frame}
 
 \begin{frame}[fragile]{}
+
+    \begin{exampleblock}{A conflict happens when two modifications of a given
+    file overlap}
+    Two persons can modify the same file at the same time, as
+    long as they do not work on the same region of the file.
+    \end{exampleblock}
+
+
 \begin{shcode}
-$ git pull --rebase john master
+> git pull --rebase john master
 # conflict!
-$ git mergetool
+> git mergetool
 \end{shcode}
 \end{frame}
 
@@ -1627,7 +1769,7 @@ $ git mergetool
 
 \begin{frame}{}
     \centering
-    \highlight{one repo = one thing}
+    \highlightbox{one repo = one thing}
 
     make plenty of repos!
 \end{frame}
@@ -1657,23 +1799,24 @@ $ git mergetool
 \end{frame}
 
 
-{
-    \fullbackground{background}
-\begin{frame}[plain]
-        \Large
-        That's all, folks!
 
+
+\begin{frame}{}
+    \begin{center}
+        \Large
+        That's all, folks!\\[2em]
         \normalsize
         Questions:\\
-        Portland Square B316 or \url{severin.lemaignan@plymouth.ac.uk} 
+        Portland Square B316 or \url{severin.lemaignan@plymouth.ac.uk} \\[1em]
 
         Slides:\\
         \href{https://github.com/severin-lemaignan/lecture-software-engineering}{\small
         github.com/severin-lemaignan/lecture-software-engineering}
         \vspace{10em}
 
+
+    \end{center}
 \end{frame}
-}
 
 \appendix
 
@@ -2218,10 +2361,5 @@ $ git rebase new-idea
 \imageframe[caption=The merge commit is reflected in the history of the branch,color=black]{github-windows/14}
 
 
+
 \end{document}
-
-
-
-
-
-
