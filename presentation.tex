@@ -2538,11 +2538,8 @@ Install the project...
 \begin{frame}[fragile]{What about Python?}
 
 Create a \texttt{setup.py} file at the root of the project:
-\begin{pycode}
+\begin{pythoncode}
 import setuptools
-
-with open("README.md", "r") as fh:
-    long_description = fh.read()
 
 setuptools.setup(
     name="pyrobomaze",
@@ -2550,10 +2547,11 @@ setuptools.setup(
     author="Séverin Lemaignan",
     author_email="severin.lemaignan@brl.ac.uk",
     description="A A* pathfinder to solve the robomaze game",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
     url="https://github.com/severin-lemaignan/pyrobomaze",
-    packages=setuptools.find_packages(),
+    install_requires=['requests'],
+    package_dir = {'': 'src'},
+    packages=['robomaze'],
+    scripts=['scripts/pyrobomaze'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
@@ -2561,7 +2559,7 @@ setuptools.setup(
     ],
     python_requires='>=3.6',
 )
-\end{pycode}
+\end{pythoncode}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2843,11 +2841,11 @@ That's it! The whole world can access your package.
 
 \end{frame}
 
-\imageframe{pypi-dialogs}
+\imageframe[color=black]{pypi-dialogs}
 
 \begin{frame}[fragile]{Language-specific package management}
 
-    How to use our package? {\bf Anyone can simply type:}
+    How to use our package? {\bf Anyone} can simply type:
 
 \begin{shcode}
 > pip3 install pyrobomaze
