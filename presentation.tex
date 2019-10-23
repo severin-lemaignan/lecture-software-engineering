@@ -2501,7 +2501,6 @@ Makefile:117: recipe for target 'install' failed
 make: *** [install] Error 1
 \end{shcode}
 
-    {\centering\bf Error!}
 \end{onlyenv}
 \begin{onlyenv}<3>
 \begin{shcode}
@@ -2534,6 +2533,35 @@ Install the project...
 > make
 \end{shcode}
 
+\end{frame}
+
+\begin{frame}[fragile]{What about Python?}
+
+Create a \texttt{setup.py} file at the root of the project:
+\begin{pycode}
+import setuptools
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+setuptools.setup(
+    name="pyrobomaze",
+    version="1.0.0",
+    author="Séverin Lemaignan",
+    author_email="severin.lemaignan@brl.ac.uk",
+    description="A A* pathfinder to solve the robomaze game",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/severin-lemaignan/pyrobomaze",
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.6',
+)
+\end{pycode}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2735,9 +2763,13 @@ smaller set of packages to install to satisfy all dependencies.
 \end{frame}
 
 \begin{frame}[fragile]{cpack}
+\begin{onlyenv}<1>
     Using \texttt{cpack} to create a package for your A* pathfinder:
 
-\begin{cmakecode}
+\begin{minted}[frame=none,
+               linenos=false,
+               fontsize=\scriptsize,
+               xleftmargin=0.5em]{cmake}
 cmake_minimum_required(VERSION 3.10)
 
 project(robomaze-pilot VERSION 1.0)
@@ -2749,7 +2781,107 @@ set(CPACK_PACKAGE_CONTACT "Séverin Lemaignan <severin.lemaignan@brl.ac.uk>")
 include(CPack)
 
 # remaining of the file is identical
-\end{cmakecode}
+\end{minted}
+
+Then:
+
+\begin{minted}[frame=none,
+               linenos=false,
+               fontsize=\scriptsize,
+               xleftmargin=0.5em]{sh}
+> cpack ..
+> ls *.deb
+robomaze-pilot-1.0.1-Linux.deb
+> sudo apt install ./robomaze-pilot-1.0.1-Linux.deb
+\end{minted}
+    \end{onlyenv}
+    \begin{onlyenv}<2>
+
+        (what about the install prefix?)
+
+\begin{shcode}
+> dpkg -L robomaze-pilot
+/usr
+/usr/bin
+/usr/bin/robomaze-client
+/usr/include
+/usr/include/astar.h
+/usr/lib
+/usr/lib/libastar.so
+\end{shcode}
+
+$\rightarrow$ The install prefix is automatically replaced to the system prefix.
+    \end{onlyenv}
+
+\end{frame}
+
+\begin{frame}[fragile]{What about Python packaging?}
+
+    Simpler:
+
+\begin{shcode}
+> python3 setup.py sdist bdist_wheel
+\end{shcode}
+
+This command should output a lot of text and once completed should generate two files in the dist directory:
+
+\begin{shcode}
+dist/
+  pyrobomaze-1.0.0-py3-none-any.whl
+  pyrobomaze-1.0.0.tar.gz
+\end{shcode}
+
+    You need to create an account on the \emph{Python Index} (\url{pypi.org}).
+    Then you can upload your package:
+
+\begin{shcode}
+> twine upload dist/*
+\end{shcode}
+
+That's it! The whole world can access your package.
+
+
+\end{frame}
+
+\imageframe{pypi-dialogs}
+
+\begin{frame}[fragile]{Language-specific package management}
+
+    How to use our package? {\bf Anyone can simply type:}
+
+\begin{shcode}
+> pip3 install pyrobomaze
+> pyrobomaze my_robot
+\end{shcode}
+
+    $\rightarrow$ Anyone can upload Python packages to the {\bf pypi} archive: great to
+    quickly share software packages, without having to bother with source code.
+
+\pause
+
+    Many languages offer such a language-specific package management system
+    ({\bf npm} for Javascript, {\bf cargo} for rust, {\bf rubygems} for ruby,
+    etc)
+
+\pause
+
+    However, no guarantees! In contrast, the acceptance process for Debian is
+    extremly strict $\rightarrow$ guarantees a level of quality and proper
+    integration.
+
+\end{frame}
+
+\begin{frame}{}
+    \begin{center}
+        \Large
+        That's all for today, folks!\\[2em]
+    \end{center}
+
+        \vspace{10em}
+
+        Slides:\\
+        \href{https://github.com/severin-lemaignan/lecture-software-engineering}{\small
+        github.com/severin-lemaignan/lecture-software-engineering}
 
 
 \end{frame}
