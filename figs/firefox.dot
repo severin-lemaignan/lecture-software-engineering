@@ -1,0 +1,353 @@
+digraph "firefox" {
+	rankdir=LR;
+	node [shape=box];
+	"firefox" -> "lsb-release" [color=blue];
+	"lsb-release" -> "python3:any" [color=blue,label="(>= 3.4~)"];
+	"python3:any" -> virt1 [dir=back,arrowtail=inv,color=green];
+	"python3:any" [shape=octagon];
+	"lsb-release" -> "distro-info-data" [color=blue];
+	"lsb-release" -> "apt";
+	"firefox" -> "libatk1.0-0" [color=blue,label="(>= 1.12.4)"];
+	"libatk1.0-0" -> "libglib2.0-0" [color=blue,label="(>= 2.55.2)"];
+	"libatk1.0-0" -> "libatk1.0-data" [color=blue,label="(>= 2.28.1-1)"];
+	"firefox" -> "libcairo-gobject2" [color=blue,label="(>= 1.10.0)"];
+	"libcairo-gobject2" -> "libcairo2" [color=blue,label="(>= 1.10.0)"];
+	"libcairo2" -> "libfontconfig1" [color=blue,label="(>= 2.12)"];
+	"libcairo2" -> "libfreetype6" [color=blue,label="(>= 2.7.1)"];
+	"libfreetype6" -> "libpng16-16" [color=blue,label="(>= 1.6.2-1)"];
+	"libcairo2" -> "libpixman-1-0" [color=blue,label="(>= 0.30.0)"];
+	"libcairo2" -> "libpng16-16" [color=blue,label="(>= 1.6.2-1)"];
+	"libcairo2" -> "libxcb-render0" [color=blue];
+	"libxcb-render0" -> "libxcb1" [color=blue,label="(>= 1.8)"];
+	"libxcb1" -> "libxau6" [color=blue];
+	"libxcb1" -> "libxdmcp6" [color=blue];
+	"libxdmcp6" -> "libbsd0" [color=blue,label="(>= 0.2.0)"];
+	"libcairo2" -> "libxcb-shm0" [color=blue];
+	"libxcb-shm0" -> "libxcb1" [color=blue,label="(>= 1.12)"];
+	"libcairo2" -> "libxcb1" [color=blue,label="(>= 1.6)"];
+	"libcairo2" -> "libxext6" [color=blue];
+	"libcairo2" -> "libxrender1" [color=blue];
+	"libcairo-gobject2" -> "libglib2.0-0" [color=blue,label="(>= 2.14.0)"];
+	"firefox" -> "libcairo2" [color=blue,label="(>= 1.10.0)"];
+	"firefox" -> "libdbus-1-3" [color=blue,label="(>= 1.9.14)"];
+	"libdbus-1-3" -> "libsystemd0" [color=blue];
+	"libsystemd0" -> "libgcrypt20" [color=purple,style=bold,label="(>= 1.8.0)"];
+	"libgcrypt20" -> "libgpg-error0" [color=blue,label="(>= 1.25)"];
+	"libsystemd0" -> "liblz4-1" [color=purple,style=bold,label="(>= 0.0~r113)"];
+	"libsystemd0" -> "liblzma5" [color=purple,style=bold,label="(>= 5.1.1alpha+20120614)"];
+	"libdbus-1-3" -> "dbus";
+	"firefox" -> "libdbus-glib-1-2" [color=blue,label="(>= 0.78)"];
+	"libdbus-glib-1-2" -> "libdbus-1-3" [color=blue,label="(>= 1.9.14)"];
+	"libdbus-glib-1-2" -> "libglib2.0-0" [color=blue,label="(>= 2.40)"];
+	"firefox" -> "libfontconfig1" [color=blue,label="(>= 2.12)"];
+	"firefox" -> "libfreetype6" [color=blue,label="(>= 2.3.5)"];
+	"firefox" -> "libgdk-pixbuf2.0-0" [color=blue,label="(>= 2.22.0)"];
+	"libgdk-pixbuf2.0-0" -> "libglib2.0-0" [color=blue,label="(>= 2.48.0)"];
+	"libgdk-pixbuf2.0-0" -> "libjpeg8" [color=blue,label="(>= 8c)"];
+	"libjpeg8" -> "libjpeg-turbo8" [color=blue,label="(>= 1.1.90+svn722-1ubuntu6)"];
+	"libgdk-pixbuf2.0-0" -> "libpng16-16" [color=blue,label="(>= 1.6.2-1)"];
+	"libgdk-pixbuf2.0-0" -> "libtiff5" [color=blue,label="(>= 4.0.3)"];
+	"libtiff5" -> "libjbig0" [color=blue,label="(>= 2.0)"];
+	"libtiff5" -> "libjpeg8" [color=blue,label="(>= 8c)"];
+	"libtiff5" -> "liblzma5" [color=blue,label="(>= 5.1.1alpha+20120614)"];
+	"libgdk-pixbuf2.0-0" -> "shared-mime-info" [color=blue];
+	"shared-mime-info" -> "libglib2.0-0" [color=blue,label="(>= 2.35.9)"];
+	"shared-mime-info" -> "libxml2" [color=blue,label="(>= 2.7.4)"];
+	"libxml2" -> "libicu60" [color=blue,label="(>= 60.1-1~)"];
+	"libxml2" -> "liblzma5" [color=blue,label="(>= 5.1.1alpha+20120614)"];
+	"shared-mime-info" -> "shared-mime-info" [color=red];
+	"libgdk-pixbuf2.0-0" -> "libgdk-pixbuf2.0-common" [color=blue,label="(= 2.36.11-2)"];
+	"libgdk-pixbuf2.0-0" -> "libgdk-pixbuf2.0-bin";
+	"libgdk-pixbuf2.0-bin" -> "libgdk-pixbuf2.0-0" [color=blue,label="(>= 2.35.4)"];
+	"libgdk-pixbuf2.0-bin" -> "libglib2.0-0" [color=blue,label="(>= 2.48.0)"];
+	"libgdk-pixbuf2.0-bin" -> "libgdk-pixbuf2.0-bin" [color=red];
+	"firefox" -> "libglib2.0-0" [color=blue,label="(>= 2.31.8)"];
+	"firefox" -> "libgtk-3-0" [color=blue,label="(>= 3.4)"];
+	"libgtk-3-0" -> "libgtk-3-common" [color=blue,label="(>= 3.22.30-1ubuntu4)"];
+	"libgtk-3-common" -> "alt1" [color=blue];
+	"alt1":"dconf-gsettings-backend" -> "libglib2.0-0" [color=blue,label="(>= 2.44.0)"];
+	"alt1":"dconf-gsettings-backend" -> "dconf-service" [color=blue,label="(>= 0.26.0-2ubuntu3)"];
+	"dconf-service" -> "libglib2.0-0" [color=blue,label="(>= 2.44.0)"];
+	"dconf-service" -> "libdconf1" [color=blue,label="(= 0.26.0-2ubuntu3)"];
+	"libdconf1" -> "libglib2.0-0" [color=blue,label="(>= 2.44.0)"];
+	"dconf-service" -> "alt1":"dconf-gsettings-backend";
+	"dconf-service" -> "dconf-service" [color=red];
+	"alt1":"dconf-gsettings-backend" -> "dconf-service" [color=blue,label="(<< 0.26.0-2ubuntu3.1~)"];
+	"alt1":"dconf-gsettings-backend" -> "libdconf1" [color=blue,label="(= 0.26.0-2ubuntu3)"];
+	"alt1":"gsettings-backend" -> "alt1":"dconf-gsettings-backend" [dir=back,arrowtail=inv,color=green];
+	"libgtk-3-common" -> "libgtk-3-0";
+	"libgtk-3-0" -> "libatk-bridge2.0-0" [color=blue,label="(>= 2.5.3)"];
+	"libatk-bridge2.0-0" -> "libatk1.0-0" [color=blue,label="(>= 2.25.2)"];
+	"libatk-bridge2.0-0" -> "libatspi2.0-0" [color=blue,label="(>= 2.9.90)"];
+	"libatspi2.0-0" -> "libdbus-1-3" [color=blue,label="(>= 1.9.14)"];
+	"libatspi2.0-0" -> "libglib2.0-0" [color=blue,label="(>= 2.37.3)"];
+	"libatspi2.0-0" -> "at-spi2-core" [label="(= 2.28.0-1)"];
+	"at-spi2-core" -> "libatspi2.0-0" [color=blue,label="(>= 2.9.90)"];
+	"at-spi2-core" -> "libdbus-1-3" [color=blue,label="(>= 1.9.14)"];
+	"at-spi2-core" -> "libglib2.0-0" [color=blue,label="(>= 2.37.3)"];
+	"at-spi2-core" -> "libxtst6" [color=blue];
+	"libxtst6" -> "libxext6" [color=blue];
+	"libxtst6" -> "x11-common" [color=blue];
+	"at-spi2-core" -> "at-spi2-core" [color=red];
+	"libatk-bridge2.0-0" -> "libdbus-1-3" [color=blue,label="(>= 1.9.14)"];
+	"libatk-bridge2.0-0" -> "libglib2.0-0" [color=blue,label="(>= 2.41.1)"];
+	"libgtk-3-0" -> "libatk1.0-0" [color=blue,label="(>= 2.15.1)"];
+	"libgtk-3-0" -> "libcairo-gobject2" [color=blue,label="(>= 1.10.0)"];
+	"libgtk-3-0" -> "libcairo2" [color=blue,label="(>= 1.14.0)"];
+	"libgtk-3-0" -> "libcolord2" [color=blue,label="(>= 0.1.10)"];
+	"libcolord2" -> "libglib2.0-0" [color=blue,label="(>= 2.37.3)"];
+	"libcolord2" -> "liblcms2-2" [color=blue,label="(>= 2.6)"];
+	"libcolord2" -> "libudev1" [color=blue,label="(>= 196)"];
+	"libgtk-3-0" -> "libcups2" [color=blue,label="(>= 1.6.2)"];
+	"libcups2" -> "libavahi-client3" [color=blue,label="(>= 0.6.16)"];
+	"libavahi-client3" -> "libavahi-common3" [color=blue,label="(>= 0.6.22)"];
+	"libavahi-common3" -> "libavahi-common-data" [color=blue];
+	"libavahi-client3" -> "libdbus-1-3" [color=blue,label="(>= 1.9.14)"];
+	"libcups2" -> "libavahi-common3" [color=blue,label="(>= 0.6.16)"];
+	"libcups2" -> "libgnutls30" [color=blue,label="(>= 3.5.6)"];
+	"libgnutls30" -> "libgmp10" [color=blue,label="(>= 2:6)"];
+	"libgnutls30" -> "libhogweed4" [color=blue];
+	"libhogweed4" -> "libgmp10" [color=blue,label="(>= 2:6.0.0)"];
+	"libhogweed4" -> "libnettle6" [color=blue,label="(= 3.4-1)"];
+	"libgnutls30" -> "libidn2-0" [color=blue,label="(>= 0.6)"];
+	"libidn2-0" -> "libunistring2" [color=blue,label="(>= 0.9.7)"];
+	"libgnutls30" -> "libnettle6" [color=blue];
+	"libgnutls30" -> "libp11-kit0" [color=blue,label="(>= 0.23.1)"];
+	"libp11-kit0" -> "libffi6" [color=blue,label="(>= 3.0.4)"];
+	"libgnutls30" -> "libtasn1-6" [color=blue,label="(>= 4.12)"];
+	"libgnutls30" -> "libunistring2" [color=blue,label="(>= 0.9.7)"];
+	"libcups2" -> "libgssapi-krb5-2" [color=blue,label="(>= 1.14+dfsg)"];
+	"libgssapi-krb5-2" -> "libcom-err2" [color=blue,label="(>= 1.34)"];
+	"libgssapi-krb5-2" -> "libk5crypto3" [color=blue,label="(>= 1.16)"];
+	"libk5crypto3" -> "libkrb5support0" [color=blue,label="(>= 1.16)"];
+	"libgssapi-krb5-2" -> "libkrb5-3" [color=blue,label="(= 1.16-2ubuntu0.1)"];
+	"libkrb5-3" -> "libcom-err2" [color=blue,label="(>= 1.34)"];
+	"libkrb5-3" -> "libk5crypto3" [color=blue,label="(>= 1.15~beta1)"];
+	"libkrb5-3" -> "libkeyutils1" [color=blue,label="(>= 1.5.9)"];
+	"libkrb5-3" -> "libkrb5support0" [color=blue,label="(= 1.16-2ubuntu0.1)"];
+	"libkrb5-3" -> "krb5-locales";
+	"libgssapi-krb5-2" -> "libkrb5support0" [color=blue,label="(>= 1.15~beta1)"];
+	"libgtk-3-0" -> "libepoxy0" [color=blue,label="(>= 1.0)"];
+	"libgtk-3-0" -> "libfontconfig1" [color=blue,label="(>= 2.12)"];
+	"libgtk-3-0" -> "libgdk-pixbuf2.0-0" [color=blue,label="(>= 2.30.1)"];
+	"libgtk-3-0" -> "libglib2.0-0" [color=blue,label="(>= 2.55.2)"];
+	"libgtk-3-0" -> "libjson-glib-1.0-0" [color=blue,label="(>= 0.12.0)"];
+	"libjson-glib-1.0-0" -> "libglib2.0-0" [color=blue,label="(>= 2.41.1)"];
+	"libjson-glib-1.0-0" -> "libjson-glib-1.0-common" [color=blue,label="(>= 1.4.2-3)"];
+	"libgtk-3-0" -> "libpango-1.0-0" [color=blue,label="(>= 1.40.5)"];
+	"libpango-1.0-0" -> "fontconfig" [color=blue,label="(>= 2.1.91)"];
+	"libpango-1.0-0" -> "libglib2.0-0" [color=blue,label="(>= 2.37.3)"];
+	"libpango-1.0-0" -> "libthai0" [color=blue,label="(>= 0.1.22-3~)"];
+	"libthai0" -> "libthai-data" [color=blue,label="(>= 0.1.10)"];
+	"libthai0" -> "libdatrie1" [color=blue,label="(>= 0.2.0)"];
+	"libgtk-3-0" -> "libpangocairo-1.0-0" [color=blue,label="(>= 1.40.5)"];
+	"libpangocairo-1.0-0" -> "libcairo2" [color=blue,label="(>= 1.12.10)"];
+	"libpangocairo-1.0-0" -> "libfontconfig1" [color=blue,label="(>= 2.12)"];
+	"libpangocairo-1.0-0" -> "libfreetype6" [color=blue,label="(>= 2.2.1)"];
+	"libpangocairo-1.0-0" -> "libglib2.0-0" [color=blue,label="(>= 2.37.3)"];
+	"libpangocairo-1.0-0" -> "libpango-1.0-0" [color=blue,label="(>= 1.37.5)"];
+	"libpangocairo-1.0-0" -> "libpangoft2-1.0-0" [color=blue,label="(>= 1.28.1)"];
+	"libpangoft2-1.0-0" -> "libfontconfig1" [color=blue,label="(>= 2.12)"];
+	"libpangoft2-1.0-0" -> "libfreetype6" [color=blue,label="(>= 2.3.5)"];
+	"libpangoft2-1.0-0" -> "libglib2.0-0" [color=blue,label="(>= 2.37.3)"];
+	"libpangoft2-1.0-0" -> "libharfbuzz0b" [color=blue,label="(>= 1.2.6)"];
+	"libharfbuzz0b" -> "libfreetype6" [color=blue,label="(>= 2.7.1)"];
+	"libharfbuzz0b" -> "libglib2.0-0" [color=blue,label="(>= 2.31.8)"];
+	"libharfbuzz0b" -> "libgraphite2-3" [color=blue,label="(>= 1.2.2)"];
+	"libharfbuzz0b" -> "libharfbuzz0" [color=red];
+	"libharfbuzz0b" -> "libharfbuzz0a" [color=red];
+	"libpangoft2-1.0-0" -> "libpango-1.0-0" [color=blue,label="(>= 1.37.2)"];
+	"libgtk-3-0" -> "libpangoft2-1.0-0" [color=blue,label="(>= 1.40.5)"];
+	"libgtk-3-0" -> "librest-0.7-0" [color=blue,label="(>= 0.7)"];
+	"librest-0.7-0" -> "libglib2.0-0" [color=blue,label="(>= 2.37.3)"];
+	"librest-0.7-0" -> "libsoup-gnome2.4-1" [color=blue,label="(>= 2.27.4)"];
+	"libsoup-gnome2.4-1" -> "libglib2.0-0" [color=blue,label="(>= 2.39.90)"];
+	"libsoup-gnome2.4-1" -> "libsoup2.4-1" [color=blue,label="(>= 2.41.90)"];
+	"libsoup2.4-1" -> "libglib2.0-0" [color=blue,label="(>= 2.39.90)"];
+	"libsoup2.4-1" -> "libgssapi-krb5-2" [color=blue,label="(>= 1.14+dfsg)"];
+	"libsoup2.4-1" -> "libsqlite3-0" [color=blue,label="(>= 3.5.9)"];
+	"libsoup2.4-1" -> "libxml2" [color=blue,label="(>= 2.7.4)"];
+	"libsoup2.4-1" -> "glib-networking" [color=blue,label="(>= 2.32.0)"];
+	"glib-networking" -> "libglib2.0-0" [color=blue,label="(>= 2.55.0)"];
+	"glib-networking" -> "libgnutls30" [color=blue,label="(>= 3.5.6)"];
+	"glib-networking" -> "libp11-kit0" [color=blue,label="(>= 0.20.0)"];
+	"glib-networking" -> "libproxy1v5" [color=blue,label="(>= 0.4.14)"];
+	"libproxy1v5" -> "libproxy1" [color=red];
+	"glib-networking" -> "glib-networking-services" [color=blue,label="(>= 2.56.0-1)"];
+	"glib-networking-services" -> "libglib2.0-0" [color=blue,label="(>= 2.55.0)"];
+	"glib-networking-services" -> "libproxy1v5" [color=blue,label="(>= 0.4.14)"];
+	"glib-networking-services" -> "glib-networking-common" [color=blue,label="(>= 2.56.0-1)"];
+	"glib-networking-common" -> "glib-networking";
+	"glib-networking-services" -> "glib-networking";
+	"glib-networking-services" -> "glib-networking-services" [color=red];
+	"glib-networking" -> "glib-networking-services" [color=blue,label="(<< 2.56.0-1.1~)"];
+	"glib-networking" -> "glib-networking-common" [color=blue,label="(>= 2.56.0-1)"];
+	"glib-networking" -> "gsettings-desktop-schemas" [color=blue];
+	"gsettings-desktop-schemas" -> "alt1" [color=blue];
+	"librest-0.7-0" -> "libsoup2.4-1" [color=blue,label="(>= 2.30)"];
+	"librest-0.7-0" -> "libxml2" [color=blue,label="(>= 2.7.4)"];
+	"libgtk-3-0" -> "libwayland-client0" [color=blue,label="(>= 1.9.91)"];
+	"libwayland-client0" -> "libffi6" [color=blue,label="(>= 3.0.4)"];
+	"libgtk-3-0" -> "libwayland-cursor0" [color=blue,label="(>= 1.9.91)"];
+	"libwayland-cursor0" -> "libwayland-client0" [color=blue,label="(>= 1.3.92)"];
+	"libgtk-3-0" -> "libwayland-egl1" [color=blue,label="(>= 1.15.0)"];
+	"libgtk-3-0" -> "libxcomposite1" [color=blue,label="(>= 1:0.3-1)"];
+	"libgtk-3-0" -> "libxcursor1" [color=blue,label="(>> 1.1.2)"];
+	"libxcursor1" -> "libxfixes3" [color=blue];
+	"libxcursor1" -> "libxrender1" [color=blue];
+	"libgtk-3-0" -> "libxdamage1" [color=blue,label="(>= 1:1.1)"];
+	"libgtk-3-0" -> "libxext6" [color=blue];
+	"libgtk-3-0" -> "libxfixes3" [color=blue];
+	"libgtk-3-0" -> "libxi6" [color=blue,label="(>= 2:1.2.99.4)"];
+	"libxi6" -> "libxext6" [color=blue];
+	"libgtk-3-0" -> "libxinerama1" [color=blue];
+	"libxinerama1" -> "libxext6" [color=blue];
+	"libgtk-3-0" -> "libxkbcommon0" [color=blue,label="(>= 0.5.0)"];
+	"libxkbcommon0" -> "xkb-data" [color=blue];
+	"libgtk-3-0" -> "libxrandr2" [color=blue,label="(>= 2:1.5.0)"];
+	"libxrandr2" -> "libxext6" [color=blue];
+	"libxrandr2" -> "libxrender1" [color=blue];
+	"libgtk-3-0" -> "hicolor-icon-theme" [color=blue];
+	"libgtk-3-0" -> "adwaita-icon-theme" [color=blue];
+	"adwaita-icon-theme" -> "hicolor-icon-theme" [color=blue];
+	"adwaita-icon-theme" -> "gtk-update-icon-cache" [color=blue];
+	"gtk-update-icon-cache" -> "libgdk-pixbuf2.0-0" [color=blue,label="(>= 2.22.0)"];
+	"gtk-update-icon-cache" -> "libglib2.0-0" [color=blue,label="(>= 2.55.2)"];
+	"gtk-update-icon-cache" -> "gtk-update-icon-cache" [color=red];
+	"adwaita-icon-theme" -> "librsvg2-common" [color=blue];
+	"librsvg2-common" -> "libgdk-pixbuf2.0-0" [color=blue,label="(>= 2.22.0)"];
+	"librsvg2-common" -> "libglib2.0-0" [color=blue,label="(>= 2.24.0)"];
+	"librsvg2-common" -> "librsvg2-2" [color=blue,label="(= 2.40.20-2)"];
+	"librsvg2-2" -> "libcairo2" [color=blue,label="(>= 1.10.0)"];
+	"librsvg2-2" -> "libcroco3" [color=blue,label="(>= 0.6.2)"];
+	"libcroco3" -> "libglib2.0-0" [color=blue,label="(>= 2.16.0)"];
+	"libcroco3" -> "libxml2" [color=blue,label="(>= 2.7.4)"];
+	"librsvg2-2" -> "libfontconfig1" [color=blue,label="(>= 2.12)"];
+	"librsvg2-2" -> "libgdk-pixbuf2.0-0" [color=blue,label="(>= 2.22.0)"];
+	"librsvg2-2" -> "libglib2.0-0" [color=blue,label="(>= 2.37.3)"];
+	"librsvg2-2" -> "libpango-1.0-0" [color=blue,label="(>= 1.36.0)"];
+	"librsvg2-2" -> "libpangocairo-1.0-0" [color=blue,label="(>= 1.36.0)"];
+	"librsvg2-2" -> "libpangoft2-1.0-0" [color=blue,label="(>= 1.37.2)"];
+	"librsvg2-2" -> "libxml2" [color=blue,label="(>= 2.8.0)"];
+	"librsvg2-2" -> "librsvg2-common";
+	"adwaita-icon-theme" -> "alt2" [color=blue];
+	"alt2":"ubuntu-mono" -> "adwaita-icon-theme" [color=blue];
+	"alt2":"ubuntu-mono" -> "hicolor-icon-theme" [color=blue];
+	"alt2":"ubuntu-mono" -> "humanity-icon-theme" [color=blue];
+	"humanity-icon-theme" -> "adwaita-icon-theme" [color=blue];
+	"humanity-icon-theme" -> "hicolor-icon-theme" [color=blue];
+	"alt2":"adwaita-icon-theme-full" -> "adwaita-icon-theme" [color=blue,label="(= 3.28.0-1ubuntu1)"];
+	"alt2":"adwaita-icon-theme-full" -> "gtk-update-icon-cache" [color=blue];
+	"alt2":"adwaita-icon-theme-full" -> "librsvg2-common" [color=blue];
+	"libgtk-3-0" -> "shared-mime-info" [color=blue];
+	"libgtk-3-0" -> "libgtk-3-bin";
+	"libgtk-3-bin" -> "libcairo2" [color=blue,label="(>= 1.14.0)"];
+	"libgtk-3-bin" -> "libglib2.0-0" [color=blue,label="(>= 2.55.2)"];
+	"libgtk-3-bin" -> "libgtk-3-0" [color=blue,label="(>= 3.22.30-1ubuntu4)"];
+	"libgtk-3-bin" -> "libgtk-3-common" [color=blue,label="(>= 3.22.30-1ubuntu4)"];
+	"libgtk-3-bin" -> "gtk-update-icon-cache" [color=blue];
+	"libgtk-3-bin" -> "libgtk-3-bin" [color=red];
+	"firefox" -> "libpango-1.0-0" [color=blue,label="(>= 1.22.0)"];
+	"firefox" -> "libpangocairo-1.0-0" [color=blue,label="(>= 1.14.0)"];
+	"firefox" -> "libstartup-notification0" [color=blue,label="(>= 0.8)"];
+	"libstartup-notification0" -> "libx11-xcb1" [color=blue];
+	"libstartup-notification0" -> "libxcb-util1" [color=blue,label="(>= 0.4.0)"];
+	"libxcb-util1" -> "libxcb1" [color=blue];
+	"libstartup-notification0" -> "libxcb1" [color=blue];
+	"firefox" -> "libx11-xcb1" [color=blue];
+	"firefox" -> "libxcb-shm0" [color=blue];
+	"firefox" -> "libxcb1" [color=blue];
+	"firefox" -> "libxcomposite1" [color=blue,label="(>= 1:0.3-1)"];
+	"firefox" -> "libxdamage1" [color=blue,label="(>= 1:1.1)"];
+	"firefox" -> "libxext6" [color=blue];
+	"firefox" -> "libxfixes3" [color=blue];
+	"firefox" -> "libxrender1" [color=blue];
+	"firefox" -> "libxt6" [color=blue];
+	"libxt6" -> "libice6" [color=blue,label="(>= 1:1.0.0)"];
+	"libice6" -> "libbsd0" [color=blue,label="(>= 0.2.0)"];
+	"libice6" -> "x11-common" [color=blue];
+	"libxt6" -> "libsm6" [color=blue];
+	"libsm6" -> "libice6" [color=blue,label="(>= 1:1.0.0)"];
+	"libsm6" -> "libuuid1" [color=blue,label="(>= 2.16)"];
+	"libuuid1" -> "uuid-runtime";
+	"uuid-runtime" -> "libuuid1" [color=purple,style=bold,label="(>= 2.25-5~)"];
+	"uuid-runtime" -> "adduser" [color=blue];
+	"adduser" -> "passwd" [color=blue];
+	"adduser" -> "alt3":"debconf" [color=blue,label="(>= 0.5)"];
+	"alt3":"debconf-2.0" -> virt2 [dir=back,arrowtail=inv,color=green];
+	"uuid-runtime" -> "libsmartcols1" [color=blue,label="(>= 2.27~rc1)"];
+	"uuid-runtime" -> "libsystemd0" [color=blue];
+	"uuid-runtime" -> "libuuid1" [color=blue,label="(>= 2.31.1)"];
+	"uuid-runtime" -> "uuid-runtime" [color=red];
+	"firefox" -> "xul-ext-ubufox";
+	"xul-ext-ubufox" -> "libglib2.0-0" [color=blue,label="(>= 2.26)"];
+	"firefox" -> "libcanberra0";
+	"libcanberra0" -> "libasound2" [color=blue,label="(>= 1.0.16)"];
+	"libasound2" -> "libasound2-data" [color=blue,label="(>= 1.1.3-5ubuntu0.2)"];
+	"libcanberra0" -> "libltdl7" [color=blue,label="(>= 2.4.6)"];
+	"libcanberra0" -> "libtdb1" [color=blue,label="(>= 1.2.7+git20101214)"];
+	"libcanberra0" -> "libvorbisfile3" [color=blue,label="(>= 1.1.2)"];
+	"libvorbisfile3" -> "libogg0" [color=blue,label="(>= 1.1.0)"];
+	"libvorbisfile3" -> "libvorbis0a" [color=blue,label="(= 1.3.5-4.2)"];
+	"libvorbis0a" -> "libogg0" [color=blue,label="(>= 1.1.0)"];
+	"libcanberra0" -> "sound-theme-freedesktop" [color=blue];
+	"firefox" -> "libdbusmenu-glib4";
+	"firefox" -> "libdbusmenu-gtk3-4";
+	"libdbusmenu-gtk3-4" -> "libatk1.0-0" [color=blue,label="(>= 1.12.4)"];
+	"libdbusmenu-gtk3-4" -> "libdbusmenu-glib4" [color=blue,label="(>= 0.5.90)"];
+	"libdbusmenu-gtk3-4" -> "libgdk-pixbuf2.0-0" [color=blue,label="(>= 2.22.0)"];
+	"libdbusmenu-gtk3-4" -> "libglib2.0-0" [color=blue,label="(>= 2.37.3)"];
+	"libdbusmenu-gtk3-4" -> "libpango-1.0-0" [color=blue,label="(>= 1.14.0)"];
+	"firefox" -> "firefox" [color=red];
+	"firefox" -> "www-browser" [arrowhead=inv,color=green];
+	"www-browser" -> "Pr_www-browser" [label="-27-",dir=back,arrowtail=inv,color=green];
+	"Pr_www-browser" [label="...",style=rounded];
+	"www-browser" [shape=octagon];
+	"firefox" -> "iceweasel" [arrowhead=inv,color=green];
+	"iceweasel" [shape=octagon];
+	"firefox" -> "gnome-www-browser" [arrowhead=inv,color=green];
+	"gnome-www-browser" -> virt3 [dir=back,arrowtail=inv,color=green];
+	"gnome-www-browser" [shape=octagon];
+	"firefox" [style="setlinewidth(2)"]
+	"libharfbuzz0" [style=filled,fillcolor=oldlace];
+	"libharfbuzz0a" [style=filled,fillcolor=oldlace];
+	"libproxy1" [style=filled,fillcolor=oldlace];
+	alt1 [
+		shape = "record"
+		label = "<dconf-gsettings-backend> dconf-gsettings-backend | <gsettings-backend> gsettings-backend"
+	]
+	alt2 [
+		shape = "record"
+		label = "<ubuntu-mono> ubuntu-mono | <adwaita-icon-theme-full> adwaita-icon-theme-full"
+	]
+	alt3 [
+		shape = "record"
+		label = "<debconf> \{debconf\} | <debconf-2.0> debconf-2.0"
+	]
+	virt1 [
+		shape = "record"
+		style = "rounded"
+		label = "<python3> \{python3\} | <python3> \{python3\}"
+	]
+	virt2 [
+		shape = "record"
+		style = "rounded"
+		label = "<debconf> [debconf] | <cdebconf> \{cdebconf\}"
+	]
+	virt3 [
+		shape = "record"
+		style = "rounded"
+		label = "<epiphany-browser> \{epiphany-browser\} | <firefox> [firefox]"
+	]
+	"apt" [shape=diamond];
+	"dbus" [shape=diamond];
+	"fontconfig" [shape=diamond];
+	"libfontconfig1" [shape=diamond];
+	"libglib2.0-0" [shape=diamond];
+	"passwd" [shape=diamond];
+	"x11-common" [shape=diamond];
+}
+// Excluded dependencies:
+// libc6 libgcc1 libstdc++6 libx11-6 multiarch-support zlib1g
+// total size of all shown packages: 329488384
+// download size of all shown packages: 85488518

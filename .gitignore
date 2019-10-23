@@ -1,14 +1,23 @@
-*.nav
-*.toc
-*.vrb
-*.snm
 *.pdf
 .minted*
+_minted*
+*.vrb
+*.nav
+*.snm
+*.toc
 *.out
 *.log
 *.aux
 *.bbl
 *.synctex.gz
+
+figs-lowres/
+tony*
+*.docx
+*.pptx
+
+*.xml
+*.rels
 
 *.orig
 *.BASE*

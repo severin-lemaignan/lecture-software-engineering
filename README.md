@@ -1,19 +1,22 @@
 Software engineering 101
 ------------------------
 
-A ~3h-long introduction to software engineering and GIT, covering:
+A day-long introduction to software engineering and GIT, covering:
 
-- the compilation process
-- static vs dynamic libraries
-- code layout and the FHS
-- semantic versioning
-- software licenses
 - the basics of code versioning
 - understanding branching and merging
 - collaborative development
 - git hosting with GitHub
+- git branching
+- the compilation process
+- static vs dynamic libraries
+- code layout and the FHS
+- build systems
+- semantic versioning
+- software licenses
+- packaging in C++ and Python
 
-[Download the slides](slides.pdf)
+[Download the slides](presentation.pdf)
 
 ![Screenshot 1](doc/1.png)
 ![Screenshot 2](doc/2.png)

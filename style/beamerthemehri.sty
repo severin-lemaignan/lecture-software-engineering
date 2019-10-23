@@ -144,10 +144,10 @@
 %\setsansfont{FlamaLight}[Extension=.otf]
 
 %\setsansfont{FlamaLight.otf}%
-
+\setmonofont{Inconsolata for Powerline}
 \renewcommand\UrlFont{\bf}
 % Titlepage
-\setbeamerfont{title}{size=\fontsize{20}{20}}
+\setbeamerfont{title}{size=\fontsize{30}{30}}
 \setbeamerfont{subtitle}{size=\fontsize{12}{14}}
 \setbeamerfont{date}{size=\fontsize{8}{10}}
 \setbeamerfont{author}{size=\fontsize{12}{15}}
@@ -179,7 +179,7 @@
     \AddToShipoutPictureFG*{\includegraphics[width=\paperwidth]{background.pdf}}
     \begin{minipage}[b][\paperheight]{\textwidth}
     \vspace*{5mm}
-    \includegraphics[height=15mm]{logo}\par
+    %\includegraphics[height=20mm]{logo}\par
     \vspace*{5mm}
     \ifx\insertsubtitle\@empty%
     \else%
@@ -330,13 +330,13 @@
 
 \newminted{cpp}{frame=none,
                  linenos=false,
-                 fontsize=\scriptsize,
+                 fontsize=\tiny,
                  xleftmargin=1em}
 
 \newmintinline[cpp]{cpp}{fontsize=\small}
 
 \newminted{python}{frame=none,
-                 linenos=false,
+                 linenos=true,
                  fontsize=\scriptsize,
                  xleftmargin=1.8em}
 
@@ -352,7 +352,7 @@
 
 \newminted{sh}{frame=lines,
                  linenos=false,
-                 fontsize=\small,
+                 fontsize=\scriptsize,
                  xleftmargin=0.5em}
 
 \newmintinline[sh]{sh}{fontsize=\small}
@@ -501,7 +501,7 @@
         }{
             \noindent\colorbox{black}{%
                 \parbox[c][\paperheight][c]{\paperwidth}{%
-                    \href{run:#2}{\resizebox{\paperwidth}{#1\paperwidth}{\includepreview{#2}}}
+                \href{run:#2}{\resizebox{\paperwidth}{#1\paperwidth}{\includepreview{#2}}};
             }
             }
         }
