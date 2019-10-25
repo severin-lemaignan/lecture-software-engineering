@@ -120,32 +120,47 @@ England/University of Bristol}}
 
 \begin{frame}{Today's objectives}
 
-    At the end of the day, you should know:
+    \only<1>{
+    At the end of the day, you should know more about:
 
     \begin{itemize}
-        \item ...plenty of things about Git!
-        \item What does ``compiling code'' \emph{really} means (but you remember
-            from that time, right?)
-        \item The difference between a \sh{dll} and a \sh{lib}
-        \item (and what are \sh{dll}s)
-        \item \hyperlink{cmake}{What is {\bf CMake}}
-        \item \hyperlink{deb}{What is a \texttt{deb} package and how to create
-            one?}
-        \item How to write and distribute a Python package
-        \item How to organise your code on your hard-drive
-        \item \hyperlink{FHS}{What \emph{Filesystem Standard Hierarchy} means}
-        \item \hyperlink{markdown}{What is markdown}
-        \item \hyperlink{licenses}{The differences between the GPL, MIT, BSD,
-            ... licenses}
+        \item<+-> \hyperlink{codeversioning}{code versioning with git}
+        \item<+-> What does ``compiling code'' \emph{really} means (but you remember from that time, right?)
+        \item<+-> The difference between a \sh{dll} and a \sh{lib}
+        \item<+-> \hyperlink{libraries}{(and what are \sh{dll}s)}
+        \item<+-> \hyperlink{cmake}{What is {\bf CMake}}
+        \item<+-> \hyperlink{deb}{What is a \texttt{deb} package and how to create one?}
+        \item<+-> How to write and distribute a Python package
+        \item<+-> How to organise your code on your hard-drive
+        \item<+-> \hyperlink{FHS}{What \emph{Filesystem Standard Hierarchy} means}
+        \item<+-> \hyperlink{markdown}{What is markdown}
+        \item<+-> \hyperlink{licenses}{The differences between the GPL, MIT, BSD,... licenses}
+        \item<+-> \hyperlink{advancedgit}{More git: code sharing, conflict resolution, branching}
     \end{itemize}
-\end{frame}
 
-\begin{frame}{Today's objectives}
+    }
+    \only<2>{
 
-    \begin{itemize}
-        \item This morning: Git
-        \item This afternoon, 
-    \end{itemize}
+        Looks daunting?
+
+        \begin{itemize}
+            \item one of the main challenges of software engineering is the
+                lack of 'structured' approach to it. {\bf Mostly know-how!}
+
+            \item today's aim is to give you a broad overview + get the key
+                terminology, so that you can successfully navigate this space
+
+            \item experience (eg, Google + stackoverflow, mainly) will do the rest
+
+            \item We will focus on Linux, as most of the concepts are more
+                mature and better enforced in this developer friendly
+                environment. However, to a loarge extend, {\bf the same
+                principles apply to any operating system \& programming
+                environment}
+
+        \end{itemize}
+
+    }
 \end{frame}
 
 
@@ -193,13 +208,12 @@ England/University of Bristol}}
     (and who did what)
     \pause
 
-    (and sharing as well)
+    (and sharing as well -- we'll talk about it this afternoon)
 \end{frame}
 
-\miniframeson
 \section{Code Versioning}
 
-\begin{frame}{Why versioning?}
+\begin{frame}[label=codeversioning]{Why versioning?}
 
     \begin{itemize}
         \item The history of your development/document
@@ -329,20 +343,20 @@ England/University of Bristol}}
 \begin{shcode}
 > git log
 commit fa009cd7fca05b0b61170b20cf76a5f72b8843c2
-Author: Severin Lemaignan <severin.lemaignan@plymouth.ac.uk>
-Date:   Wed Feb 10 16:48:22 2016 +0000
+Author: Severin Lemaignan <severin.lemaignan@brl.ac.uk>
+Date:   Wed Oct 23 16:48:22 2019 +0000
 
     Move main.cpp to src/
 
 commit aff81119459d9193c09effef1c150c4f7eac08dc
-Author: Severin Lemaignan <severin.lemaignan@plymouth.ac.uk>
-Date:   Wed Feb 10 16:48:02 2016 +0000
+Author: Severin Lemaignan <severin.lemaignan@brl.ac.uk>
+Date:   Wed Oct 23 16:48:02 2019 +0000
 
     Re-trained model with 52 more participants
 
 commit 4113b9b6e6bbc8de532ad90153e0059cb5819de7
-Author: Severin Lemaignan <severin.lemaignan@plymouth.ac.uk>
-Date:   Wed Feb 10 16:47:46 2016 +0000
+Author: Severin Lemaignan <severin.lemaignan@brl.ac.uk>
+Date:   Wed Oct 23 16:47:46 2019 +0000
 
     Fix computation of position (float->double)
 \end{shcode}
@@ -465,12 +479,14 @@ Date:   Wed Feb 10 16:47:46 2016 +0000
 
 \begin{frame}[fragile]{To summarize...}
 
-The first time...
+\begin{onlyenv}<1>
+
+The first time:
 \begin{shcode}
 > mkdir my_repo && cd my_repo
 > git init
 \end{shcode}
-Then...
+    Then:
 \begin{shcode}
 # make some changes...
 > git add <files>
@@ -481,38 +497,28 @@ Then...
 # That's it!
 \end{shcode}
 
+\end{onlyenv}
+\begin{onlyenv}<2>
+ Plenty of tools to help with that, including GUI (one of the best one is the one that comes with VSCode).
+
+My two favourite ones: \texttt{tig} and \texttt{gitk}
+
+\begin{shcode}
+> sudo apt install tig gitk
+> gitk &
+> tig status
+\end{shcode}
+\end{onlyenv}
 
 \end{frame}
 
+\begin{frame}[plain]{}
+    \begin{center}
+        \Large
+        {\bf Exercise}: turn your {\tt robomaze} pathfinder into a git repo, and commit the C++ and Python A* as two commits.
+    \end{center}
 
-\begin{frame}{}
-    \centering
-    Viewed from a GUI (macOS \& Windows)\\
-    {\bf GitHub Desktop} Walkthrough\par
-    \vspace{3em}
-    \url{https://desktop.github.com/}
 \end{frame}
-
-\imageframe[caption=Log in to your GitHub account,color=black]{github-windows/1}
-\imageframe[caption=Create a (local) repository,color=black]{github-windows/2}
-\imageframe[caption=GitHub Desktop has already made a first commit on your behalf,color=black]{github-windows/3}
-\imageframe[caption=Open the repo in Windows Explorer,color=black]{github-windows/4}
-\imageframe[caption=Add a simple README.md...,color=black]{github-windows/5}
-\imageframe[caption=The change is listed in the Changes panel,color=black]{github-windows/6}
-\imageframe[caption=Write a commit message \& commit!,color=black]{github-windows/7}
-\imageframe[caption=The History panel shows the log and a diff of your changes,color=black]{github-windows/8}
-
-\begin{frame}{}
-    Viewed from a GUI\\
-    {\bf Tortoise GIT}\par
-    \vspace{3em}
-    \url{https://tortoisegit.org/}
-\end{frame}
-
-\imageframe[color=black,caption=Direct interaction in the Windows explorer]{tortoise-git/gitcommit}
-\imageframe[color=black,caption=Files' status appear as icons]{tortoise-git/overlays}
-\imageframe[color=black,caption=All the functionalities are available]{tortoise-git/contextmenu}
-\imageframe[color=black,caption=Commit window]{tortoise-git/commit}
 
 \begin{frame}{What should be tracked?}
 
@@ -541,7 +547,1246 @@ Then...
 
 \imageframe[color=black, caption=What should I track here?]{windows-explorer/explorer-gitrepo}
 
-\section[Sharing]{Collaborating}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Compilation]{Building code}
+
+\begin{frame}[fragile]{Compiling code in C++}
+
+\begin{cppcode}
+/*
+ * Everyone's favourite: "Hello, World!"
+ */
+
+#include <iostream>
+
+using namespace std;
+
+int main(void)
+{
+    cout << "Hello, World!" << endl;
+    return 0;
+}
+\end{cppcode}
+
+\pause
+
+\begin{shcode}
+> g++ hello.cpp -ohello
+\end{shcode}
+
+\pause 
+
+\begin{shcode}
+> ./hello
+Hello, World!
+\end{shcode}
+
+\end{frame}
+
+
+\begin{frame}{Compiling code in C++: the main stages}
+
+    \begin{enumerate}
+        \item Pre-processing
+        \item Compilation
+        \item Assembly
+        \item Linking
+    \end{enumerate}
+
+These four steps are transparently performed one after the other by your
+    favourite compiler.
+
+\end{frame}
+
+\begin{frame}[fragile]{Compiling code in C++: Pre-processing}
+
+
+\begin{cppcode}
+/*
+ * "Hello, World!": A classic.
+ */
+
+#include <iostream>
+
+using namespace std;
+
+int main(void)
+{
+    cout << "Hello, World!" << endl;
+    return 0;
+}
+\end{cppcode}
+
+Pre-processor \emph{directives} start with \cpp{#}
+
+$\rightarrow$ \cpp{#include <iostream>} is replaced by the content of that file.
+
+\end{frame}
+
+\begin{frame}[fragile]{Compiling code in C++: Compilation}
+
+\begin{shcode}
+> g++ -S hello.cpp
+\end{shcode}
+
+
+\begin{asmcode}
+main:
+.LFB1493:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	leaq	.LC0(%rip), %rsi
+	leaq	_ZSt4cout(%rip), %rdi
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	movq	%rax, %rdx
+	movq	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rax
+	movq	%rax, %rsi
+	movq	%rdx, %rdi
+	call	_ZNSolsEPFRSoS_E@PLT
+\end{asmcode}
+\end{frame}
+
+\begin{frame}[fragile]{Compiling code in C++: Assembly}
+
+\begin{shcode}
+> g++ -s hello.cpp
+> hexdump a.out
+0000000 457f 464c 0102 0001 0000 0000 0000 0000
+0000010 0003 003e 0001 0000 07b0 0000 0000 0000
+0000020 0040 0000 0000 0000 1128 0000 0000 0000
+0000030 0000 0000 0040 0038 0009 0040 001b 001a
+0000040 0006 0000 0005 0000 0040 0000 0000 0000
+0000050 0040 0000 0000 0000 0040 0000 0000 0000
+0000060 01f8 0000 0000 0000 01f8 0000 0000 0000
+0000070 0008 0000 0000 0000 0003 0000 0004 0000
+0000080 0238 0000 0000 0000 0238 0000 0000 0000
+0000090 0238 0000 0000 0000 001c 0000 0000 0000
+00000a0 001c 0000 0000 0000 0001 0000 0000 0000
+00000b0 0001 0000 0005 0000 0000 0000 0000 0000
+00000c0 0000 0000 0000 0000 0000 0000 0000 0000
+00000d0 0b78 0000 0000 0000 0b78 0000 0000 0000
+00000e0 0000 0020 0000 0000 0001 0000 0006 0000
+...
+\end{shcode}
+\end{frame}
+
+\begin{frame}[fragile]{Compiling code in C++: Linking}
+
+The linker copies (and re-arrange) the machine code of the static dependencies
+(\emph{static libraries}) into the executable.
+
+That's what the \texttt{-l} flag is used for:
+
+\begin{shcode}
+> g++ cool_app.cpp -ocool_app -lcv_core -lcv_highgui -lcv_videoproc
+\end{shcode}
+
+\end{frame}
+
+%\begin{frame}{Compiled vs Not compiled}
+%
+%    Multiple \textbf{execution models}:
+%
+%    \begin{itemize}
+%        \item<1-> Compiled languages (eg C, C++, Ada...)
+%        \item<2-> Interpreted languages (eg: ...?)
+%        \item<3-> $\rightarrow$ most 'interpreted languages' are actually 'JITed'
+%    \end{itemize}
+%
+%    \onslide<3> {
+%
+%    \textbf{Just-In-Time} compilation: the interpreter generates an efficient
+%    \textbf{intermediate representation} (commonly called \textbf{bytecode})
+%    that is executed (and often stored).
+%
+%    Very common execution model: Python, C\#, Javascript...
+%
+%    }
+%\end{frame}
+
+\begin{frame}{Modern compiler infrastructure}
+    \begin{center}
+        \resizebox{\linewidth}{!}{
+            \begin{tikzpicture}[>=latex,font=\footnotesize,node distance=2cm]
+
+                \node[rectangle,draw] (fe) {Front-end};
+                \node[rectangle,draw,fill=hriSec2, right of=fe] (ir) {IR};
+                \node[rectangle,draw, right of=ir] (be) {Back-end};
+                \draw[->] (fe) -- (ir) -- (be);
+            \end{tikzpicture}
+        }
+    \end{center}
+
+    For instance, LLVM has a front-end for C/C++ called \texttt{clang} and has
+    many backends (like \texttt{emscripten} to create the new \texttt{wasm}
+    binaries for consumption by the web browsers)
+\end{frame}
+
+\begin{frame}[label=libraries]{Libraries}
+
+    A library is a collection of pre-compiled functions that might get called by
+    an executable. \emph{Libraries are not executable} by themselves.
+
+    \begin{exampleblock}{Why libraries?}
+        \begin{itemize}
+            \item to modularise your code
+            \item to make it easier to reuse
+        \end{itemize}
+    \end{exampleblock}
+
+    \pause
+
+    Two main kinds:
+
+    \begin{itemize}
+        \item Static libraries, whose code is \emph{copied} into the executable
+            by the linker. Extensions: \texttt{.a}, \texttt{.lib}
+        \item Dynamic libraries, whose code is \emph{loaded by the operating
+            system} at runtime. They are also called \emph{shared libraries}.
+            Extensions: \texttt{.so}, \texttt{.dll}, \texttt{.dylib}
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Static vs Dynamic libraries}
+
+    \only<1>{
+    \begin{center}
+        \Large
+    Take 5 min and try to list 2 advantages for the static libraries
+    on one hand, and the dynamic libraries on the other hand.
+    \end{center}
+    }
+
+    \onslide<2-> {
+
+    \textbf{Advantages of static libraries}:
+    \begin{itemize}
+        \item application can be certain that all its libraries are present
+        \item libraries are the correct version {\small (on Linux, distributions
+            and package managers handle that for dynamic libraries)}
+        \item single executable: simpler distribution and installation
+        \item only need to copy (and load into memory) the parts that are needed
+    \end{itemize}
+
+}
+    \onslide<3->{
+    \textbf{Advantages of dynamic libraries}:
+    \begin{itemize}
+        \item executables smaller because no need to copy the libraries' code
+        \item prevent redundant code in the system
+        \item allows the libraries to be easily updated to fix bugs and security flaws
+            without updating each of the applications
+    \end{itemize}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Two tools to explore libraries}
+
+\sh{nm} lists the symbols provided by a shared library:
+
+\begin{shcode}
+> nm libgazr.so
+[...]
+000000000002d040 W _ZN4dlib9impl_fhog8init_hogIfNS_33memory_manager_stateless_kernel_1IcEES3_EEvRNS_5arrayINS_7array2dIT_T0_EET1_EEiiii
+000000000027e940 b _ZN4dlibL23OBJECT_PART_NOT_PRESENTE
+0000000000010d00 t _ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_mPKS8_P13__va_list_tagEmSB_z.constprop.1073
+                 U _ZN9_IplImageC1ERKN2cv3MatE
+                 U _Znam@@GLIBCXX_3.4
+0000000000011370 T _ZNK18HeadPoseEstimation12drawFeaturesERKSt6vectorIS0_IN2cv6Point_IiEESaIS3_EESaIS5_EERNS1_3MatE
+0000000000011b80 T _ZNK18HeadPoseEstimation12intersectionEN2cv6Point_IfEES2_S2_S2_RS2_
+0000000000011c40 T _ZNK18HeadPoseEstimation4poseEm
+0000000000014500 T _ZNK18HeadPoseEstimation5posesEv
+0000000000011b30 T _ZNK18HeadPoseEstimation8coordsOfEm14FACIAL_FEATURE
+[...]
+\end{shcode}
+
+\end{frame}
+\begin{frame}[fragile]{Two tools to explore libraries}
+
+C++ signatures returned by \sh{nm} are \textbf{mangled}. You can
+demangle them:
+
+\begin{shcode}
+> nm libgazr.so | c++filt
+[...]
+000000000027e940 b dlib::OBJECT_PART_NOT_PRESENT
+0000000000010d00 t std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > __gnu_cxx::__to_xstring<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, char>(int (*)(char*, unsigned long, char const*, __va_list_tag*), unsigned long, char const*, ...) [clone .constprop.1073]
+                 U _IplImage::_IplImage(cv::Mat const&)
+                 U operator new[](unsigned long)@@GLIBCXX_3.4
+0000000000011370 T HeadPoseEstimation::drawFeatures(std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > const&, cv::Mat&) const
+0000000000011b80 T HeadPoseEstimation::intersection(cv::Point_<float>, cv::Point_<float>, cv::Point_<float>, cv::Point_<float>, cv::Point_<float>&) const
+0000000000011c40 T HeadPoseEstimation::pose(unsigned long) const
+0000000000014500 T HeadPoseEstimation::poses() const
+0000000000011b30 T HeadPoseEstimation::coordsOf(unsigned long, FACIAL_FEATURE) const
+[...]
+\end{shcode}
+
+\end{frame}
+\begin{frame}[fragile]{Two tools to explore libraries}
+
+
+\sh{ldd} lists the dependencies to shared libraries:
+
+\begin{shcode}
+> ldd estimate_head_pose 
+linux-vdso.so.1 (0x00007fff32387000)
+libgazr.so (0x00007f3f1822f000)
+libopencv_imgcodecs.so.3.2 => /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.3.2 (0x00007f3f17ffa000)
+libopencv_core.so.3.2 => /usr/lib/x86_64-linux-gnu/libopencv_core.so.3.2 (0x00007f3f17bbf000)
+libdlib.so.18 => /usr/lib/libdlib.so.18 (0x00007f3f178a8000)
+libstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f3f1751a000)
+libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f3f17302000)
+libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3f16f11000)
+libblas.so.3 => /usr/lib/x86_64-linux-gnu/libblas.so.3 (0x00007f3f16ca4000)
+liblapack.so.3 => /usr/lib/x86_64-linux-gnu/liblapack.so.3 (0x00007f3f16406000)
+libopencv_calib3d.so.3.2 => /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.3.2 (0x00007f3f160b6000)
+libopencv_imgproc.so.3.2 => /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.3.2 (0x00007f3f15b65000)
+libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f3f157c7000)
+[...]
+\end{shcode}
+\end{frame}
+
+\begin{frame}[fragile]{How to make \& use libraries?}
+
+\begin{onlyenv}<1>
+
+Code source of a pathfinding tool for our robots:
+
+\begin{shcode}
+main.cpp
+ui.cpp
+pathfinding.cpp
+\end{shcode}
+
+\begin{shcode}
+> g++ main.cpp ui.cpp pathfinding.cpp -opathfinding_ui
+\end{shcode}
+
+
+\sh{pathfinding.cpp} contains the actual pathfinder, and might be useful for
+many other projects. How to turn it into a library?
+
+\end{onlyenv}
+\begin{onlyenv}<2>
+
+First, we need to extract the \textbf{API} of our library in a
+\textbf{public header} \sh{pathfinding.hpp}:
+
+\begin{cppcode}
+#ifndef _PATHFINDING_HPP
+#define _PATHFINDING_HPP
+
+class Pathfinder {
+
+    Pathfinder(std::shared_ptr<const Map> map);
+    Path find(size_t goal_x, size_t goal_y);
+}
+
+#endif
+\end{cppcode}
+
+The header contains the \textbf{declarations} of our classes, structures,
+functions, but not the \textbf{definitions} (the definitions are in
+\sh{pathfinding.cpp}).
+
+\end{onlyenv}
+
+\begin{onlyenv}<3>
+Next, compile the library:
+
+\begin{shcode}
+> g++ -fPIC -shared pathfinding.cpp -olibpathfinding.so
+\end{shcode}
+\end{onlyenv}
+
+\begin{onlyenv}<4>
+Finally, use it:
+
+\begin{shcode}
+> g++ main.cpp ui.cpp -lpathfinding -opathfinding_ui
+\end{shcode}
+\end{onlyenv}
+
+
+\end{frame}
+
+\begin{frame}[plain]{}
+    \begin{center}
+        \Large
+        {\bf Exercise}: extract the A* algorithm from your C++ {\tt robomaze} client and turn it into a library.
+    \end{center}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Organising]{Organising your code}
+
+\begin{frame}{}
+    \centering
+
+    \highlightbox{\bf principle of least surprise}
+
+    Make people feel at home when they interact with your project!
+
+\end{frame}
+
+\begin{frame}[fragile, label=FHS]{Repository layout}
+
+Try to follow as much as possible the {\bf Filesystem Hierarchy
+ Standard} (FHS). Mainly:
+
+\begin{shcode}
+src/        # source
+include/    # *public* headers
+etc/        # configuration files
+share/      # data
+doc/        # documentation
+README
+LICENSE
+\end{shcode}
+
+\centering
+
+\only<1>{
+{\bf NO build artifacts!!}\\
+{\bf no binaries} (except possibly in \sh{share/})
+}
+\only<2>{
+\sh{README} (or better, use markdown: \sh{README.md}): what is
+the project about? who is the target audience? how to install? how to get started?
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Example 1}
+
+\begin{onlyenv}<1>
+\begin{shcode}
+my_proj/
+  main.cpp
+  ui.cpp
+  ui.hpp
+  pathfinding.cpp
+  pathfinding.hpp
+  ui.conf
+\end{shcode}
+
+\end{onlyenv}
+
+\begin{onlyenv}<2>
+\begin{shcode}
+my_proj/
+  src/
+    main.cpp
+    ui.cpp
+    ui.hpp
+    pathfinding.cpp
+  include/
+    pathfinding.hpp
+  etc/
+    ui.conf
+  README.md
+  LICENSE
+\end{shcode}
+
+\end{onlyenv}
+
+\end{frame}
+
+\begin{frame}[fragile,label=markdown]{README.md example}
+
+\begin{mdcode}
+Better pathfinder
+=================
+
+![doc/screenshot.png](Screenshot of the provided UI)
+
+This is a really better pathfinder. Check the [publication](http://link...).
+
+Pre-requisites
+--------------
+
+- dependency 1
+- dependency 2
+
+Installation
+------------
+
+```
+mkdir build && cd build && cmake .. && make install
+```
+
+Usage
+-----
+
+...
+\end{mdcode}
+
+\end{frame}
+
+\begin{frame}[fragile]{markdown cheat sheet}
+\scriptsize
+
+\begin{multicols}{2}
+
+{\bf Titles/sections:}
+
+\begin{mdcode}
+Title
+=====
+Subtitle
+--------
+### Section
+#### Subsection
+\end{mdcode}
+
+{\bf Links/images:}
+
+\begin{mdcode}
+[Click here](otherpage.md)
+![Image caption](myimage.png)
+\end{mdcode}
+
+{\bf Formatting:}
+
+\begin{mdcode}
+**Bold**
+*Italics*
+_Underlined_
+~~Strike through~~
+`code`
+\end{mdcode}
+
+{\bf Lists:}
+
+\begin{mdcode}
+- item (you can use * or + as well)
+- item
+- item
+
+1. item
+2. item
+3. item
+\end{mdcode}
+
+{\bf Syntax-highlighted code blocks:}
+
+\begin{mdcode}
+```python
+    # this is a Python code block
+```
+\end{mdcode}
+
+\emph{(tables are also possible)}
+\end{multicols}
+
+\end{frame}
+
+\begin{frame}[plain]{}
+    \begin{center}
+        \Large
+        {\bf Exercise}: 
+        \begin{enumerate}
+            \item clone this repo: \sh{git clone https://github.com/severin-lemaignan/robomaze-cpp.git}
+            \item re-organise it to follow the FHS and best practises
+            \item (bonus) try to compile {\tt astar.cpp} as a shared library
+        \end{enumerate}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Example 2: you take over an existing project}
+
+
+\begin{onlyenv}<1>
+\begin{minted}[frame=none,
+               linenos=false,
+               fontsize=\footnotesize,
+               xleftmargin=0.5em]{sh}
+joe@doe:/usr/robot-planning$ ls -alh
+drwxr-xr-x  2 joe  root    4.0K Sep 22 10:40 .
+drwxr-xr-x 12 root root    4.0K Sep 22 10:36 ..
+-rwxrwxr-x  1 joe  joe     8.8K Sep 22 10:40 pathfinding_ui
+-rw-rw-r--  1 joe  joe     2.1K Sep 22 10:39 compile.sh
+-rw-rw-r--  1 joe  joe     1.8K Sep 22 10:39 compile.bat
+-rw-rw-r--  1 joe  joe      134 Sep 22 10:39 readme-first.txt
+-rw-rw-r--  1 joe  joe      895 Sep 21 21:38 main.cpp
+-rw-rw-r--  1 joe  joe     1.2K Sep 21 20:27 main.hpp
+-rw-rw-r--  1 joe  joe     5.8K Sep 22 10:40 main.o
+-rw-rw-r--  1 joe  joe       50 Sep 19 10:36 main.ini
+-rw-rw-r--  1 joe  joe     2.3K Sep 20 09:31 pathfinding.cpp
+-rw-rw-r--  1 joe  joe      230 Sep 20 10:32 pathfinding.hpp
+-rw-rw-r--  1 joe  joe     4.3K Sep 22 10:40 pathfinding.o
+-rw-rw-r--  1 joe  joe     7.3K Sep 21 10:40 pathfinding.so
+-rw-rw-r--  1 joe  joe     6.7K Sep 20 11:13 core.cpp
+-rw-rw-r--  1 joe  joe     7.1K Sep 22 10:40 core.o
+-rw-rw-r--  1 joe  joe     6.1K Sep 22 10:40 core.a
+-rw-rw-r--  1 joe  joe     6.0K Sep 21 16:22 core.lib
+\end{minted}
+
+\end{onlyenv}
+
+    \begin{onlyenv}<2>
+        Points that can be improved:
+
+        \begin{itemize}
+            \item Developping in \texttt{usr/} is a bad practice
+            \item Rename files to be more descriptive
+            \item Change the layout to follow the FHS (eg \texttt{main.ini} to
+                \texttt{etc/main.ini})
+            \item Use a buildsystem (like CMake) instead of relying on ad-hoc scripts
+            \item Add a \texttt{README} and a \texttt{LICENSE}
+            \item Public headers should be moved to \texttt{include/}
+        \end{itemize}
+    \end{onlyenv}
+\end{frame}
+
+
+%\begin{frame}[fragile]{Organising your code: ROS packages}
+%
+%    When working with ROS, you can use \sh{catkin_create_pkg} to quickly
+%    generate a project skeleton + \texttt{CMakeLists.txt}:
+%
+%\begin{minted}[frame=none,
+%               linenos=false,
+%               xleftmargin=0.5em]{sh}
+%> catkin_create_pkg my_ros_node std_msgs rospy roscpp
+%> ls -lh my_ros_node
+%-rw-r--r-- 1 joe joe 6.7K Nov 28 15:46 CMakeLists.txt
+%drwxr-xr-x 3 joe joe 4.0K Nov 28 15:46 include
+%-rw-r--r-- 1 joe joe 2.1K Nov 28 15:46 package.xml
+%drwxr-xr-x 2 joe joe 4.0K Nov 28 15:46 src
+%\end{minted}
+%
+%
+%\sh{catkin_create_pkg <package_name> [depend1] [depend2] [depend3]}
+%\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Build systems}
+
+\begin{frame}[fragile, label=cmake]{Build system}
+
+    Use and provide a build system!
+
+    \begin{itemize}
+        \item Windows-only $\Rightarrow$ a Visual Studio solution is ok
+        \item MacOS-only $\Rightarrow$ a XCode project is ok
+    \end{itemize}
+
+    In all other cases, go for a cross-platform build system like {\bf
+    CMake} or {\bf Meson}.
+
+\begin{shcode}
+> sudo apt install cmake
+> sudo apt install cmake-curses-gui # a super useful cmdline GUI for CMake
+\end{shcode}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Example of a CMake file: CMakeLists.txt}
+
+    Create a file called \texttt{CMakeLists.txt} at the root of the {\tt robomaze-cpp} project:
+
+\begin{cmakecode}
+cmake_minimum_required(VERSION 3.10)
+project(robomaze-pilot VERSION 1.0)
+
+# specify the C++ standard
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+find_package(cpprestsdk REQUIRED) # one external dependency
+find_package(Boost REQUIRED system) # required by cpprest
+
+# First, the library
+add_library(astar SHARED src/astar.cpp)
+target_include_directories(astar PUBLIC include)
+
+# then, the executable, which depends on the library's target
+add_executable(robomaze-client src/controller.cpp)
+target_include_directories(robomaze-client PUBLIC include)
+target_link_libraries(robomaze-client PUBLIC astar cpprestsdk::cpprest Boost::system)
+\end{cmakecode}
+
+\end{frame}
+
+\begin{frame}[fragile]{Configuring and compiling with CMake}
+
+    \begin{onlyenv}<1>
+\begin{shcode}
+> cmake .
+-- The C compiler identification is GNU 7.4.0
+-- The CXX compiler identification is GNU 7.4.0
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11")
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1")
+-- Boost version: 1.65.1
+-- Found the following Boost libraries:
+--   system
+-- Configuring done
+-- Generating done
+-- Build files have been written to: robomaze-pilot/build
+\end{shcode}
+\end{onlyenv}
+    \begin{onlyenv}<2>
+\begin{shcode}
+
+> make
+Scanning dependencies of target astar
+[ 25%] Building CXX object CMakeFiles/astar.dir/src/astar.cpp.o
+[ 50%] Linking CXX shared library libastar.so
+[ 50%] Built target astar
+Scanning dependencies of target robomaze-client
+[ 75%] Building CXX object CMakeFiles/robomaze-client.dir/src/controller.cpp.o
+[100%] Linking CXX executable robomaze-client
+[100%] Built target robomaze-client
+> ls
+CMakeCache.txt  CMakeFiles  cmake_install.cmake  CMakeLists.txt  include
+    libastar.so  LICENSE  Makefile  README.md  robomaze-client  src
+\end{shcode}
+
+    CMake    {\bf configures} the project, and generate {\bf Makefiles} that are
+    consumed by {\tt make} to actually compile the project.
+
+\pause
+
+    Note that {\tt make} and Makefiles are independent from CMake. CMake is a
+    Makefiles {\bf generator}. It can also generate VS solutions, etc.
+
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile]{Out-of-tree building}
+
+\begin{onlyenv}<1>
+\begin{shcode}
+robomaze-client/
+  src/
+    controller.cpp
+    astar.cpp
+  include/
+    astar.hpp
+  README.md
+  LICENSE
+  CMakeLists.txt
+\end{shcode}
+
+\end{onlyenv}
+
+\begin{onlyenv}<2>
+When compiling the project, create a sub-directory \sh{build} and perform an
+    \textbf{out-of-tree} build:
+
+\begin{shcode}
+> mkdir build && cd build
+> cmake ..
+> make
+\end{shcode}
+
+\end{onlyenv}
+
+\begin{onlyenv}<3>
+
+\begin{shcode}
+robomaze-client/
+  build/
+    ... # lots of compilation artifacts
+  src/
+    controller.cpp
+    astar.cpp
+  include/
+    astar.hpp
+  README.md
+  LICENSE
+  CMakeLists.txt
+\end{shcode}
+
+    The \sh{build/} directory can be deleted at any point as it contains only
+    generated files.
+\end{onlyenv}
+\end{frame}
+
+
+\begin{frame}[fragile]{Installing code}
+
+\begin{onlyenv}<1>
+Once the application/library is compiled, we normally want to install it in the
+    system, to be generally available. CMake can add an {\bf {\tt install}
+    target} to the Makefiles:
+
+\begin{cmakecode}
+cmake_minimum_required(VERSION 3.10)
+project(robomaze-pilot VERSION 1.0)
+
+# [...same code as before...]
+
+# install everything
+install(TARGETS astar DESTINATION lib)
+install(FILES include/astar.h DESTINATION include)
+install(TARGETS robomaze-client DESTINATION bin)
+\end{cmakecode}
+
+\end{onlyenv}
+
+\begin{onlyenv}<2>
+
+
+\begin{shcode}
+> mkdir build && cd build
+> cmake ..
+> make install
+Scanning dependencies of target astar
+[ 25%] Building CXX object CMakeFiles/astar.dir/src/astar.cpp.o
+[ 50%] Linking CXX shared library libastar.so
+[ 50%] Built target astar
+Scanning dependencies of target robomaze-client
+[ 75%] Building CXX object CMakeFiles/robomaze-client.dir/src/controller.cpp.o
+[100%] Linking CXX executable robomaze-client
+[100%] Built target robomaze-client
+Install the project...
+-- Install configuration: ""
+-- Installing: /usr/local/lib/libastar.so
+CMake Error at cmake_install.cmake:47 (file):
+  file INSTALL cannot copy file
+  "robomaze-pilot/build/libastar.so" to "/usr/local/lib/libastar.so".
+
+Makefile:117: recipe for target 'install' failed
+make: *** [install] Error 1
+\end{shcode}
+
+\end{onlyenv}
+\begin{onlyenv}<3>
+\begin{shcode}
+> mkdir build && cd build
+> cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/devel
+> make install
+[ 50%] Built target astar
+[100%] Built target robomaze-client
+Install the project...
+-- Install configuration: ""
+-- Installing: /home/s-lemaignan/devel/lib/libastar.so
+-- Installing: /home/s-lemaignan/devel/include/astar.h
+-- Installing: /home/s-lemaignan/devel/bin/robomaze-client
+-- Set runtime path of "/home/s-lemaignan/devel/bin/robomaze-client" to ""
+\end{shcode}
+
+    Your {\bf install prefix} is where you want to install the code you compile
+    yourself. The default ({\tt /usr/local}) is not great {\small (why?)}. I recommend {\tt
+    \$HOME/devel} for instance.
+
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile]{The one slide to remember}
+
+
+\begin{shcode}
+> mkdir build && cd build
+> cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/devel -DCMAKE_BUILD_TYPE=Release
+> make install
+\end{shcode}
+
+...you will type that often!
+\end{frame}
+
+\begin{frame}[fragile]{What about Python?}
+
+Create a \texttt{setup.py} file at the root of the project:
+    \begin{onlyenv}<1>
+\begin{pythoncode}
+import setuptools
+
+setuptools.setup(
+    name="pyrobomaze",
+    version="1.0.0",
+    author="Séverin Lemaignan",
+    author_email="severin.lemaignan@brl.ac.uk",
+    description="A A* pathfinder to solve the robomaze game",
+    url="https://github.com/severin-lemaignan/pyrobomaze",
+    install_requires=['requests'],
+    package_dir = {'': 'src'},
+    packages=['robomaze'],
+    scripts=['scripts/pyrobomaze'],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.6',
+)
+\end{pythoncode}
+
+    \end{onlyenv}
+    \begin{onlyenv}<2>
+\begin{shcode}
+> python3 setup.py install --prefix $HOME/devel
+> pyrobomaze <your robot>
+\end{shcode}
+
+        \begin{itemize}
+            \item {\tt PYTHONPATH}: where Python looks for libraries
+            \item \sh{export PYTHONPATH=$HOME/devel/lib/python3.7/site-package} (add to your {\tt .bashrc})
+            \item why no need for {\tt python3} in front of {\tt pyrobomaze}
+              
+        \end{itemize}
+
+
+
+    \end{onlyenv}
+
+\end{frame}
+
+\begin{frame}[plain]{}
+    \begin{center}
+        \Large
+        {\bf Exercise}: 
+        \begin{enumerate}
+            \item clone this repo: \sh{git clone https://github.com/severin-lemaignan/pyrobomaze.git}
+            \item re-organise it to follow the FHS and best practises
+            \item add a setup.py and install the python project locally
+        \end{enumerate}
+    \end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Versioning}
+\begin{frame}[label=versioning]{Semantic versioning}
+    \only<1>{
+    Given a version number \texttt{MAJOR.MINOR.PATCH}, increment the:
+
+    \begin{itemize}
+        \item \texttt{MAJOR} version when you make incompatible API changes,
+        \item \texttt{MINOR} version when you add functionality in a backwards-compatible
+manner, and
+        \item \texttt{PATCH} version when you make backwards-compatible bug fixes.
+    \end{itemize}
+
+Additional labels for pre-release and build metadata are
+    available as extensions to the \texttt{MAJOR.MINOR.PATCH format}.
+
+    \source{semver.org}{\texttt{semver} website}
+
+}
+
+    \only<2->{
+
+        You are the maintainer of \texttt{cool\_app}, that depends on OpenCV
+        \texttt{2.4.11}.
+
+        The OpenCV project releases a new version, what should you do...
+
+        \begin{itemize}
+            \item <2-> ...if the new version is \texttt{2.4.12}?
+            \item <3-> ...if the new version is \texttt{2.5.0}?
+            \item <4-> ...if the new version is \texttt{2.9.0}?
+            \item <5-> ...if the new version is \texttt{3.0.0-beta}?
+            \item <6-> ...if the new version is \texttt{3.0.0}?
+        \end{itemize}
+    }
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Licenses]{Software Licenses, Open-source, free software}
+
+\begin{frame}[label=licenses]{Software licenses}
+    \begin{itemize}
+        \item<+-> {\bf no license} $\Rightarrow$ default copyright laws apply.
+            You retain all rights to your source code; nobody else may
+            reproduce, distribute, or create derivative works from your work.
+        \item<+-> {\bf Permissive licenses}: others do essentially whatever they
+            want with your code, as long as they give your attribution.
+            Examples: MIT, BSD
+        \item<+-> {\bf Copyleft licenses}: Derivative work must be made
+            available under the same terms as the original work (\emph{viral
+            licenses}). Example: GPL
+    \end{itemize}
+
+    \only<1-3>{
+    \begin{center}
+        \includegraphics[width=0.2\paperheight]{osi}\hspace{1em}
+        \includegraphics[width=0.2\paperheight]{GPLv3}
+    \end{center}
+    }
+
+    \centering
+    \only<4>{
+        {\bf If you are paid by UWE or UoB, the copyright belongs to the uni.}
+    }
+
+    \only<5>{
+    Check \url{http://choosealicense.com/}
+    }
+
+
+\end{frame}
+
+\begin{frame}{What if you want to use a GPL library?}
+    There is a legal dispute to know whether merely \emph{linking} with a
+    library result in a \emph{derivative work} (which would then have to be
+    licensed as GPL).
+
+    \pause
+
+    The LGPL (\emph{Lesser GPL}) explicitely allows the usage of the library
+    without putting restrictions on the licensing of the resulting executable.
+
+\end{frame}
+
+\begin{frame}{}
+
+    \begin{exampleblock}{Open-source vs Free software?}
+    ``When we call software "free," we mean that it respects the users' essential
+    freedoms: the freedom to run it, to study and change it, and to redistribute
+    copies with or without changes. This is a matter of freedom, not price, so
+    think of "free speech," not "free beer."''
+
+        \vspace{1em}
+    ``Open source is a development methodology; free software is a social
+        movement''
+
+    \end{exampleblock}
+
+    \source{https://www.gnu.org/philosophy/open-source-misses-the-point.en.html}{GNU
+    website}
+\end{frame}
+
+\section{Packaging}
+
+\begin{frame}[fragile,label=deb]{Investigating the \texttt{hello} package}
+    \begin{onlyenv}<1>
+
+\begin{shcode}
+> sudo apt install hello
+> hello
+Hello, world!
+\end{shcode}
+
+    What \emph{really} happens when we type \sh{apt install hello}?
+
+    \end{onlyenv}
+    \begin{onlyenv}<2>
+
+    The \texttt{hello} package is downloaded from the Ubuntu repositories, and
+    installed. Let's investigate:
+
+\begin{shcode}
+> apt download hello
+> ar x hello_2.10-1build1_amd64.deb
+> ls
+control.tar.gz  data.tar.xz  debian-binary
+\end{shcode}
+
+    \end{onlyenv}
+    \begin{onlyenv}<3>
+
+
+\begin{shcode}
+> tar xf control.tar.gz
+> cat control
+Package: hello
+Version: 2.10-1build1
+Architecture: amd64
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Santiago Vila <sanvila@debian.org>
+Installed-Size: 108
+Depends: libc6 (>= 2.14)
+Conflicts: hello-traditional
+Breaks: hello-debhelper (<< 2.9)
+Replaces: hello-debhelper (<< 2.9), hello-traditional
+Section: devel
+Priority: optional
+Homepage: http://www.gnu.org/software/hello/
+Description: example package based on GNU hello
+ The GNU hello program produces a familiar, friendly greeting.  It
+ allows non-programmers to use a classic computer science tool which
+ would otherwise be unavailable to them.
+ .
+ Seriously, though: this is an example of how to do a Debian package.
+ It is the Debian version of the GNU Project's `hello world' program
+ (which is itself an example for the GNU Project).
+\end{shcode}
+
+    \end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile]{Dependency resolution}
+
+Applications depends on other bits of code! Other libraries, resources,
+executables, etc.
+
+The package has to store in its metadata this information.
+
+The \emph{dependency solver} (on Ubuntu/Debian, \texttt{apt}) finds the
+smaller set of packages to install to satisfy all dependencies.
+
+\pause
+
+\begin{shcode}
+> debtree firefox > firefox_deps.dot
+> dot -Tsvg -ofirefox_deps.svg firefox_deps.dot
+\end{shcode}
+
+\end{frame}
+
+\imageframe{firefox}
+
+\begin{frame}{Creating a package}
+    Creating packages is not trivial, and necessitate a good knowledge of the
+    inner working of a application or library.
+
+    \pause
+
+    The build system (CMake, for instance) already knows a lot!
+
+\end{frame}
+
+\begin{frame}[fragile]{cpack}
+\begin{onlyenv}<1>
+    Using \texttt{cpack} to create a package for your A* pathfinder:
+
+\begin{minted}[frame=none,
+               linenos=false,
+               fontsize=\scriptsize,
+               xleftmargin=0.5em]{cmake}
+cmake_minimum_required(VERSION 3.10)
+
+project(robomaze-pilot VERSION 1.0)
+
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+set(CPACK_PACKAGE_VERSION_MAJOR "${robomaze-pilot_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${robomaze-pilot_VERSION_MINOR}")
+set(CPACK_PACKAGE_CONTACT "Séverin Lemaignan <severin.lemaignan@brl.ac.uk>")
+include(CPack)
+
+# remaining of the file is identical
+\end{minted}
+
+Then:
+
+\begin{minted}[frame=none,
+               linenos=false,
+               fontsize=\scriptsize,
+               xleftmargin=0.5em]{sh}
+> cpack ..
+> ls *.deb
+robomaze-pilot-1.0.1-Linux.deb
+> sudo apt install ./robomaze-pilot-1.0.1-Linux.deb
+\end{minted}
+    \end{onlyenv}
+    \begin{onlyenv}<2>
+
+        (what about the install prefix?)
+
+\begin{shcode}
+> dpkg -L robomaze-pilot
+/usr
+/usr/bin
+/usr/bin/robomaze-client
+/usr/include
+/usr/include/astar.h
+/usr/lib
+/usr/lib/libastar.so
+\end{shcode}
+
+$\rightarrow$ The install prefix is automatically replaced to the system prefix.
+    \end{onlyenv}
+
+\end{frame}
+
+\begin{frame}[fragile]{What about Python packaging?}
+
+    Simpler:
+
+\begin{shcode}
+> python3 setup.py sdist bdist_wheel
+\end{shcode}
+
+This command should output a lot of text and once completed should generate two files in the dist directory:
+
+\begin{shcode}
+dist/
+  pyrobomaze-1.0.0-py3-none-any.whl
+  pyrobomaze-1.0.0.tar.gz
+\end{shcode}
+
+    You need to create an account on the \emph{Python Index} (\url{pypi.org}).
+    Then you can upload your package:
+
+\begin{shcode}
+> twine upload dist/*
+\end{shcode}
+
+That's it! The whole world can access your package.
+
+
+\end{frame}
+
+\imageframe[color=black]{pypi-dialogs}
+
+\begin{frame}[fragile]{Language-specific package management}
+
+    How to use our package? {\bf Anyone} can simply type:
+
+\begin{shcode}
+> pip3 install pyrobomaze
+> pyrobomaze my_robot
+\end{shcode}
+
+    $\rightarrow$ Anyone can upload Python packages to the {\bf pypi} archive: great to
+    quickly share software packages, without having to bother with source code.
+
+\pause
+
+    Many languages offer such a language-specific package management system
+    ({\bf npm} for Javascript, {\bf cargo} for rust, {\bf rubygems} for ruby,
+    etc)
+
+\pause
+
+    However, no guarantees! In contrast, the acceptance process for Debian is
+    extremly strict $\rightarrow$ guarantees a level of quality and proper
+    integration.
+
+\end{frame}
+
+\section[Sharing]{Advanced git}
+
+\begin{frame}[label=advancedgit]{Advanced git}
+    \begin{itemize}
+        \item collaborating
+        \item conflict resolution
+        \item branching
+    \end{itemize}
+\end{frame}
 
 \imageframe{dvcs-1}
 \imageframe{dvcs-2}
@@ -1031,74 +2276,6 @@ To check out the original branch and stop rebasing, run "git rebase --abort".
 \imageframe[caption=GitLab@BRL,color=black]{gitlab-dashboard}
 \imageframe[caption=GitLab@BRL,color=black]{gitlab-project}
 
-\section[Summary]{The one slide to remember}
-
-\begin{frame}{GIT cheat sheet}
-\scriptsize
-    \begin{multicols}{2}
-
-    {\bf To start...}\\
-    ...from scratch: \texttt{git init}\\
-    ...from existing repo: \texttt{git clone <url>}\par
-
-    \rule{\columnwidth}{0.2pt}
-
-    {\bf Prepare commits:}\\
-    \texttt{git add}\\
-    \texttt{git rm}\\
-    \texttt{git add -p} (partial files)\par
-
-    {\bf Commit:}\\
-    \texttt{git commit}\par
-
-    \rule{\columnwidth}{0.2pt}
-
-    {\bf Create branch:}\\
-    \texttt{git checkout -b <branch>}\par
-
-    {\bf Jump between branches:}\\
-    \texttt{git checkout <branch>}\par
-
-    {\bf ``Import'' another branch:}\\
-    \texttt{git rebase <other\_branch>}\par
-
-    \rule{\columnwidth}{0.2pt}
-
-    {\bf Add a remote source:}\\
-    \texttt{git remote add <name> <url>}\par
-
-    {\bf What's new on a remote?}\\
-    \texttt{git pull <remote> <branch>}\\
-    {\tiny (\texttt{git pull} alone $\equiv$ \texttt{git pull origin master})}\par
-
-    {\bf Share stuff on a remote:}\\
-    \texttt{git push <remote> <branch>}\\
-    {\tiny (\texttt{git push} alone $\equiv$ \texttt{git push origin master})}\par
-
-    \rule{\columnwidth}{0.2pt}
-
-    \begin{multicols}{2}
-    {\bf Repo state}\\
-    \texttt{git status}\par
-
-    {\bf Repo history}\\
-    \texttt{git log}\par
-
-    {\bf Who did what?}\\
-    \texttt{git blame}\par
-
-    {\bf I've lost everythg!}\\
-    \texttt{git reflog}\par
-
-
-    \end{multicols}
-
-    ~\\
-
-    \end{multicols}
-
-\end{frame}
-
 \begin{frame}{Commit hygiene}
     \centering
 
@@ -1129,36 +2306,6 @@ To check out the original branch and stop rebasing, run "git rebase --abort".
     make plenty of repos!
 \end{frame}
 
-
-\begin{frame}{A few cool GitHub stuff to finish}
-    Besides bugtracking, project homepages and wikis,GitHub integrates with many
-    third-party services \& tools:
-
-    \begin{itemize}
-        \item {\bf Travis CI} or {\bf AppVeyor} for continuous integration
-    \end{itemize}
-\end{frame}
-
-\imageframe{pr-failed-ci}
-
-\begin{frame}{A few cool stuff to finish}
-    + GitHub integrates with many external services 
-    \& tools:
-
-    \begin{itemize}
-        \item {\bf Travis CI} or {\bf AppVeyor} for continuous integration
-        \item {\bf zenodo}: associate a DOI to your repository
-        \item {\bf ReadTheDocs}: generate and publish on-line 
-            documentation
-    \end{itemize}
-\end{frame}
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Working with branches}
 
 \begin{frame}{Branches}
@@ -1681,1193 +2828,100 @@ $ git rebase new-idea
 
 \end{frame}
 
-\begin{frame}{}
-    \centering
-    {Viewed from a GUI...}
-\end{frame}
+\section[Summary]{The one slide to remember}
 
-\imageframe[caption=We can easily create a new branch,color=black]{github-windows/9}
-\imageframe[caption=We can compare numerical\_coordinates with master (click on View branch for the full history),color=black]{github-windows/10}
-\imageframe[caption=We can jump between branches...,color=black]{github-windows/11}
-\imageframe[caption=...and watch how they diverge,color=black]{github-windows/12}
-\imageframe[caption=We switch back to numerical\_coordinates and merge in master,color=black]{github-windows/13}
-\imageframe[caption=The merge commit is reflected in the history of the branch,color=black]{github-windows/14}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Compilation]{Building code}
-
-\begin{frame}[fragile]{Compiling code in C++}
-
-\begin{cppcode}
-/*
- * Everyone's favourite: "Hello, World!"
- */
-
-#include <iostream>
-
-using namespace std;
-
-int main(void)
-{
-    cout << "Hello, World!" << endl;
-    return 0;
-}
-\end{cppcode}
-
-\pause
-
-\begin{shcode}
-> g++ hello.cpp -ohello
-\end{shcode}
-
-\pause 
-
-\begin{shcode}
-> ./hello
-Hello, World!
-\end{shcode}
-
-\end{frame}
-
-
-\begin{frame}{Compiling code in C++: the main stages}
-
-    \begin{enumerate}
-        \item Pre-processing
-        \item Compilation
-        \item Assembly
-        \item Linking
-    \end{enumerate}
-
-These four steps are transparently performed one after the other by your
-    favourite compiler.
-
-\end{frame}
-
-\begin{frame}[fragile]{Compiling code in C++: Pre-processing}
-
-
-\begin{cppcode}
-/*
- * "Hello, World!": A classic.
- */
-
-#include <iostream>
-
-using namespace std;
-
-int main(void)
-{
-    cout << "Hello, World!" << endl;
-    return 0;
-}
-\end{cppcode}
-
-Pre-processor \emph{directives} start with \cpp{#}
-
-$\rightarrow$ \cpp{#include <iostream>} is replaced by the content of that file.
-
-\end{frame}
-
-\begin{frame}[fragile]{Compiling code in C++: Compilation}
-
-\begin{shcode}
-> g++ -S hello.cpp
-\end{shcode}
-
-
-\begin{asmcode}
-main:
-.LFB1493:
-	.cfi_startproc
-	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset 6, -16
-	movq	%rsp, %rbp
-	.cfi_def_cfa_register 6
-	leaq	.LC0(%rip), %rsi
-	leaq	_ZSt4cout(%rip), %rdi
-	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
-	movq	%rax, %rdx
-	movq	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rax
-	movq	%rax, %rsi
-	movq	%rdx, %rdi
-	call	_ZNSolsEPFRSoS_E@PLT
-\end{asmcode}
-\end{frame}
-
-\begin{frame}[fragile]{Compiling code in C++: Assembly}
-
-\begin{shcode}
-> g++ -s hello.cpp
-> hexdump a.out
-0000000 457f 464c 0102 0001 0000 0000 0000 0000
-0000010 0003 003e 0001 0000 07b0 0000 0000 0000
-0000020 0040 0000 0000 0000 1128 0000 0000 0000
-0000030 0000 0000 0040 0038 0009 0040 001b 001a
-0000040 0006 0000 0005 0000 0040 0000 0000 0000
-0000050 0040 0000 0000 0000 0040 0000 0000 0000
-0000060 01f8 0000 0000 0000 01f8 0000 0000 0000
-0000070 0008 0000 0000 0000 0003 0000 0004 0000
-0000080 0238 0000 0000 0000 0238 0000 0000 0000
-0000090 0238 0000 0000 0000 001c 0000 0000 0000
-00000a0 001c 0000 0000 0000 0001 0000 0000 0000
-00000b0 0001 0000 0005 0000 0000 0000 0000 0000
-00000c0 0000 0000 0000 0000 0000 0000 0000 0000
-00000d0 0b78 0000 0000 0000 0b78 0000 0000 0000
-00000e0 0000 0020 0000 0000 0001 0000 0006 0000
-...
-\end{shcode}
-\end{frame}
-
-\begin{frame}[fragile]{Compiling code in C++: Linking}
-
-The linker copies (and re-arrange) the machine code of the static dependencies
-(\emph{static libraries}) into the executable.
-
-That's what the \texttt{-l} flag is used for:
-
-\begin{shcode}
-> g++ cool_app.cpp -ocool_app -lcv_core -lcv_highgui -lcv_videoproc
-\end{shcode}
-
-\end{frame}
-
-%\begin{frame}{Compiled vs Not compiled}
-%
-%    Multiple \textbf{execution models}:
-%
-%    \begin{itemize}
-%        \item<1-> Compiled languages (eg C, C++, Ada...)
-%        \item<2-> Interpreted languages (eg: ...?)
-%        \item<3-> $\rightarrow$ most 'interpreted languages' are actually 'JITed'
-%    \end{itemize}
-%
-%    \onslide<3> {
-%
-%    \textbf{Just-In-Time} compilation: the interpreter generates an efficient
-%    \textbf{intermediate representation} (commonly called \textbf{bytecode})
-%    that is executed (and often stored).
-%
-%    Very common execution model: Python, C\#, Javascript...
-%
-%    }
-%\end{frame}
-
-\begin{frame}{Modern compiler infrastructure}
-    \begin{center}
-        \resizebox{\linewidth}{!}{
-            \begin{tikzpicture}[>=latex,font=\footnotesize,node distance=2cm]
-
-                \node[rectangle,draw] (fe) {Front-end};
-                \node[rectangle,draw,fill=hriSec2, right of=fe] (ir) {IR};
-                \node[rectangle,draw, right of=ir] (be) {Back-end};
-                \draw[->] (fe) -- (ir) -- (be);
-            \end{tikzpicture}
-        }
-    \end{center}
-
-    For instance, LLVM has a front-end for C/C++ called \texttt{clang} and has
-    many backends (like \texttt{emscripten} to create the new \texttt{wasm}
-    binaries for consumption by the web browsers)
-\end{frame}
-
-\begin{frame}{Libraries}
-
-    A library is a collection of pre-compiled functions that might get called by
-    an executable. \emph{Libraries are not executable} by themselves.
-
-    \begin{exampleblock}{Why libraries?}
-        \begin{itemize}
-            \item to modularise your code
-            \item to make it easier to reuse
-        \end{itemize}
-    \end{exampleblock}
-
-    \pause
-
-    Two main kinds:
-
-    \begin{itemize}
-        \item Static libraries, whose code is \emph{copied} into the executable
-            by the linker. Extensions: \texttt{.a}, \texttt{.lib}
-        \item Dynamic libraries, whose code is \emph{loaded by the operating
-            system} at runtime. They are also called \emph{shared libraries}.
-            Extensions: \texttt{.so}, \texttt{.dll}, \texttt{.dylib}
-    \end{itemize}
-
-\end{frame}
-
-\begin{frame}{Static vs Dynamic libraries}
-
-    \only<1>{
-    \begin{center}
-        \Large
-    Take 5 min and try to list 2 advantages for the static libraries
-    on one hand, and the dynamic libraries on the other hand.
-    \end{center}
-    }
-
-    \onslide<2-> {
-
-    \textbf{Advantages of static libraries}:
-    \begin{itemize}
-        \item application can be certain that all its libraries are present
-        \item libraries are the correct version {\small (on Linux, distributions
-            and package managers handle that for dynamic libraries)}
-        \item single executable: simpler distribution and installation
-        \item only need to copy (and load into memory) the parts that are needed
-    \end{itemize}
-
-}
-    \onslide<3->{
-    \textbf{Advantages of dynamic libraries}:
-    \begin{itemize}
-        \item executables smaller because no need to copy the libraries' code
-        \item prevent redundant code in the system
-        \item allows the libraries to be easily updated to fix bugs and security flaws
-            without updating each of the applications
-    \end{itemize}
-}
-\end{frame}
-
-\begin{frame}[fragile]{Two tools to explore libraries}
-
-\sh{nm} lists the symbols provided by a shared library:
-
-\begin{shcode}
-> nm libgazr.so
-[...]
-000000000002d040 W _ZN4dlib9impl_fhog8init_hogIfNS_33memory_manager_stateless_kernel_1IcEES3_EEvRNS_5arrayINS_7array2dIT_T0_EET1_EEiiii
-000000000027e940 b _ZN4dlibL23OBJECT_PART_NOT_PRESENTE
-0000000000010d00 t _ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_mPKS8_P13__va_list_tagEmSB_z.constprop.1073
-                 U _ZN9_IplImageC1ERKN2cv3MatE
-                 U _Znam@@GLIBCXX_3.4
-0000000000011370 T _ZNK18HeadPoseEstimation12drawFeaturesERKSt6vectorIS0_IN2cv6Point_IiEESaIS3_EESaIS5_EERNS1_3MatE
-0000000000011b80 T _ZNK18HeadPoseEstimation12intersectionEN2cv6Point_IfEES2_S2_S2_RS2_
-0000000000011c40 T _ZNK18HeadPoseEstimation4poseEm
-0000000000014500 T _ZNK18HeadPoseEstimation5posesEv
-0000000000011b30 T _ZNK18HeadPoseEstimation8coordsOfEm14FACIAL_FEATURE
-[...]
-\end{shcode}
-
-\end{frame}
-\begin{frame}[fragile]{Two tools to explore libraries}
-
-C++ signatures returned by \sh{nm} are \textbf{mangled}. You can
-demangle them:
-
-\begin{shcode}
-> nm libgazr.so | c++filt
-[...]
-000000000027e940 b dlib::OBJECT_PART_NOT_PRESENT
-0000000000010d00 t std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > __gnu_cxx::__to_xstring<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, char>(int (*)(char*, unsigned long, char const*, __va_list_tag*), unsigned long, char const*, ...) [clone .constprop.1073]
-                 U _IplImage::_IplImage(cv::Mat const&)
-                 U operator new[](unsigned long)@@GLIBCXX_3.4
-0000000000011370 T HeadPoseEstimation::drawFeatures(std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > const&, cv::Mat&) const
-0000000000011b80 T HeadPoseEstimation::intersection(cv::Point_<float>, cv::Point_<float>, cv::Point_<float>, cv::Point_<float>, cv::Point_<float>&) const
-0000000000011c40 T HeadPoseEstimation::pose(unsigned long) const
-0000000000014500 T HeadPoseEstimation::poses() const
-0000000000011b30 T HeadPoseEstimation::coordsOf(unsigned long, FACIAL_FEATURE) const
-[...]
-\end{shcode}
-
-\end{frame}
-\begin{frame}[fragile]{Two tools to explore libraries}
-
-
-\sh{ldd} lists the dependencies to shared libraries:
-
-\begin{shcode}
-> ldd estimate_head_pose 
-linux-vdso.so.1 (0x00007fff32387000)
-libgazr.so (0x00007f3f1822f000)
-libopencv_imgcodecs.so.3.2 => /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.3.2 (0x00007f3f17ffa000)
-libopencv_core.so.3.2 => /usr/lib/x86_64-linux-gnu/libopencv_core.so.3.2 (0x00007f3f17bbf000)
-libdlib.so.18 => /usr/lib/libdlib.so.18 (0x00007f3f178a8000)
-libstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f3f1751a000)
-libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f3f17302000)
-libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3f16f11000)
-libblas.so.3 => /usr/lib/x86_64-linux-gnu/libblas.so.3 (0x00007f3f16ca4000)
-liblapack.so.3 => /usr/lib/x86_64-linux-gnu/liblapack.so.3 (0x00007f3f16406000)
-libopencv_calib3d.so.3.2 => /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.3.2 (0x00007f3f160b6000)
-libopencv_imgproc.so.3.2 => /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.3.2 (0x00007f3f15b65000)
-libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f3f157c7000)
-[...]
-\end{shcode}
-\end{frame}
-
-\begin{frame}[fragile]{How to make \& use libraries?}
-
-\begin{onlyenv}<1>
-
-Code source of a pathfinding tool for our robots:
-
-\begin{shcode}
-main.cpp
-ui.cpp
-pathfinding.cpp
-\end{shcode}
-
-\begin{shcode}
-> g++ main.cpp ui.cpp pathfinding.cpp -opathfinding_ui
-\end{shcode}
-
-
-\sh{pathfinding.cpp} contains the actual pathfinder, and might be useful for
-many other projects. How to turn it into a library?
-
-\end{onlyenv}
-\begin{onlyenv}<2>
-
-First, we need to extract the \textbf{API} of our library in a
-\textbf{public header} \sh{pathfinding.hpp}:
-
-\begin{cppcode}
-#ifndef _PATHFINDING_HPP
-#define _PATHFINDING_HPP
-
-class Pathfinder {
-
-    Pathfinder(std::shared_ptr<const Map> map);
-    Path find(size_t goal_x, size_t goal_y);
-}
-
-#endif
-\end{cppcode}
-
-The header contains the \textbf{declarations} of our classes, structures,
-functions, but not the \textbf{definitions} (the definitions are in
-\sh{pathfinding.cpp}).
-
-\end{onlyenv}
-
-\begin{onlyenv}<3>
-Next, compile the library:
-
-\begin{shcode}
-> g++ -fPIC -shared pathfinding.cpp -olibpathfinding.so
-\end{shcode}
-\end{onlyenv}
-
-\begin{onlyenv}<4>
-Finally, use it:
-
-\begin{shcode}
-> g++ main.cpp ui.cpp -lpathfinding -opathfinding_ui
-\end{shcode}
-\end{onlyenv}
-
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Organising]{Organising your code}
-
-\begin{frame}{}
-    \centering
-
-    \highlightbox{\bf principle of least surprise}
-
-    Make people feel at home when they interact with your project!
-
-\end{frame}
-
-\begin{frame}[fragile, label=FHS]{Repository layout}
-
-Try to follow as much as possible the {\bf Filesystem Hierarchy
- Standard} (FHS). Mainly:
-
-\begin{shcode}
-src/        # source
-include/    # *public* headers
-etc/        # configuration files
-share/      # data
-doc/        # documentation
-README
-LICENSE
-\end{shcode}
-
-\centering
-
-\only<1>{
-{\bf NO build artifacts!!}\\
-{\bf no binaries} (except possibly in \sh{share/})
-}
-\only<2>{
-\sh{README} (or better, use markdown: \sh{README.md}): what is
-the project about? who is the target audience? how to install? how to get started?
-}
-
-\end{frame}
-
-
-\begin{frame}[fragile]{Example 1}
-
-\begin{onlyenv}<1>
-\begin{shcode}
-my_proj/
-  main.cpp
-  ui.cpp
-  ui.hpp
-  pathfinding.cpp
-  pathfinding.hpp
-  ui.conf
-\end{shcode}
-
-\end{onlyenv}
-
-\begin{onlyenv}<2>
-\begin{shcode}
-my_proj/
-  src/
-    main.cpp
-    ui.cpp
-    ui.hpp
-    pathfinding.cpp
-  include/
-    pathfinding.hpp
-  etc/
-    ui.conf
-  README.md
-  LICENSE
-\end{shcode}
-
-\end{onlyenv}
-
-\end{frame}
-
-\begin{frame}[fragile,label=markdown]{README.md example}
-
-\begin{mdcode}
-Better pathfinder
-=================
-
-![doc/screenshot.png](Screenshot of the provided UI)
-
-This is a really better pathfinder. Check the [publication](http://link...).
-
-Pre-requisites
---------------
-
-- dependency 1
-- dependency 2
-
-Installation
-------------
-
-```
-mkdir build && cd build && cmake .. && make install
-```
-
-Usage
------
-
-...
-\end{mdcode}
-
-\end{frame}
-
-\begin{frame}[fragile]{markdown cheat sheet}
+\begin{frame}{GIT cheat sheet}
 \scriptsize
+    \begin{multicols}{2}
 
-\begin{multicols}{2}
+    {\bf To start...}\\
+    ...from scratch: \texttt{git init}\\
+    ...from existing repo: \texttt{git clone <url>}\par
 
-{\bf Titles/sections:}
+    \rule{\columnwidth}{0.2pt}
 
-\begin{mdcode}
-Title
-=====
-Subtitle
---------
-### Section
-#### Subsection
-\end{mdcode}
+    {\bf Prepare commits:}\\
+    \texttt{git add}\\
+    \texttt{git rm}\\
+    \texttt{git add -p} (partial files)\par
 
-{\bf Links/images:}
+    {\bf Commit:}\\
+    \texttt{git commit}\par
 
-\begin{mdcode}
-[Click here](otherpage.md)
-![Image caption](myimage.png)
-\end{mdcode}
+    \rule{\columnwidth}{0.2pt}
 
-{\bf Formatting:}
+    {\bf Create branch:}\\
+    \texttt{git checkout -b <branch>}\par
 
-\begin{mdcode}
-**Bold**
-*Italics*
-_Underlined_
-~~Strike through~~
-`code`
-\end{mdcode}
+    {\bf Jump between branches:}\\
+    \texttt{git checkout <branch>}\par
 
-{\bf Lists:}
+    {\bf ``Import'' another branch:}\\
+    \texttt{git rebase <other\_branch>}\par
 
-\begin{mdcode}
-- item (you can use * or + as well)
-- item
-- item
+    \rule{\columnwidth}{0.2pt}
 
-1. item
-2. item
-3. item
-\end{mdcode}
+    {\bf Add a remote source:}\\
+    \texttt{git remote add <name> <url>}\par
 
-{\bf Syntax-highlighted code blocks:}
+    {\bf What's new on a remote?}\\
+    \texttt{git pull <remote> <branch>}\\
+    {\tiny (\texttt{git pull} alone $\equiv$ \texttt{git pull origin master})}\par
 
-\begin{mdcode}
-```python
-    # this is a Python code block
-```
-\end{mdcode}
+    {\bf Share stuff on a remote:}\\
+    \texttt{git push <remote> <branch>}\\
+    {\tiny (\texttt{git push} alone $\equiv$ \texttt{git push origin master})}\par
 
-\emph{(tables are also possible)}
-\end{multicols}
+    \rule{\columnwidth}{0.2pt}
+
+    \begin{multicols}{2}
+    {\bf Repo state}\\
+    \texttt{git status}\par
+
+    {\bf Repo history}\\
+    \texttt{git log}\par
+
+    {\bf Who did what?}\\
+    \texttt{git blame}\par
+
+    {\bf I've lost everythg!}\\
+    \texttt{git reflog}\par
+
+
+    \end{multicols}
+
+    ~\\
+
+    \end{multicols}
 
 \end{frame}
 
-\begin{frame}[plain]
-\begin{center}
-    \Large
-    Exercise: re-organise your A* pathfinder project to follow the FHS standard.
-\end{center}
-\end{frame}
-
-\begin{frame}[fragile]{Example 2: you take over an existing project}
-
-
-\begin{onlyenv}<1>
-\begin{minted}[frame=none,
-               linenos=false,
-               fontsize=\footnotesize,
-               xleftmargin=0.5em]{sh}
-joe@doe:/usr/robot-planning$ ls -alh
-drwxr-xr-x  2 joe  root    4.0K Sep 22 10:40 .
-drwxr-xr-x 12 root root    4.0K Sep 22 10:36 ..
--rwxrwxr-x  1 joe  joe     8.8K Sep 22 10:40 pathfinding_ui
--rw-rw-r--  1 joe  joe     2.1K Sep 22 10:39 compile.sh
--rw-rw-r--  1 joe  joe     1.8K Sep 22 10:39 compile.bat
--rw-rw-r--  1 joe  joe      134 Sep 22 10:39 readme-first.txt
--rw-rw-r--  1 joe  joe      895 Sep 21 21:38 main.cpp
--rw-rw-r--  1 joe  joe     1.2K Sep 21 20:27 main.hpp
--rw-rw-r--  1 joe  joe     5.8K Sep 22 10:40 main.o
--rw-rw-r--  1 joe  joe       50 Sep 19 10:36 main.ini
--rw-rw-r--  1 joe  joe     2.3K Sep 20 09:31 pathfinding.cpp
--rw-rw-r--  1 joe  joe      230 Sep 20 10:32 pathfinding.hpp
--rw-rw-r--  1 joe  joe     4.3K Sep 22 10:40 pathfinding.o
--rw-rw-r--  1 joe  joe     7.3K Sep 21 10:40 pathfinding.so
--rw-rw-r--  1 joe  joe     6.7K Sep 20 11:13 core.cpp
--rw-rw-r--  1 joe  joe     7.1K Sep 22 10:40 core.o
--rw-rw-r--  1 joe  joe     6.1K Sep 22 10:40 core.a
--rw-rw-r--  1 joe  joe     6.0K Sep 21 16:22 core.lib
-\end{minted}
-
-\end{onlyenv}
-
-    \begin{onlyenv}<2>
-        Points that can be improved:
-
-        \begin{itemize}
-            \item Developping in \texttt{usr/} is a bad practice
-            \item Rename files to be more descriptive
-            \item Change the layout to follow the FHS (eg \texttt{main.ini} to
-                \texttt{etc/main.ini})
-            \item Use a buildsystem (like CMake) instead of relying on ad-hoc scripts
-            \item Add a \texttt{README} and a \texttt{LICENSE}
-            \item Public headers should be moved to \texttt{include/}
-        \end{itemize}
-    \end{onlyenv}
-\end{frame}
-
-
-%\begin{frame}[fragile]{Organising your code: ROS packages}
-%
-%    When working with ROS, you can use \sh{catkin_create_pkg} to quickly
-%    generate a project skeleton + \texttt{CMakeLists.txt}:
-%
-%\begin{minted}[frame=none,
-%               linenos=false,
-%               xleftmargin=0.5em]{sh}
-%> catkin_create_pkg my_ros_node std_msgs rospy roscpp
-%> ls -lh my_ros_node
-%-rw-r--r-- 1 joe joe 6.7K Nov 28 15:46 CMakeLists.txt
-%drwxr-xr-x 3 joe joe 4.0K Nov 28 15:46 include
-%-rw-r--r-- 1 joe joe 2.1K Nov 28 15:46 package.xml
-%drwxr-xr-x 2 joe joe 4.0K Nov 28 15:46 src
-%\end{minted}
-%
-%
-%\sh{catkin_create_pkg <package_name> [depend1] [depend2] [depend3]}
-%\end{frame}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Build systems}
-
-\begin{frame}[label=cmake]{Build system}
-
-    Use and provide a build system!
+\begin{frame}{A few cool GitHub stuff to finish}
+    Besides bugtracking, project homepages and wikis,GitHub integrates with many
+    third-party services \& tools:
 
     \begin{itemize}
-        \item Windows-only $\Rightarrow$ a Visual Studio solution is ok
-        \item MacOS-only $\Rightarrow$ a XCode project is ok
+        \item {\bf Travis CI} or {\bf AppVeyor} for continuous integration
     \end{itemize}
-
-    In all other cases, go for a cross-platform build system like {\bf
-    CMake} or {\bf Meson}.
 \end{frame}
 
-\begin{frame}[fragile]{Example of a CMake file: CMakeLists.txt}
+\imageframe{pr-failed-ci}
 
-Create a file called \texttt{CMakeLists.txt} at the root of your project:
-
-\begin{cmakecode}
-cmake_minimum_required(VERSION 3.10)
-project(robomaze-pilot VERSION 1.0)
-
-# specify the C++ standard
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-
-find_package(cpprestsdk REQUIRED) # one external dependency
-find_package(Boost REQUIRED system) # required by cpprest
-
-# First, the library
-add_library(astar SHARED src/astar.cpp)
-target_include_directories(astar PUBLIC include)
-
-# then, the executable, which depends on the library's target
-add_executable(robomaze-client src/controller.cpp)
-target_include_directories(robomaze-client PUBLIC include)
-target_link_libraries(robomaze-client PUBLIC astar cpprestsdk::cpprest Boost::system)
-\end{cmakecode}
-
-\end{frame}
-
-\begin{frame}[fragile]{Configuring and compiling with CMake}
-
-    \begin{onlyenv}<1>
-\begin{shcode}
-> cmake .
--- The C compiler identification is GNU 7.4.0
--- The CXX compiler identification is GNU 7.4.0
--- Check for working CXX compiler: /usr/bin/c++
--- Check for working CXX compiler: /usr/bin/c++ -- works
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Detecting CXX compile features
--- Detecting CXX compile features - done
--- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11")
--- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1")
--- Boost version: 1.65.1
--- Found the following Boost libraries:
---   system
--- Configuring done
--- Generating done
--- Build files have been written to: robomaze-pilot/build
-\end{shcode}
-\end{onlyenv}
-    \begin{onlyenv}<2>
-\begin{shcode}
-
-> make
-Scanning dependencies of target astar
-[ 25%] Building CXX object CMakeFiles/astar.dir/src/astar.cpp.o
-[ 50%] Linking CXX shared library libastar.so
-[ 50%] Built target astar
-Scanning dependencies of target robomaze-client
-[ 75%] Building CXX object CMakeFiles/robomaze-client.dir/src/controller.cpp.o
-[100%] Linking CXX executable robomaze-client
-[100%] Built target robomaze-client
-> ls
-CMakeCache.txt  CMakeFiles  cmake_install.cmake  CMakeLists.txt  include
-    libastar.so  LICENSE  Makefile  README.md  robomaze-client  src
-\end{shcode}
-
-    CMake    {\bf configures} the project, and generate {\bf Makefiles} that are
-    consumed by {\tt make} to actually compile the project.
-
-\pause
-
-    Note that {\tt make} and Makefiles are independent from CMake. CMake is a
-    Makefiles {\bf generator}. It can also generate VS solutions, etc.
-
-\end{onlyenv}
-\end{frame}
-
-\begin{frame}[fragile]{Out-of-tree building}
-
-\begin{onlyenv}<1>
-\begin{shcode}
-robomaze-client/
-  src/
-    controller.cpp
-    astar.cpp
-  include/
-    astar.hpp
-  README.md
-  LICENSE
-  CMakeLists.txt
-\end{shcode}
-
-\end{onlyenv}
-
-\begin{onlyenv}<2>
-When compiling the project, create a sub-directory \sh{build} and perform an
-    \textbf{out-of-tree} build:
-
-\begin{shcode}
-> mkdir build && cd build
-> cmake ..
-> make
-\end{shcode}
-
-\end{onlyenv}
-
-\begin{onlyenv}<3>
-
-\begin{shcode}
-robomaze-client/
-  build/
-    ... # lots of compilation artifacts
-  src/
-    controller.cpp
-    astar.cpp
-  include/
-    astar.hpp
-  README.md
-  LICENSE
-  CMakeLists.txt
-\end{shcode}
-
-    The \sh{build/} directory can be deleted at any point as it contains only
-    generated files.
-\end{onlyenv}
-\end{frame}
-
-
-\begin{frame}[fragile]{Installing code}
-
-\begin{onlyenv}<1>
-Once the application/library is compiled, we normally want to install it in the
-    system, to be generally available. CMake can add an {\bf {\tt install}
-    target} to the Makefiles:
-
-\begin{cmakecode}
-cmake_minimum_required(VERSION 3.10)
-project(robomaze-pilot VERSION 1.0)
-
-# [...same code as before...]
-
-# install everybody
-install(TARGETS astar DESTINATION lib)
-install(FILES include/astar.h DESTINATION include)
-install(TARGETS robomaze-client DESTINATION bin)
-\end{cmakecode}
-
-\end{onlyenv}
-
-\begin{onlyenv}<2>
-
-
-\begin{shcode}
-> mkdir build && cd build
-> cmake ..
-> make install
-Scanning dependencies of target astar
-[ 25%] Building CXX object CMakeFiles/astar.dir/src/astar.cpp.o
-[ 50%] Linking CXX shared library libastar.so
-[ 50%] Built target astar
-Scanning dependencies of target robomaze-client
-[ 75%] Building CXX object CMakeFiles/robomaze-client.dir/src/controller.cpp.o
-[100%] Linking CXX executable robomaze-client
-[100%] Built target robomaze-client
-Install the project...
--- Install configuration: ""
--- Installing: /usr/local/lib/libastar.so
-CMake Error at cmake_install.cmake:47 (file):
-  file INSTALL cannot copy file
-  "robomaze-pilot/build/libastar.so" to "/usr/local/lib/libastar.so".
-
-Makefile:117: recipe for target 'install' failed
-make: *** [install] Error 1
-\end{shcode}
-
-\end{onlyenv}
-\begin{onlyenv}<3>
-\begin{shcode}
-> mkdir build && cd build
-> cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/devel
-> make install
-[ 50%] Built target astar
-[100%] Built target robomaze-client
-Install the project...
--- Install configuration: ""
--- Installing: /home/s-lemaignan/devel/lib/libastar.so
--- Installing: /home/s-lemaignan/devel/include/astar.h
--- Installing: /home/s-lemaignan/devel/bin/robomaze-client
--- Set runtime path of "/home/s-lemaignan/devel/bin/robomaze-client" to ""
-\end{shcode}
-
-    Your {\bf install prefix} is where you want to install the code you compile
-    yourself. The default ({\tt /usr/local}) is not great. I recommend {\tt
-    \$HOME/devel} for instance.
-
-\end{onlyenv}
-\end{frame}
-
-\begin{frame}[fragile]{The one slide to remember}
-
-
-\begin{shcode}
-> mkdir build && cd build
-> cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/devel -DCMAKE_BUILD_TYPE=Release
-> make
-\end{shcode}
-
-\end{frame}
-
-\begin{frame}[fragile]{What about Python?}
-
-Create a \texttt{setup.py} file at the root of the project:
-\begin{pythoncode}
-import setuptools
-
-setuptools.setup(
-    name="pyrobomaze",
-    version="1.0.0",
-    author="Séverin Lemaignan",
-    author_email="severin.lemaignan@brl.ac.uk",
-    description="A A* pathfinder to solve the robomaze game",
-    url="https://github.com/severin-lemaignan/pyrobomaze",
-    install_requires=['requests'],
-    package_dir = {'': 'src'},
-    packages=['robomaze'],
-    scripts=['scripts/pyrobomaze'],
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-    ],
-    python_requires='>=3.6',
-)
-\end{pythoncode}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Versioning}
-\begin{frame}[label=versioning]{Semantic versioning}
-    \only<1>{
-    Given a version number \texttt{MAJOR.MINOR.PATCH}, increment the:
+\begin{frame}{A few cool stuff to finish}
+    + GitHub integrates with many external services 
+    \& tools:
 
     \begin{itemize}
-        \item \texttt{MAJOR} version when you make incompatible API changes,
-        \item \texttt{MINOR} version when you add functionality in a backwards-compatible
-manner, and
-        \item \texttt{PATCH} version when you make backwards-compatible bug fixes.
+        \item {\bf Travis CI} or {\bf AppVeyor} for continuous integration
+        \item {\bf zenodo}: associate a DOI to your repository
+        \item {\bf ReadTheDocs}: generate and publish on-line 
+            documentation
     \end{itemize}
-
-Additional labels for pre-release and build metadata are
-    available as extensions to the \texttt{MAJOR.MINOR.PATCH format}.
-
-    \source{semver.org}{\texttt{semver} website}
-
-}
-
-    \only<2->{
-
-        You are the maintainer of \texttt{cool\_app}, that depends on OpenCV
-        \texttt{2.4.11}.
-
-        The OpenCV project releases a new version, what should you do...
-
-        \begin{itemize}
-            \item <2-> ...if the new version is \texttt{2.4.12}?
-            \item <3-> ...if the new version is \texttt{2.5.0}?
-            \item <4-> ...if the new version is \texttt{2.9.0}?
-            \item <5-> ...if the new version is \texttt{3.0.0-beta}?
-            \item <6-> ...if the new version is \texttt{3.0.0}?
-        \end{itemize}
-    }
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Licenses]{Software Licenses, Open-source, free software}
 
-\begin{frame}[label=licenses]{Software licenses}
-    \begin{itemize}
-        \item<+-> {\bf no license} $\Rightarrow$ default copyright laws apply.
-            You retain all rights to your source code; nobody else may
-            reproduce, distribute, or create derivative works from your work.
-        \item<+-> {\bf Permissive licenses}: others do essentially whatever they
-            want with your code, as long as they give your attribution.
-            Examples: MIT, BSD
-        \item<+-> {\bf Copyleft licenses}: Derivative work must be made
-            available under the same terms as the original work (\emph{viral
-            licenses}). Example: GPL
-    \end{itemize}
 
-    \only<1-3>{
-    \begin{center}
-        \includegraphics[width=0.2\paperheight]{osi}\hspace{1em}
-        \includegraphics[width=0.2\paperheight]{GPLv3}
-    \end{center}
-    }
-
-    \centering
-    \only<4>{
-        {\bf If you are paid by UWE or UoB, the copyright belongs to the uni.}
-    }
-
-    \only<5>{
-    Check \url{http://choosealicense.com/}
-    }
-
-
-\end{frame}
-
-\begin{frame}{What if you want to use a GPL library?}
-    There is a legal dispute to know whether merely \emph{linking} with a
-    library result in a \emph{derivative work} (which would then have to be
-    licensed as GPL).
-
-    \pause
-
-    The LGPL (\emph{Lesser GPL}) explicitely allows the usage of the library
-    without putting restrictions on the licensing of the resulting executable.
-
-\end{frame}
-
-\begin{frame}{}
-
-    \begin{exampleblock}{Open-source vs Free software?}
-    ``When we call software "free," we mean that it respects the users' essential
-    freedoms: the freedom to run it, to study and change it, and to redistribute
-    copies with or without changes. This is a matter of freedom, not price, so
-    think of "free speech," not "free beer."''
-
-        \vspace{1em}
-    ``Open source is a development methodology; free software is a social
-        movement''
-
-    \end{exampleblock}
-
-    \source{https://www.gnu.org/philosophy/open-source-misses-the-point.en.html}{GNU
-    website}
-\end{frame}
-
-\section{Packaging}
-
-\begin{frame}[fragile,label=deb]{Investigating the \texttt{hello} package}
-    \begin{onlyenv}<1>
-
-\begin{shcode}
-> sudo apt install hello
-> hello
-Hello, world!
-\end{shcode}
-
-    What \emph{really} happens when we type \sh{apt install hello}?
-
-    \end{onlyenv}
-    \begin{onlyenv}<2>
-
-    The \texttt{hello} package is downloaded from the Ubuntu repositories, and
-    installed. Let's investigate:
-
-\begin{shcode}
-> apt download hello
-> ar x hello_2.10-1build1_amd64.deb
-> ls
-control.tar.gz  data.tar.xz  debian-binary
-\end{shcode}
-
-    \end{onlyenv}
-    \begin{onlyenv}<3>
-
-
-\begin{shcode}
-> tar xf control.tar.gz
-> cat control
-Package: hello
-Version: 2.10-1build1
-Architecture: amd64
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Original-Maintainer: Santiago Vila <sanvila@debian.org>
-Installed-Size: 108
-Depends: libc6 (>= 2.14)
-Conflicts: hello-traditional
-Breaks: hello-debhelper (<< 2.9)
-Replaces: hello-debhelper (<< 2.9), hello-traditional
-Section: devel
-Priority: optional
-Homepage: http://www.gnu.org/software/hello/
-Description: example package based on GNU hello
- The GNU hello program produces a familiar, friendly greeting.  It
- allows non-programmers to use a classic computer science tool which
- would otherwise be unavailable to them.
- .
- Seriously, though: this is an example of how to do a Debian package.
- It is the Debian version of the GNU Project's `hello world' program
- (which is itself an example for the GNU Project).
-\end{shcode}
-
-    \end{onlyenv}
-\end{frame}
-
-\begin{frame}[fragile]{Dependency resolution}
-
-Applications depends on other bits of code! Other libraries, resources,
-executables, etc.
-
-The package has to store in its metadata this information.
-
-The \emph{dependency solver} (on Ubuntu/Debian, \texttt{apt}) finds the
-smaller set of packages to install to satisfy all dependencies.
-
-\pause
-
-\begin{shcode}
-> debtree firefox > firefox_deps.dot
-> dot -Tsvg -ofirefox_deps.svg firefox_deps.dot
-\end{shcode}
-
-\end{frame}
-
-\imageframe{firefox}
-
-\begin{frame}{Creating a package}
-    Creating packages is not trivial, and necessitate a good knowledge of the
-    inner working of a application or library.
-
-    \pause
-
-    The build system (CMake, for instance) already knows a lot!
-
-\end{frame}
-
-\begin{frame}[fragile]{cpack}
-\begin{onlyenv}<1>
-    Using \texttt{cpack} to create a package for your A* pathfinder:
-
-\begin{minted}[frame=none,
-               linenos=false,
-               fontsize=\scriptsize,
-               xleftmargin=0.5em]{cmake}
-cmake_minimum_required(VERSION 3.10)
-
-project(robomaze-pilot VERSION 1.0)
-
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
-set(CPACK_PACKAGE_VERSION_MAJOR "${robomaze-pilot_VERSION_MAJOR}")
-set(CPACK_PACKAGE_VERSION_MINOR "${robomaze-pilot_VERSION_MINOR}")
-set(CPACK_PACKAGE_CONTACT "Séverin Lemaignan <severin.lemaignan@brl.ac.uk>")
-include(CPack)
-
-# remaining of the file is identical
-\end{minted}
-
-Then:
-
-\begin{minted}[frame=none,
-               linenos=false,
-               fontsize=\scriptsize,
-               xleftmargin=0.5em]{sh}
-> cpack ..
-> ls *.deb
-robomaze-pilot-1.0.1-Linux.deb
-> sudo apt install ./robomaze-pilot-1.0.1-Linux.deb
-\end{minted}
-    \end{onlyenv}
-    \begin{onlyenv}<2>
-
-        (what about the install prefix?)
-
-\begin{shcode}
-> dpkg -L robomaze-pilot
-/usr
-/usr/bin
-/usr/bin/robomaze-client
-/usr/include
-/usr/include/astar.h
-/usr/lib
-/usr/lib/libastar.so
-\end{shcode}
-
-$\rightarrow$ The install prefix is automatically replaced to the system prefix.
-    \end{onlyenv}
-
-\end{frame}
-
-\begin{frame}[fragile]{What about Python packaging?}
-
-    Simpler:
-
-\begin{shcode}
-> python3 setup.py sdist bdist_wheel
-\end{shcode}
-
-This command should output a lot of text and once completed should generate two files in the dist directory:
-
-\begin{shcode}
-dist/
-  pyrobomaze-1.0.0-py3-none-any.whl
-  pyrobomaze-1.0.0.tar.gz
-\end{shcode}
-
-    You need to create an account on the \emph{Python Index} (\url{pypi.org}).
-    Then you can upload your package:
-
-\begin{shcode}
-> twine upload dist/*
-\end{shcode}
-
-That's it! The whole world can access your package.
-
-
-\end{frame}
-
-\imageframe[color=black]{pypi-dialogs}
-
-\begin{frame}[fragile]{Language-specific package management}
-
-    How to use our package? {\bf Anyone} can simply type:
-
-\begin{shcode}
-> pip3 install pyrobomaze
-> pyrobomaze my_robot
-\end{shcode}
-
-    $\rightarrow$ Anyone can upload Python packages to the {\bf pypi} archive: great to
-    quickly share software packages, without having to bother with source code.
-
-\pause
-
-    Many languages offer such a language-specific package management system
-    ({\bf npm} for Javascript, {\bf cargo} for rust, {\bf rubygems} for ruby,
-    etc)
-
-\pause
-
-    However, no guarantees! In contrast, the acceptance process for Debian is
-    extremly strict $\rightarrow$ guarantees a level of quality and proper
-    integration.
-
-\end{frame}
 
 \begin{frame}{}
     \begin{center}
@@ -2883,6 +2937,54 @@ That's it! The whole world can access your package.
 
 
 \end{frame}
+
+\begin{frame}{Additional material}
+
+    \begin{itemize}
+        \item \hyperlink{gitgui}{git from a GUI}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[label=gitgui]{}
+    \centering
+    Viewed from a GUI (macOS \& Windows)\\
+    {\bf GitHub Desktop} Walkthrough\par
+    \vspace{3em}
+    \url{https://desktop.github.com/}
+\end{frame}
+
+\imageframe[caption=Log in to your GitHub account,color=black]{github-windows/1}
+\imageframe[caption=Create a (local) repository,color=black]{github-windows/2}
+\imageframe[caption=GitHub Desktop has already made a first commit on your behalf,color=black]{github-windows/3}
+\imageframe[caption=Open the repo in Windows Explorer,color=black]{github-windows/4}
+\imageframe[caption=Add a simple README.md...,color=black]{github-windows/5}
+\imageframe[caption=The change is listed in the Changes panel,color=black]{github-windows/6}
+\imageframe[caption=Write a commit message \& commit!,color=black]{github-windows/7}
+\imageframe[caption=The History panel shows the log and a diff of your changes,color=black]{github-windows/8}
+
+\begin{frame}{}
+    Viewed from a GUI\\
+    {\bf Tortoise GIT}\par
+    \vspace{3em}
+    \url{https://tortoisegit.org/}
+\end{frame}
+
+\imageframe[color=black,caption=Direct interaction in the Windows explorer]{tortoise-git/gitcommit}
+\imageframe[color=black,caption=Files' status appear as icons]{tortoise-git/overlays}
+\imageframe[color=black,caption=All the functionalities are available]{tortoise-git/contextmenu}
+\imageframe[color=black,caption=Commit window]{tortoise-git/commit}
+
+\begin{frame}{}
+    \centering
+    {Git branches viewed from a GUI...}
+\end{frame}
+
+\imageframe[caption=We can easily create a new branch,color=black]{github-windows/9}
+\imageframe[caption=We can compare numerical\_coordinates with master (click on View branch for the full history),color=black]{github-windows/10}
+\imageframe[caption=We can jump between branches...,color=black]{github-windows/11}
+\imageframe[caption=...and watch how they diverge,color=black]{github-windows/12}
+\imageframe[caption=We switch back to numerical\_coordinates and merge in master,color=black]{github-windows/13}
+\imageframe[caption=The merge commit is reflected in the history of the branch,color=black]{github-windows/14}
 
 
 \end{document}

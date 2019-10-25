@@ -12,8 +12,8 @@ MODE ?= batchmode
 
 all: paper
 
-$(SVG:.svg=.pdf): %.pdf: %.svg
 $(DOT:.dot=.pdf): %.pdf: %.svg
+$(SVG:.svg=.pdf): %.pdf: %.svg
 	inkscape --export-pdf $(@) $(<)
 
 %.aux: paper
