@@ -120,12 +120,13 @@ England/University of Bristol}}
 
 \begin{frame}{Today's objectives}
 
-    \only<1>{
+    \only<1-12>{
     At the end of the day, you should know more about:
 
     \begin{itemize}
         \item<+-> \hyperlink{codeversioning}{code versioning with git}
-        \item<+-> What does ``compiling code'' \emph{really} means (but you remember from that time, right?)
+        \item<+-> What does ``compiling code'' \emph{really} means (but you
+            remember from last time, right?)
         \item<+-> The difference between a \sh{dll} and a \sh{lib}
         \item<+-> \hyperlink{libraries}{(and what are \sh{dll}s)}
         \item<+-> \hyperlink{cmake}{What is {\bf CMake}}
@@ -139,7 +140,7 @@ England/University of Bristol}}
     \end{itemize}
 
     }
-    \only<2>{
+    \only<13>{
 
         Looks daunting?
 
@@ -154,7 +155,7 @@ England/University of Bristol}}
 
             \item We will focus on Linux, as most of the concepts are more
                 mature and better enforced in this developer friendly
-                environment. However, to a loarge extend, {\bf the same
+                environment. However, to a large extend, {\bf the same
                 principles apply to any operating system \& programming
                 environment}
 
@@ -208,7 +209,7 @@ England/University of Bristol}}
     (and who did what)
     \pause
 
-    (and sharing as well -- we'll talk about it this afternoon)
+    (and sharing as well -- we'll talk about it tomorrow)
 \end{frame}
 
 \section{Code Versioning}
@@ -341,22 +342,23 @@ England/University of Bristol}}
 
 \begin{frame}[fragile]{Log}
 \begin{shcode}
-> git log
+$ git log
+
 commit fa009cd7fca05b0b61170b20cf76a5f72b8843c2
 Author: Severin Lemaignan <severin.lemaignan@brl.ac.uk>
-Date:   Wed Oct 23 16:48:22 2019 +0000
+Date:   Tue Nov 24 16:48:22 2020 +0000
 
     Move main.cpp to src/
 
 commit aff81119459d9193c09effef1c150c4f7eac08dc
 Author: Severin Lemaignan <severin.lemaignan@brl.ac.uk>
-Date:   Wed Oct 23 16:48:02 2019 +0000
+Date:   Tue Nov 24 16:48:02 2020 +0000
 
     Re-trained model with 52 more participants
 
 commit 4113b9b6e6bbc8de532ad90153e0059cb5819de7
 Author: Severin Lemaignan <severin.lemaignan@brl.ac.uk>
-Date:   Wed Oct 23 16:47:46 2019 +0000
+Date:   Tue Nov 24 16:47:46 2020 +0000
 
     Fix computation of position (float->double)
 \end{shcode}
@@ -461,8 +463,8 @@ Date:   Wed Oct 23 16:47:46 2019 +0000
 
 
         \only<3>{
-            \texttt{git add}\\
-            \texttt{git rm}\\
+            \texttt{git add}, \texttt{git rm}\\
+            \texttt{git mv}\\
             \texttt{git add -p}\\
             ...\\
         }
@@ -483,17 +485,17 @@ Date:   Wed Oct 23 16:47:46 2019 +0000
 
 The first time:
 \begin{shcode}
-> mkdir my_repo && cd my_repo
-> git init
+$ mkdir my_repo && cd my_repo
+$ git init
 \end{shcode}
     Then:
 \begin{shcode}
 # make some changes...
-> git add <files>
-> git commit -m"<commit message>"
+$ git add <files>
+$ git commit -m"<commit message>"
 # make some changes...
-> git add <files>
-> git commit -m"<other commit message>"
+$ git add <files>
+$ git commit -m"<other commit message>"
 # That's it!
 \end{shcode}
 
@@ -504,9 +506,9 @@ The first time:
 My two favourite ones: \texttt{tig} and \texttt{gitk}
 
 \begin{shcode}
-> sudo apt install tig gitk
-> gitk &
-> tig status
+$ sudo apt install tig gitk
+$ gitk &
+$ tig status
 \end{shcode}
 \end{onlyenv}
 
@@ -525,7 +527,9 @@ My two favourite ones: \texttt{tig} and \texttt{gitk}
     Short answer: \textbf{everything you care about in your project}
     \pause
 
-    (you can left out temporary files, automatically generated files, etc)
+    (you can left out temporary files, automatically generated files, etc
+    $\rightarrow$ \texttt{.gitignore})
+
     \pause
 
     However, versioning is \textbf{less useful for binary files}: 
@@ -573,13 +577,13 @@ int main(void)
 \pause
 
 \begin{shcode}
-> g++ hello.cpp -ohello
+$ g++ hello.cpp -ohello
 \end{shcode}
 
 \pause 
 
 \begin{shcode}
-> ./hello
+$ ./hello
 Hello, World!
 \end{shcode}
 
@@ -628,7 +632,7 @@ $\rightarrow$ \cpp{#include <iostream>} is replaced by the content of that file.
 \begin{frame}[fragile]{Compiling code in C++: Compilation}
 
 \begin{shcode}
-> g++ -S hello.cpp
+$ g++ -S hello.cpp
 \end{shcode}
 
 
@@ -655,8 +659,8 @@ main:
 \begin{frame}[fragile]{Compiling code in C++: Assembly}
 
 \begin{shcode}
-> g++ -s hello.cpp
-> hexdump a.out
+$ g++ -s hello.cpp
+$ hexdump a.out
 0000000 457f 464c 0102 0001 0000 0000 0000 0000
 0000010 0003 003e 0001 0000 07b0 0000 0000 0000
 0000020 0040 0000 0000 0000 1128 0000 0000 0000
@@ -684,7 +688,7 @@ The linker copies (and re-arrange) the machine code of the static dependencies
 That's what the \texttt{-l} flag is used for:
 
 \begin{shcode}
-> g++ cool_app.cpp -ocool_app -lcv_core -lcv_highgui -lcv_videoproc
+$ g++ cool_app.cpp -ocool_app -lcv_core -lcv_highgui -lcv_videoproc
 \end{shcode}
 
 \end{frame}
@@ -792,7 +796,7 @@ That's what the \texttt{-l} flag is used for:
 \sh{nm} lists the symbols provided by a shared library:
 
 \begin{shcode}
-> nm libgazr.so
+$ nm libgazr.so
 [...]
 000000000002d040 W _ZN4dlib9impl_fhog8init_hogIfNS_33memory_manager_stateless_kernel_1IcEES3_EEvRNS_5arrayINS_7array2dIT_T0_EET1_EEiiii
 000000000027e940 b _ZN4dlibL23OBJECT_PART_NOT_PRESENTE
@@ -814,7 +818,7 @@ C++ signatures returned by \sh{nm} are \textbf{mangled}. You can
 demangle them:
 
 \begin{shcode}
-> nm libgazr.so | c++filt
+$ nm libgazr.so | c++filt
 [...]
 000000000027e940 b dlib::OBJECT_PART_NOT_PRESENT
 0000000000010d00 t std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > __gnu_cxx::__to_xstring<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, char>(int (*)(char*, unsigned long, char const*, __va_list_tag*), unsigned long, char const*, ...) [clone .constprop.1073]
@@ -835,7 +839,7 @@ demangle them:
 \sh{ldd} lists the dependencies to shared libraries:
 
 \begin{shcode}
-> ldd estimate_head_pose 
+$ ldd estimate_head_pose 
 linux-vdso.so.1 (0x00007fff32387000)
 libgazr.so (0x00007f3f1822f000)
 libopencv_imgcodecs.so.3.2 => /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.3.2 (0x00007f3f17ffa000)
@@ -860,41 +864,51 @@ libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f3f157c7000)
 Code source of a pathfinding tool for our robots:
 
 \begin{shcode}
-main.cpp
+controller.cpp # contains the entry point: int main(...)
 ui.cpp
-pathfinding.cpp
+astar.cpp
 \end{shcode}
 
 \begin{shcode}
-> g++ main.cpp ui.cpp pathfinding.cpp -opathfinding_ui
+$ g++ controller.cpp ui.cpp astar.cpp -opathfinding_ui
 \end{shcode}
 
 
-\sh{pathfinding.cpp} contains the actual pathfinder, and might be useful for
+\sh{astar.cpp} contains the actual pathfinder, and might be useful for
 many other projects. How to turn it into a library?
 
 \end{onlyenv}
 \begin{onlyenv}<2>
 
 First, we need to extract the \textbf{API} of our library in a
-\textbf{public header} \sh{pathfinding.hpp}:
+\textbf{public header} \sh{astar.hpp}:
 
 \begin{cppcode}
 #ifndef _PATHFINDING_HPP
 #define _PATHFINDING_HPP
 
-class Pathfinder {
+#include <tuple>
+#include <vector>
+#include <array>
 
-    Pathfinder(std::shared_ptr<const Map> map);
+const unsigned int MAP_WIDTH = 100;
+const unsigned int MAP_HEIGHT = 100;
+
+typedef std::tuple<unsigned int, unsigned int> Position;
+typedef std::vector<Position> Path;
+typedef std::array<bool, MAP_WIDTH * MAP_HEIGHT> Map;
+
+class AStar {
+
+    AStar(std::shared_ptr<const Map> map);
     Path find(size_t goal_x, size_t goal_y);
 }
-
 #endif
 \end{cppcode}
 
 The header contains the \textbf{declarations} of our classes, structures,
 functions, but not the \textbf{definitions} (the definitions are in
-\sh{pathfinding.cpp}).
+\sh{astar.cpp}).
 
 \end{onlyenv}
 
@@ -902,7 +916,7 @@ functions, but not the \textbf{definitions} (the definitions are in
 Next, compile the library:
 
 \begin{shcode}
-> g++ -fPIC -shared pathfinding.cpp -olibpathfinding.so
+$ g++ -fPIC -shared astar.cpp -olibastar.so
 \end{shcode}
 \end{onlyenv}
 
@@ -910,7 +924,7 @@ Next, compile the library:
 Finally, use it:
 
 \begin{shcode}
-> g++ main.cpp ui.cpp -lpathfinding -opathfinding_ui
+$ g++ controller.cpp ui.cpp -lastar -opathfinding_ui
 \end{shcode}
 \end{onlyenv}
 
@@ -968,17 +982,51 @@ the project about? who is the target audience? how to install? how to get starte
 
 \end{frame}
 
+\begin{frame}[fragile]{Btw, the Linux filesystem...}
+
+\begin{minted}[frame=none,
+               linenos=false,
+               fontsize=\tiny,
+               xleftmargin=0.5em]{sh}
+$ tree -d /
+/
+├── boot   # linux image, grub, initramfs...
+├── dev    # block devices
+├── etc    # configuration files
+├── home   # users' home directories
+├── mnt    # mount point for eg external devices
+├── opt    # non-distribution software (eg, ROS)
+├── proc   # process information _pseudo-file_ system
+├── tmp    # RAM-mounted temporary space
+├── usr    # User system resources -- most binaries and lib are here
+    ├── bin
+    ├── include
+    ├── lib
+    ├── local
+    ├── sbin
+    ├── share
+    └── src
+└── var # variables: log files, local sockets...
+\end{minted}
+
+Read more about these here: \href{https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/c23.html}{Linux Filesystem Hierachy}
+
+\end{frame}
+
+
 
 \begin{frame}[fragile]{Example 1}
 
 \begin{onlyenv}<1>
+What would you change?
+
 \begin{shcode}
 my_proj/
-  main.cpp
+  controller.cpp
   ui.cpp
   ui.hpp
-  pathfinding.cpp
-  pathfinding.hpp
+  astar.cpp
+  astar.hpp
   ui.conf
 \end{shcode}
 
@@ -988,12 +1036,12 @@ my_proj/
 \begin{shcode}
 my_proj/
   src/
-    main.cpp
+    controller.cpp
     ui.cpp
     ui.hpp
-    pathfinding.cpp
+    astar.cpp
   include/
-    pathfinding.hpp
+    astar.hpp
   etc/
     ui.conf
   README.md
@@ -1121,14 +1169,14 @@ drwxr-xr-x 12 root root    4.0K Sep 22 10:36 ..
 -rw-rw-r--  1 joe  joe     2.1K Sep 22 10:39 compile.sh
 -rw-rw-r--  1 joe  joe     1.8K Sep 22 10:39 compile.bat
 -rw-rw-r--  1 joe  joe      134 Sep 22 10:39 readme-first.txt
--rw-rw-r--  1 joe  joe      895 Sep 21 21:38 main.cpp
--rw-rw-r--  1 joe  joe     1.2K Sep 21 20:27 main.hpp
--rw-rw-r--  1 joe  joe     5.8K Sep 22 10:40 main.o
--rw-rw-r--  1 joe  joe       50 Sep 19 10:36 main.ini
--rw-rw-r--  1 joe  joe     2.3K Sep 20 09:31 pathfinding.cpp
--rw-rw-r--  1 joe  joe      230 Sep 20 10:32 pathfinding.hpp
--rw-rw-r--  1 joe  joe     4.3K Sep 22 10:40 pathfinding.o
--rw-rw-r--  1 joe  joe     7.3K Sep 21 10:40 pathfinding.so
+-rw-rw-r--  1 joe  joe      895 Sep 21 21:38 controller.cpp
+-rw-rw-r--  1 joe  joe     1.2K Sep 21 20:27 controller.hpp
+-rw-rw-r--  1 joe  joe     5.8K Sep 22 10:40 controller.o
+-rw-rw-r--  1 joe  joe       50 Sep 19 10:36 controller.ini
+-rw-rw-r--  1 joe  joe     2.3K Sep 20 09:31 astar.cpp
+-rw-rw-r--  1 joe  joe      230 Sep 20 10:32 astar.hpp
+-rw-rw-r--  1 joe  joe     4.3K Sep 22 10:40 astar.o
+-rw-rw-r--  1 joe  joe     7.3K Sep 21 10:40 astar.so
 -rw-rw-r--  1 joe  joe     6.7K Sep 20 11:13 core.cpp
 -rw-rw-r--  1 joe  joe     7.1K Sep 22 10:40 core.o
 -rw-rw-r--  1 joe  joe     6.1K Sep 22 10:40 core.a
@@ -1143,8 +1191,8 @@ drwxr-xr-x 12 root root    4.0K Sep 22 10:36 ..
         \begin{itemize}
             \item Developping in \texttt{usr/} is a bad practice
             \item Rename files to be more descriptive
-            \item Change the layout to follow the FHS (eg \texttt{main.ini} to
-                \texttt{etc/main.ini})
+            \item Change the layout to follow the FHS (eg \texttt{controller.ini} to
+                \texttt{etc/controller.ini})
             \item Use a buildsystem (like CMake) instead of relying on ad-hoc scripts
             \item Add a \texttt{README} and a \texttt{LICENSE}
             \item Public headers should be moved to \texttt{include/}
@@ -1193,8 +1241,8 @@ drwxr-xr-x 12 root root    4.0K Sep 22 10:36 ..
     CMake} or {\bf Meson}.
 
 \begin{shcode}
-> sudo apt install cmake
-> sudo apt install cmake-curses-gui # a super useful cmdline GUI for CMake
+$ sudo apt install cmake
+$ sudo apt install cmake-curses-gui # a super useful cmdline GUI for CMake
 \end{shcode}
 
 
@@ -1204,7 +1252,10 @@ drwxr-xr-x 12 root root    4.0K Sep 22 10:36 ..
 
     Create a file called \texttt{CMakeLists.txt} at the root of the {\tt robomaze-cpp} project:
 
-\begin{cmakecode}
+\begin{minted}[frame=none,
+               linenos=false,
+               fontsize=\scriptsize,
+               xleftmargin=0.5em]{cmake}
 cmake_minimum_required(VERSION 3.10)
 project(robomaze-pilot VERSION 1.0)
 
@@ -1213,7 +1264,6 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 find_package(cpprestsdk REQUIRED) # one external dependency
-find_package(Boost REQUIRED system) # required by cpprest
 
 # First, the library
 add_library(astar SHARED src/astar.cpp)
@@ -1222,8 +1272,8 @@ target_include_directories(astar PUBLIC include)
 # then, the executable, which depends on the library's target
 add_executable(robomaze-client src/controller.cpp)
 target_include_directories(robomaze-client PUBLIC include)
-target_link_libraries(robomaze-client PUBLIC astar cpprestsdk::cpprest Boost::system)
-\end{cmakecode}
+target_link_libraries(robomaze-client PUBLIC astar cpprestsdk::cpprest)
+\end{minted}
 
 \end{frame}
 
@@ -1231,9 +1281,9 @@ target_link_libraries(robomaze-client PUBLIC astar cpprestsdk::cpprest Boost::sy
 
     \begin{onlyenv}<1>
 \begin{shcode}
-> cmake .
--- The C compiler identification is GNU 7.4.0
--- The CXX compiler identification is GNU 7.4.0
+$ cmake .
+-- The C compiler identification is GNU 9.3.0
+-- The CXX compiler identification is GNU 9.3.0
 -- Check for working CXX compiler: /usr/bin/c++
 -- Check for working CXX compiler: /usr/bin/c++ -- works
 -- Detecting CXX compiler ABI info
@@ -1241,10 +1291,7 @@ target_link_libraries(robomaze-client PUBLIC astar cpprestsdk::cpprest Boost::sy
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
 -- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11")
--- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1")
--- Boost version: 1.65.1
--- Found the following Boost libraries:
---   system
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")
 -- Configuring done
 -- Generating done
 -- Build files have been written to: robomaze-pilot/build
@@ -1253,7 +1300,7 @@ target_link_libraries(robomaze-client PUBLIC astar cpprestsdk::cpprest Boost::sy
     \begin{onlyenv}<2>
 \begin{shcode}
 
-> make
+$ make
 Scanning dependencies of target astar
 [ 25%] Building CXX object CMakeFiles/astar.dir/src/astar.cpp.o
 [ 50%] Linking CXX shared library libastar.so
@@ -1262,7 +1309,7 @@ Scanning dependencies of target robomaze-client
 [ 75%] Building CXX object CMakeFiles/robomaze-client.dir/src/controller.cpp.o
 [100%] Linking CXX executable robomaze-client
 [100%] Built target robomaze-client
-> ls
+$ ls
 CMakeCache.txt  CMakeFiles  cmake_install.cmake  CMakeLists.txt  include
     libastar.so  LICENSE  Makefile  README.md  robomaze-client  src
 \end{shcode}
@@ -1300,9 +1347,9 @@ When compiling the project, create a sub-directory \sh{build} and perform an
     \textbf{out-of-tree} build:
 
 \begin{shcode}
-> mkdir build && cd build
-> cmake ..
-> make
+$ mkdir build && cd build
+$ cmake ..
+$ make
 \end{shcode}
 
 \end{onlyenv}
@@ -1354,9 +1401,9 @@ install(TARGETS robomaze-client DESTINATION bin)
 
 
 \begin{shcode}
-> mkdir build && cd build
-> cmake ..
-> make install
+$ mkdir build && cd build
+$ cmake ..
+$ make install
 Scanning dependencies of target astar
 [ 25%] Building CXX object CMakeFiles/astar.dir/src/astar.cpp.o
 [ 50%] Linking CXX shared library libastar.so
@@ -1379,9 +1426,9 @@ make: *** [install] Error 1
 \end{onlyenv}
 \begin{onlyenv}<3>
 \begin{shcode}
-> mkdir build && cd build
-> cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/devel
-> make install
+$ mkdir build && cd build
+$ cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/devel
+$ make install
 [ 50%] Built target astar
 [100%] Built target robomaze-client
 Install the project...
@@ -1403,9 +1450,9 @@ Install the project...
 
 
 \begin{shcode}
-> mkdir build && cd build
-> cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/devel -DCMAKE_BUILD_TYPE=Release
-> make install
+$ mkdir build && cd build
+$ cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/devel -DCMAKE_BUILD_TYPE=Release
+$ make install
 \end{shcode}
 
 ...you will type that often!
@@ -1441,14 +1488,14 @@ setuptools.setup(
     \end{onlyenv}
     \begin{onlyenv}<2>
 \begin{shcode}
-> python3 setup.py install --prefix $HOME/devel
-> pyrobomaze <your robot>
+$ python3 setup.py install --prefix $HOME/devel
+$ pyrobomaze <your robot>
 \end{shcode}
 
         \begin{itemize}
             \item {\tt PYTHONPATH}: where Python looks for libraries
             \item \sh{export PYTHONPATH=$HOME/devel/lib/python3.7/site-package} (add to your {\tt .bashrc})
-            \item why no need for {\tt python3} in front of {\tt pyrobomaze}
+            \item why no need for {\tt python3} in front of {\tt pyrobomaze}? $\Rightarrow$ shebang: {\tt #! /usr/bin/python3}
               
         \end{itemize}
 
@@ -1585,8 +1632,8 @@ Additional labels for pre-release and build metadata are
     \begin{onlyenv}<1>
 
 \begin{shcode}
-> sudo apt install hello
-> hello
+$ sudo apt install hello
+$ hello
 Hello, world!
 \end{shcode}
 
@@ -1599,9 +1646,9 @@ Hello, world!
     installed. Let's investigate:
 
 \begin{shcode}
-> apt download hello
-> ar x hello_2.10-1build1_amd64.deb
-> ls
+$ apt download hello
+$ ar x hello_2.10-1build1_amd64.deb
+$ ls
 control.tar.gz  data.tar.xz  debian-binary
 \end{shcode}
 
@@ -1610,8 +1657,8 @@ control.tar.gz  data.tar.xz  debian-binary
 
 
 \begin{shcode}
-> tar xf control.tar.gz
-> cat control
+$ tar xf control.tar.gz
+$ cat control
 Package: hello
 Version: 2.10-1build1
 Architecture: amd64
@@ -1651,8 +1698,8 @@ smaller set of packages to install to satisfy all dependencies.
 \pause
 
 \begin{shcode}
-> debtree firefox > firefox_deps.dot
-> dot -Tsvg -ofirefox_deps.svg firefox_deps.dot
+$ debtree firefox > firefox_deps.dot
+$ dot -Tsvg -ofirefox_deps.svg firefox_deps.dot
 \end{shcode}
 
 \end{frame}
@@ -1696,10 +1743,10 @@ Then:
                linenos=false,
                fontsize=\scriptsize,
                xleftmargin=0.5em]{sh}
-> cpack ..
-> ls *.deb
+$ cpack ..
+$ ls *.deb
 robomaze-pilot-1.0.1-Linux.deb
-> sudo apt install ./robomaze-pilot-1.0.1-Linux.deb
+$ sudo apt install ./robomaze-pilot-1.0.1-Linux.deb
 \end{minted}
     \end{onlyenv}
     \begin{onlyenv}<2>
@@ -1707,7 +1754,7 @@ robomaze-pilot-1.0.1-Linux.deb
         (what about the install prefix?)
 
 \begin{shcode}
-> dpkg -L robomaze-pilot
+$ dpkg -L robomaze-pilot
 /usr
 /usr/bin
 /usr/bin/robomaze-client
@@ -1727,7 +1774,7 @@ $\rightarrow$ The install prefix is automatically replaced to the system prefix.
     Simpler:
 
 \begin{shcode}
-> python3 setup.py sdist bdist_wheel
+$ python3 setup.py sdist bdist_wheel
 \end{shcode}
 
 This command should output a lot of text and once completed should generate two files in the dist directory:
@@ -1742,7 +1789,7 @@ dist/
     Then you can upload your package:
 
 \begin{shcode}
-> twine upload dist/*
+$ twine upload dist/*
 \end{shcode}
 
 That's it! The whole world can access your package.
@@ -1757,8 +1804,8 @@ That's it! The whole world can access your package.
     How to use our package? {\bf Anyone} can simply type:
 
 \begin{shcode}
-> pip3 install pyrobomaze
-> pyrobomaze my_robot
+$ pip3 install pyrobomaze
+$ pyrobomaze my_robot
 \end{shcode}
 
     $\rightarrow$ Anyone can upload Python packages to the {\bf pypi} archive: great to
@@ -2000,16 +2047,16 @@ That's it! The whole world can access your package.
 
 The first time...
 \begin{shcode}
-> git clone <url>
+$ git clone <url>
 # for instance,
 # git clone https://github.com/user/repo.git
 \end{shcode}
 Then...
 \begin{shcode}
-> cd <repo>
+$ cd <repo>
 # make some changes...
-> git add <files>
-> git commit -m"<commit message>"
+$ git add <files>
+$ git commit -m"<commit message>"
 # ...
 # when you want to share:
 $ git pull --rebase # any changes on the remote?
@@ -2029,10 +2076,10 @@ $ git pull --rebase john master
 First, rewinding head to replay your work on top of it...
 Applying: Better terminology
 Using index info to reconstruct a base tree...
-M	main.tex
+M	controller.tex
 Falling back to patching base and 3-way merge...
-Auto-merging main.tex
-CONFLICT (content): Merge conflict in main.tex
+Auto-merging controller.tex
+CONFLICT (content): Merge conflict in controller.tex
 error: Failed to merge in the changes.
 Patch failed at 0001 Better terminology
 The copy of the patch that failed is found in: .git/rebase-apply/patch
@@ -2053,9 +2100,9 @@ To check out the original branch and stop rebasing, run "git rebase --abort".
 
 
 \begin{shcode}
-> git pull --rebase john master
+$ git pull --rebase john master
 # conflict!
-> git mergetool
+$ git mergetool
 \end{shcode}
 \end{frame}
 

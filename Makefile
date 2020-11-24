@@ -14,7 +14,7 @@ all: paper
 
 $(DOT:.dot=.pdf): %.pdf: %.svg
 $(SVG:.svg=.pdf): %.pdf: %.svg
-	inkscape --export-pdf $(@) $(<)
+	inkscape -o $(@) $(<)
 
 %.aux: paper
 
